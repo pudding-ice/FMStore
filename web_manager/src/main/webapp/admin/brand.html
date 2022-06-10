@@ -99,6 +99,10 @@
             </div>
         </div>
     </div>
+    <!--分页-->
+    <zpagenav v-bind:max-page="maxPageIndex" v-bind:page="current" v-bind:page-size="pageSize"
+              v-bind:total="total" v-on:pagehandler="pageHandler">
+    </zpagenav>
 </div>
 </body>
 </html>

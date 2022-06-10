@@ -1,7 +1,11 @@
 new Vue({
     el: "#app",
     data: {
-        brandList: []
+        brandList: [],
+        current: 1,
+        pageSize: 10,
+        total: 100,
+        maxPageIndex: 15
     },
     methods: {
         getAllBrands: function () {
@@ -11,6 +15,9 @@ new Vue({
             axios.get("/brand/getAll.do").then((response) => {
                 this.brandList = response.data;
             }).catch()
+        },
+        pageHandler: function (current) {
+            this.current = current
         }
     },
     created: function () {
