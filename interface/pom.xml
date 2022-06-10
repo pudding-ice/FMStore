@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.myjava</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>pojo</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
