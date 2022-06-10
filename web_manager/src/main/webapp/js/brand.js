@@ -5,7 +5,7 @@ new Vue({
         current: 1,
         pageSize: 10,
         total: 100,
-        maxPageIndex: 15
+        maxPageIndex: 15,
     },
     methods: {
         getAllBrands: function () {
@@ -13,15 +13,26 @@ new Vue({
             //所以要在方法外定义一个变量来代表当前Vue对象
             var _this = this;
             axios.get("/brand/getAll.do").then((response) => {
-                this.brandList = response.data;
+                _this.brandList = response.data;
             }).catch()
         },
         pageHandler: function (current) {
+            //设置当前页码为点击的页码
             this.current = current
+            var _this = this;
+            //rest风格
+            axios.get("/brand/getPage/" + current + "/" + _this.pageSize + ".do").then((response) => {
+                var data = response.data;
+                _this.brandList = data.rows;
+                _this.total = data.total;
+            }).catch(function (reason) {
+                console.log(reason)
+            })
         }
     },
     created: function () {
-        this.getAllBrands()
+        // this.getAllBrands();
+        this.pageHandler(1);
     }
 
 })

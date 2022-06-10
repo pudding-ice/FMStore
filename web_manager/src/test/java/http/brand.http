@@ -1,4 +1,9 @@
-GET http://localhost:8082/brand/getAll.do
+GET http://localhost:8082/brand/getAll
+Accept: application/json
+
+###
+
+GET http://localhost:8082/brand/getPage/1/15.do
 Accept: application/json
 
 ###

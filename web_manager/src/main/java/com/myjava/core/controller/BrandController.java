@@ -2,7 +2,11 @@ package com.myjava.core.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.myjava.core.pojo.good.Brand;
+import com.myjava.core.pojo.request.PageRequest;
+import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.service.BrandService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,5 +21,12 @@ public class BrandController {
     @RequestMapping("/getAll")
     public List<Brand> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/getPage/{current}/{pageSize}")
+    public PageResponse<Brand> getPage(@PathVariable Integer current, @PathVariable Integer pageSize) {
+        PageRequest request = new PageRequest(current, pageSize);
+        PageResponse<Brand> response = service.queryPage(request);
+        return response;
     }
 }
