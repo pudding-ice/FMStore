@@ -1,4 +1,4 @@
-GET http://localhost:8082/brand/getAll
+GET http://localhost:8082/brand/getAll.do
 Accept: application/json
 
 ###
