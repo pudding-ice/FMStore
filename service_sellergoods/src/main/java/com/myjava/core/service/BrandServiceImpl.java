@@ -7,6 +7,7 @@ import com.myjava.core.dao.good.BrandDao;
 import com.myjava.core.pojo.good.Brand;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
+import com.myjava.core.pojo.response.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,5 +37,15 @@ public class BrandServiceImpl implements BrandService {
         PageInfo<Brand> info = new PageInfo<>(brands, request.getCurrent());
         PageResponse<Brand> response = new PageResponse<>(info.getTotal(), brands);
         return response;
+    }
+
+    @Override
+    public ResultMessage saveOne(Brand brand) {
+        try {
+            dao.insertSelective(brand);
+            return new ResultMessage(true, "保存品牌成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "保存品牌失败");
+        }
     }
 }

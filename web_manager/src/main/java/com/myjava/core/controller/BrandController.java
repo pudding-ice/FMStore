@@ -4,11 +4,9 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.myjava.core.pojo.good.Brand;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
+import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.service.BrandService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +26,10 @@ public class BrandController {
         PageRequest request = new PageRequest(current, pageSize);
         PageResponse<Brand> response = service.queryPage(request);
         return response;
+    }
+
+    @PostMapping("/save")
+    public ResultMessage save(Brand brand) {
+        return service.saveOne(brand);
     }
 }
