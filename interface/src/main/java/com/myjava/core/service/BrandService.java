@@ -17,4 +17,6 @@ public interface BrandService {
     ResultMessage addOne(Brand brand);
 
     ResultMessage updateOne(Brand brand);
+
+    ResultMessage deleteByIds(Long[] ids);
 }

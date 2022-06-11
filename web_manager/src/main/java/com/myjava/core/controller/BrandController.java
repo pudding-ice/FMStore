@@ -37,4 +37,9 @@ public class BrandController {
         }
     }
 
+    @PostMapping("/delete")
+    public ResultMessage deleteSelected(Long[] ids) {
+        return service.deleteByIds(ids);
+    }
+
 }

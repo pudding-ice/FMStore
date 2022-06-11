@@ -12,6 +12,7 @@ import com.myjava.core.pojo.response.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -59,6 +60,19 @@ public class BrandServiceImpl implements BrandService {
             return new ResultMessage(true, "更新成功");
         } catch (Exception e) {
             return new ResultMessage(false, "更新失败");
+        }
+    }
+
+    @Override
+    public ResultMessage deleteByIds(Long[] ids) {
+        try {
+            BrandQuery brandQuery = new BrandQuery();
+            BrandQuery.Criteria criteria = brandQuery.createCriteria();
+            criteria.andIdIn(Arrays.asList(ids));
+            dao.deleteByExample(brandQuery);
+            return new ResultMessage(true, "删除成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "删除失败");
         }
     }
 }
