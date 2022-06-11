@@ -28,7 +28,7 @@ new Vue({
             this.current = current
             var _this = this;
             //rest风格
-            axios.get("/brand/getPage/" + current + "/" + _this.pageSize + ".do").then((response) => {
+            axios.post("/brand/getPage/" + current + "/" + _this.pageSize + ".do").then((response) => {
                 var data = response.data;
                 _this.brandList = data.rows;
                 _this.total = data.total;
@@ -74,14 +74,17 @@ new Vue({
             }
         },
         deleteBrand: function () {
+            if (this.selectedId.length == 0) {
+                alert("至少选中一行删除!");
+                return;
+            }
             var _this = this;
             Qs.stringify()
             let param = Qs.stringify({ids: _this.selectedId}, {indices: false});
-            console.log(param);
             axios.post("/brand/delete.do", param).then((res) => {
                 let data = res.data;
                 if (data.success) {
-                    _this.pageHandler(1);
+                    window.location.reload();
                     alert(data.message);
                 } else {
                     alert(data.message);

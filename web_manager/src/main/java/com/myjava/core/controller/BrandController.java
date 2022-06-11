@@ -21,7 +21,7 @@ public class BrandController {
         return service.getAll();
     }
 
-    @GetMapping("/getPage/{current}/{pageSize}")
+    @RequestMapping("/getPage/{current}/{pageSize}")
     public PageResponse<Brand> getPage(@PathVariable Integer current, @PathVariable Integer pageSize) {
         PageRequest request = new PageRequest(current, pageSize);
         PageResponse<Brand> response = service.queryPage(request);
