@@ -6,12 +6,12 @@ new Vue({
         pageSize: 10,
         total: 0,
         maxPageIndex: 15,
-        queryName: ''
-        // brand: {
-        //     id: null,
-        //     name: '',
-        //     firstChar: ''
-        // },
+        queryName: '',
+        specName: '',
+        OptionList: {
+            specId: null,
+            specOpts: []
+        }
         // selectedId: [],
         // searchBrand: {
         //     name: '',
@@ -32,19 +32,30 @@ new Vue({
                 console.log(reason)
             })
         },
-        // save: function () {
-        //     var _this = this;
-        //     axios.post("/brand/save.do", _this.brand).then((res) => {
-        //         var data = res.data;
-        //         if (data.success) {
-        //             _this.pageHandler(1);
-        //         } else {
-        //             console.log(data.message)
-        //         }
-        //     }).catch(function (reason) {
-        //         console.log(reason)
-        //     })
-        // },
+        addSpecOption: function () {
+            var specOpts = this.OptionList.specOpts
+            specOpts.push({})
+        },
+        deleteOption: function (index) {
+            var specOpts = this.OptionList.specOpts;
+            specOpts.splice(index, 1);
+        },
+        reloadOptionForm: function () {
+            this.OptionList.specOpts = [];
+        },
+        save: function () {
+            var _this = this;
+            axios.post("/brand/save.do", _this.brand).then((res) => {
+                var data = res.data;
+                if (data.success) {
+                    _this.pageHandler(1);
+                } else {
+                    console.log(data.message)
+                }
+            }).catch(function (reason) {
+                console.log(reason)
+            })
+        },
         // flushData: function () {
         //     this.brand.name = '';
         //     this.brand.firstChar = '';
