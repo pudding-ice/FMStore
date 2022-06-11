@@ -60,7 +60,8 @@
                     <td>{{item.id}}</td>
                     <td>{{item.specName}}</td>
                     <td class="text-center">
-                        <button class="btn bg-olive btn-xs" data-target="#editModal" data-toggle="modal" type="button">
+                        <button @click="getOptsById(item.id)" class="btn bg-olive btn-xs" data-target="#editModal"
+                                data-toggle="modal" type="button">
                             修改
                         </button>
                     </td>
@@ -118,7 +119,9 @@
                 </div>
                 <div class="modal-footer">
                     <button @click="save()" aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
-                    <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button @click="reloadOptionForm()" aria-hidden="true" class="btn btn-default" data-dismiss="modal">
+                        关闭
+                    </button>
                 </div>
             </div>
         </div>

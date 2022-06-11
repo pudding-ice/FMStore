@@ -12,7 +12,6 @@ new Vue({
             specName: '',
         },
         OptionList: {
-            specName: null,
             specOpts: []
         },
         // selectedId: [],
@@ -48,6 +47,8 @@ new Vue({
             specOpts.splice(index, 1);
         },
         reloadOptionForm: function () {
+            this.spec.id = null;
+            this.spec.specName = '';
             this.OptionList.specOpts = [];
         },
         save: function () {
@@ -68,6 +69,14 @@ new Vue({
                 console.log(reason)
             })
         },
+        getOptsById: function (id) {
+            var _this = this;
+            axios.get("/spec/getOpsById/" + id + ".do").then((res) => {
+                let data = res.data;
+                _this.spec = data.spec;
+                _this.OptionList.specOpts = data.specOpts;
+            })
+        }
         // flushData: function () {
         //     this.brand.name = '';
         //     this.brand.firstChar = '';

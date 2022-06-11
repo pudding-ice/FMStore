@@ -9,8 +9,10 @@ import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.request.SpecificationRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
+import com.myjava.core.pojo.response.SpecificationResponse;
 import com.myjava.core.pojo.specification.Specification;
 import com.myjava.core.pojo.specification.SpecificationOption;
+import com.myjava.core.pojo.specification.SpecificationOptionQuery;
 import com.myjava.core.pojo.specification.SpecificationQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +60,20 @@ public class SpecificationServiceImpl<T> implements SpecificationService {
             return new ResultMessage(false, "添加规格失败");
         }
     }
+
+    @Override
+    public SpecificationResponse getOptionsById(Long id) {
+        SpecificationResponse response = new SpecificationResponse();
+        Specification specification = specDao.selectByPrimaryKey(id);
+        response.setSpec(specification);
+        SpecificationOptionQuery query = new SpecificationOptionQuery();
+        SpecificationOptionQuery.Criteria criteria = query.createCriteria();
+        criteria.andSpecIdEqualTo(id);
+        List<SpecificationOption> options = specOptionDao.selectByExample(query);
+        response.setSpecOpts(options);
+        return response;
+    }
+
 //
 //    @Override
 //    public ResultMessage updateOne(Brand brand) {

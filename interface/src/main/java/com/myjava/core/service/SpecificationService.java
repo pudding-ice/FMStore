@@ -4,6 +4,7 @@ import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.request.SpecificationRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
+import com.myjava.core.pojo.response.SpecificationResponse;
 
 public interface SpecificationService<T> {
     /**
@@ -15,7 +16,10 @@ public interface SpecificationService<T> {
     PageResponse<T> querySpecificationPage(PageRequest request);
 
     ResultMessage addOne(SpecificationRequest request);
-//
+
+    SpecificationResponse getOptionsById(Long id);
+
+
 //    ResultMessage updateOne(Brand brand);
 //
 //    ResultMessage deleteByIds(Long[] ids);

@@ -5,6 +5,7 @@ import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.request.SpecificationRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
+import com.myjava.core.pojo.response.SpecificationResponse;
 import com.myjava.core.pojo.specification.Specification;
 import com.myjava.core.service.SpecificationService;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,11 @@ public class SpecificationController {
 //            return service.updateOne(request);
             return null;
         }
+    }
+
+    @GetMapping("/getOpsById/{id}")
+    public SpecificationResponse getOneById(@PathVariable Long id) {
+        return service.getOptionsById(id);
     }
 //
 //    @PostMapping("/delete")
