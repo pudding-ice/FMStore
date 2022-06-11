@@ -12,7 +12,11 @@ new Vue({
             name: '',
             firstChar: ''
         },
-        selectedId: []
+        selectedId: [],
+        searchBrand: {
+            name: '',
+            firstChar: ''
+        }
     },
     methods: {
         getAllBrands: function () {
@@ -27,8 +31,10 @@ new Vue({
             //设置当前页码为点击的页码
             this.current = current
             var _this = this;
+            var queryContent = this.searchBrand;
+            console.log(queryContent)
             //rest风格
-            axios.post("/brand/getPage/" + current + "/" + _this.pageSize + ".do").then((response) => {
+            axios.post("/brand/getPage/" + current + "/" + _this.pageSize + ".do", queryContent).then((response) => {
                 var data = response.data;
                 _this.brandList = data.rows;
                 _this.total = data.total;

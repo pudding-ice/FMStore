@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.myjava.core.dao.good.BrandDao;
 import com.myjava.core.pojo.good.Brand;
 import com.myjava.core.pojo.good.BrandQuery;
+import com.myjava.core.pojo.request.BrandQueryContent;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
@@ -34,9 +35,21 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public PageResponse<Brand> queryPage(PageRequest request) {
-        PageHelper.startPage(request.getCurrent(), request.getPageSize());
         BrandQuery brandQuery = new BrandQuery();
-        brandQuery.setOrderByClause("first_char asc");
+        BrandQuery.Criteria criteria = brandQuery.createCriteria();
+        if (request.getQueryContent() != null) {
+            BrandQueryContent queryContent = (BrandQueryContent) request.getQueryContent();
+            brandQuery.setOrderByClause(queryContent.getOrder());
+            String name = queryContent.getName();
+            if (name != null && !"".equals(name)) {
+                criteria.andNameLike("%" + name + "%");
+            }
+            String firstChar = queryContent.getFirstChar();
+            if (firstChar != null && !"".equals(firstChar)) {
+                criteria.andFirstCharLike("%" + firstChar + "%");
+            }
+        }
+        PageHelper.startPage(request.getCurrent(), request.getPageSize());
         List<Brand> brands = dao.selectByExample(brandQuery);
         PageInfo<Brand> info = new PageInfo<>(brands, request.getCurrent());
         PageResponse<Brand> response = new PageResponse<>(info.getTotal(), brands);

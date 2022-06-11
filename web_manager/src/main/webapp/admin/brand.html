@@ -25,13 +25,13 @@
     <div class="box-body">
         <!-- 数据表格 -->
         <div class="table-box">
+
             <!--工具栏-->
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
                         <button @click="flushData()" class="btn btn-default" data-target="#editModal"
-                                data-toggle="modal" title="新建"
-                                type="button"><i class="fa fa-file-o"></i> 新建
+                                data-toggle="modal" title="新建" type="button"><i class="fa fa-file-o"></i> 新建
                         </button>
                         <button @click="deleteBrand()" class="btn btn-default" title="删除" type="button"><i
                                 class="fa fa-trash-o"></i> 删除
@@ -40,8 +40,16 @@
                                 class="fa fa-refresh"></i> 刷新
                         </button>
                     </div>
+                    <div class="box-tools pull-right">
+                        <div class="has-feedback" style="margin-left: 750px; font-size: 16px">
+                            品牌名称: <input class="form-control" type="text" v-model="searchBrand.name">
+                            品牌首字母: <input class="form-control" type="text" v-model="searchBrand.firstChar">
+                            <input @click="pageHandler(1)" class="btn btn-default" type="button" value="查询">
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="box-tools pull-right">
                 <div class="has-feedback"></div>
             </div>
