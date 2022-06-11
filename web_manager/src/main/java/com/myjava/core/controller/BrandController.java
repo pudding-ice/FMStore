@@ -30,6 +30,11 @@ public class BrandController {
 
     @PostMapping("/save")
     public ResultMessage save(@RequestBody Brand brand) {
-        return service.saveOne(brand);
+        if (brand.getId() == null) {
+            return service.addOne(brand);
+        } else {
+            return service.updateOne(brand);
+        }
     }
+
 }

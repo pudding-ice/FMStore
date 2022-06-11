@@ -8,6 +8,7 @@ new Vue({
         total: 100,
         maxPageIndex: 15,
         brand: {
+            id: null,
             name: '',
             firstChar: ''
         }
@@ -55,6 +56,7 @@ new Vue({
             console.log("来到find方法")
             this.brandList.forEach((e) => {
                 if (id === e.id) {
+                    this.brand.id = e.id;
                     this.brand.name = e.name;
                     this.brand.firstChar = e.firstChar;
                 }

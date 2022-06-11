@@ -14,5 +14,7 @@ public interface BrandService {
 
     PageResponse<Brand> queryPage(PageRequest request);
 
-    ResultMessage saveOne(Brand brand);
+    ResultMessage addOne(Brand brand);
+
+    ResultMessage updateOne(Brand brand);
 }

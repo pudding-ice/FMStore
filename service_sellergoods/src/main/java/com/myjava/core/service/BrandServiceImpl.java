@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myjava.core.dao.good.BrandDao;
 import com.myjava.core.pojo.good.Brand;
+import com.myjava.core.pojo.good.BrandQuery;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
@@ -42,12 +43,22 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public ResultMessage saveOne(Brand brand) {
+    public ResultMessage addOne(Brand brand) {
         try {
             dao.insertSelective(brand);
             return new ResultMessage(true, "保存品牌成功");
         } catch (Exception e) {
             return new ResultMessage(false, "保存品牌失败");
+        }
+    }
+
+    @Override
+    public ResultMessage updateOne(Brand brand) {
+        try {
+            int i = dao.updateByPrimaryKeySelective(brand);
+            return new ResultMessage(true, "更新成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "更新失败");
         }
     }
 }
