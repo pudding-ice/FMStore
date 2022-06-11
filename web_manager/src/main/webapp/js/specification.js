@@ -14,11 +14,7 @@ new Vue({
         OptionList: {
             specOpts: []
         },
-        // selectedId: [],
-        // searchBrand: {
-        //     name: '',
-        //     firstChar: ''
-        // }
+        selectedId: [],
     },
     methods: {
         pageHandler: function (current) {
@@ -76,49 +72,34 @@ new Vue({
                 _this.spec = data.spec;
                 _this.OptionList.specOpts = data.specOpts;
             })
+        },
+        handleSelected: function (event, id) {
+            if (event.target.checked) {
+                //选中
+                this.selectedId.push(id);
+            } else {
+                //取消选中
+                let idx = this.selectedId.indexOf(id);
+                this.selectedId.splice(idx, 1)
+            }
+        },
+        deleteBrand: function () {
+            if (this.selectedId.length == 0) {
+                alert("至少选中一行删除!");
+                return;
+            }
+            var _this = this;
+            let param = Qs.stringify({ids: _this.selectedId}, {indices: false});
+            axios.post("/spec/delete.do", param).then((res) => {
+                let data = res.data;
+                if (data.success) {
+                    window.location.reload();
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
         }
-        // flushData: function () {
-        //     this.brand.name = '';
-        //     this.brand.firstChar = '';
-        // },
-        // findOneById: function (id) {
-        //     console.log("来到find方法")
-        //     this.brandList.forEach((e) => {
-        //         if (id === e.id) {
-        //             this.brand.id = e.id;
-        //             this.brand.name = e.name;
-        //             this.brand.firstChar = e.firstChar;
-        //         }
-        //     })
-        // },
-        // handleSelected: function (event, id) {
-        //     if (event.target.checked) {
-        //         //选中
-        //         this.selectedId.push(id);
-        //     } else {
-        //         //取消选中
-        //         let idx = this.selectedId.indexOf(id);
-        //         this.selectedId.splice(idx, 1)
-        //     }
-        // },
-        // deleteBrand: function () {
-        //     if (this.selectedId.length == 0) {
-        //         alert("至少选中一行删除!");
-        //         return;
-        //     }
-        //     var _this = this;
-        //     Qs.stringify()
-        //     let param = Qs.stringify({ids: _this.selectedId}, {indices: false});
-        //     axios.post("/brand/delete.do", param).then((res) => {
-        //         let data = res.data;
-        //         if (data.success) {
-        //             window.location.reload();
-        //             alert(data.message);
-        //         } else {
-        //             alert(data.message);
-        //         }
-        //     })
-        // }
     },
     created: function () {
         this.pageHandler(1);

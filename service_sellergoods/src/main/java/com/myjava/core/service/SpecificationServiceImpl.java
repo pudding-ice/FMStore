@@ -17,6 +17,7 @@ import com.myjava.core.pojo.specification.SpecificationQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -98,16 +99,23 @@ public class SpecificationServiceImpl<T> implements SpecificationService {
         }
     }
 
-//    @Override
-//    public ResultMessage deleteByIds(Long[] ids) {
-//        try {
-//            BrandQuery brandQuery = new BrandQuery();
-//            BrandQuery.Criteria criteria = brandQuery.createCriteria();
-//            criteria.andIdIn(Arrays.asList(ids));
-//            dao.deleteByExample(brandQuery);
-//            return new ResultMessage(true, "删除成功");
-//        } catch (Exception e) {
-//            return new ResultMessage(false, "删除失败");
-//        }
-//    }
+
+    @Override
+    public ResultMessage deleteByIds(Long[] ids) {
+        try {
+            List<Long> list = Arrays.asList(ids);
+            for (Long specId : list) {
+                //先根据specId删除它所关联的options
+                SpecificationOptionQuery query = new SpecificationOptionQuery();
+                SpecificationOptionQuery.Criteria criteria = query.createCriteria();
+                criteria.andSpecIdEqualTo(specId);
+                specOptionDao.deleteByExample(query);
+                //再根据id删除规格
+                specDao.deleteByPrimaryKey(specId);
+            }
+            return new ResultMessage(true, "删除成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "删除失败");
+        }
+    }
 }

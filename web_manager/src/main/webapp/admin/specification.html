@@ -30,7 +30,8 @@
                         <button class="btn btn-default" data-target="#editModal" data-toggle="modal" title="新建"
                                 @click="reloadOptionForm()" type="button"><i class="fa fa-file-o"></i> 新建
                         </button>
-                        <button class="btn btn-default" title="删除" type="button"><i class="fa fa-trash-o"></i> 删除
+                        <button @click="deleteBrand()" class="btn btn-default" title="删除" type="button"><i
+                                class="fa fa-trash-o"></i> 删除
                         </button>
                         <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button"><i
                                 class="fa fa-refresh"></i> 刷新
@@ -56,7 +57,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in specList">
-                    <td><input type="checkbox"></td>
+                    <td><input @click="handleSelected($event,item.id)" type="checkbox"></td>
                     <td>{{item.id}}</td>
                     <td>{{item.specName}}</td>
                     <td class="text-center">

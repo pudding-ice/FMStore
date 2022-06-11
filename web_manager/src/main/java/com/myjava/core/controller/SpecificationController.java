@@ -51,10 +51,10 @@ public class SpecificationController {
     public SpecificationResponse getOneById(@PathVariable Long id) {
         return service.getOptionsById(id);
     }
-//
-//    @PostMapping("/delete")
-//    public ResultMessage deleteSelected(Long[] ids) {
-//        return service.deleteByIds(ids);
-//    }
+
+    @PostMapping("/delete")
+    public ResultMessage deleteSelected(Long[] ids) {
+        return service.deleteByIds(ids);
+    }
 
 }

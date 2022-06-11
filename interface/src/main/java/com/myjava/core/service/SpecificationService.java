@@ -21,6 +21,6 @@ public interface SpecificationService<T> {
 
 
     ResultMessage updateOne(SpecificationRequest request);
-//
-//    ResultMessage deleteByIds(Long[] ids);
+
+    ResultMessage deleteByIds(Long[] ids);
 }
