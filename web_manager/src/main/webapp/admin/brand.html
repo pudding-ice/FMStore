@@ -12,6 +12,8 @@
     <link href="../css/style.css" rel="stylesheet">
     <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../plugins/vue/qs.js"></script>
+
 
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -31,7 +33,7 @@
                                 data-toggle="modal" title="新建"
                                 type="button"><i class="fa fa-file-o"></i> 新建
                         </button>
-                        <button @click="deleteOne()" class="btn btn-default" title="删除" type="button"><i
+                        <button @click="deleteBrand()" class="btn btn-default" title="删除" type="button"><i
                                 class="fa fa-trash-o"></i> 删除
                         </button>
                         <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button"><i
@@ -48,7 +50,7 @@
                 <thead>
                 <tr>
                     <th class="" style="padding-right:0px">
-                        <input class="icheckbox_square-blue" id="selall" type="checkbox">
+                        <!--                        <input class="icheckbox_square-blue" id="selall" type="checkbox">-->
                     </th>
                     <th class="sorting_asc">品牌ID</th>
                     <th class="sorting">品牌名称</th>
@@ -58,7 +60,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in brandList">
-                    <td><input type="checkbox"></td>
+                    <td><input @click="handleSelected($event,item.id)" type="checkbox"></td>
                     <td>{{item.id}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.firstChar}}</td>

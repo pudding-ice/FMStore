@@ -11,7 +11,8 @@ new Vue({
             id: null,
             name: '',
             firstChar: ''
-        }
+        },
+        selectedId: []
     },
     methods: {
         getAllBrands: function () {
@@ -62,14 +63,26 @@ new Vue({
                 }
             })
         },
-        deleteOne: function (id) {
+        handleSelected: function (event, id) {
+            if (event.target.checked) {
+                //选中
+                this.selectedId.push(id);
+            } else {
+                //取消选中
+                let idx = this.selectedId.indexOf(id);
+                this.selectedId.splice(idx, 1)
+            }
+        },
+        deleteBrand: function () {
             var _this = this;
-            axios.get("/brand/delete/" + id + ".do").then((res) => {
+            let param = Qs.stringify(_this.selectedId);
+            axios.post("/brand/delete.do", param).then((res) => {
                 let data = res.data;
                 if (data.success) {
                     _this.pageHandler(1);
+                    alert(data.message);
                 } else {
-                    console.log(data.message)
+                    alert(data.message);
                 }
             })
         }
