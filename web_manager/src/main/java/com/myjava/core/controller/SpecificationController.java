@@ -39,13 +39,11 @@ public class SpecificationController {
      */
     @PostMapping("/save")
     public ResultMessage save(@RequestBody SpecificationRequest request) {
-//        System.out.println(request);
         if (request.getSpec().getId() == null) {
             //添加操作
             return service.addOne(request);
         } else {
-//            return service.updateOne(request);
-            return null;
+            return service.updateOne(request);
         }
     }
 

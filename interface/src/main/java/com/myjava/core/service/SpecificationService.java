@@ -20,7 +20,7 @@ public interface SpecificationService<T> {
     SpecificationResponse getOptionsById(Long id);
 
 
-//    ResultMessage updateOne(Brand brand);
+    ResultMessage updateOne(SpecificationRequest request);
 //
 //    ResultMessage deleteByIds(Long[] ids);
 }

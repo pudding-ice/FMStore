@@ -74,17 +74,30 @@ public class SpecificationServiceImpl<T> implements SpecificationService {
         return response;
     }
 
-//
-//    @Override
-//    public ResultMessage updateOne(Brand brand) {
-//        try {
-//            int i = dao.updateByPrimaryKeySelective(brand);
-//            return new ResultMessage(true, "更新成功");
-//        } catch (Exception e) {
-//            return new ResultMessage(false, "更新失败");
-//        }
-//    }
-//
+
+    @Override
+    public ResultMessage updateOne(SpecificationRequest request) {
+        try {
+            //更新规格选项
+            List<SpecificationOption> options = request.getSpecOpts();
+            //先根据规格id删除所有规格选项
+            SpecificationOptionQuery query = new SpecificationOptionQuery();
+            SpecificationOptionQuery.Criteria criteria = query.createCriteria();
+            criteria.andSpecIdEqualTo(request.getSpec().getId());
+            specOptionDao.deleteByExample(query);
+            //再插入所有规格选项
+            for (SpecificationOption option : options) {
+                option.setSpecId(request.getSpec().getId());
+                specOptionDao.insertSelective(option);
+            }
+            //再更新规格名称
+            specDao.updateByPrimaryKeySelective(request.getSpec());
+            return new ResultMessage(true, "更新成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "更新失败");
+        }
+    }
+
 //    @Override
 //    public ResultMessage deleteByIds(Long[] ids) {
 //        try {

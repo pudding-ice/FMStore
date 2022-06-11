@@ -53,7 +53,6 @@ new Vue({
         },
         save: function () {
             var _this = this;
-            // console.log(this.OptionList.specOpts);
             var parmas = {
                 spec: _this.spec,
                 specOpts: this.OptionList.specOpts
@@ -61,9 +60,10 @@ new Vue({
             axios.post("/spec/save.do", parmas).then((res) => {
                 var data = res.data;
                 if (data.success) {
+                    alert(data.message);
                     _this.pageHandler(1);
                 } else {
-                    console.log(data.message)
+                    alert(data.message)
                 }
             }).catch(function (reason) {
                 console.log(reason)
