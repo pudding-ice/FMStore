@@ -36,7 +36,6 @@ new Vue({
         },
         save: function () {
             var _this = this;
-            console.log("进入save方法")
             axios.post("/brand/save.do", _this.brand).then((res) => {
                 var data = res.data;
                 if (data.success) {
@@ -47,12 +46,13 @@ new Vue({
             }).catch(function (reason) {
                 console.log(reason)
             })
-            console.log(this.brand.name)
-            console.log(this.brand.firstChar)
+        },
+        flushData: function () {
+            this.brand.name = '';
+            this.brand.firstChar = '';
         }
     },
     created: function () {
-        // this.getAllBrands();
         this.pageHandler(1);
     }
 
