@@ -1,3 +1,4 @@
+
 new Vue({
     el: "#app",
     data: {
@@ -6,6 +7,10 @@ new Vue({
         pageSize: 10,
         total: 100,
         maxPageIndex: 15,
+        brand: {
+            name: '',
+            firstChar: ''
+        }
     },
     methods: {
         getAllBrands: function () {
@@ -28,6 +33,22 @@ new Vue({
             }).catch(function (reason) {
                 console.log(reason)
             })
+        },
+        save: function () {
+            var _this = this;
+            console.log("进入save方法")
+            axios.post("/brand/save.do", _this.brand).then((res) => {
+                var data = res.data;
+                if (data.success) {
+                    _this.pageHandler(1);
+                } else {
+                    console.log(data.message)
+                }
+            }).catch(function (reason) {
+                console.log(reason)
+            })
+            console.log(this.brand.name)
+            console.log(this.brand.firstChar)
         }
     },
     created: function () {

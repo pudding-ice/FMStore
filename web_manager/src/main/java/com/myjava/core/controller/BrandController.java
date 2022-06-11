@@ -29,7 +29,7 @@ public class BrandController {
     }
 
     @PostMapping("/save")
-    public ResultMessage save(Brand brand) {
+    public ResultMessage save(@RequestBody Brand brand) {
         return service.saveOne(brand);
     }
 }
