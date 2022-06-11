@@ -31,7 +31,8 @@
                                 data-toggle="modal" title="新建"
                                 type="button"><i class="fa fa-file-o"></i> 新建
                         </button>
-                        <button class="btn btn-default" title="删除" type="button"><i class="fa fa-trash-o"></i> 删除
+                        <button @click="deleteOne()" class="btn btn-default" title="删除" type="button"><i
+                                class="fa fa-trash-o"></i> 删除
                         </button>
                         <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button"><i
                                 class="fa fa-refresh"></i> 刷新
@@ -62,7 +63,8 @@
                     <td>{{item.name}}</td>
                     <td>{{item.firstChar}}</td>
                     <td class="text-center">
-                        <button class="btn bg-olive btn-xs" data-target="#editModal" data-toggle="modal" type="button">
+                        <button @click="findOneById(item.id)" class="btn bg-olive btn-xs" data-target="#editModal"
+                                data-toggle="modal" type="button">
                             修改
                         </button>
                     </td>

@@ -50,6 +50,26 @@ new Vue({
         flushData: function () {
             this.brand.name = '';
             this.brand.firstChar = '';
+        },
+        findOneById: function (id) {
+            console.log("来到find方法")
+            this.brandList.forEach((e) => {
+                if (id === e.id) {
+                    this.brand.name = e.name;
+                    this.brand.firstChar = e.firstChar;
+                }
+            })
+        },
+        deleteOne: function (id) {
+            var _this = this;
+            axios.get("/brand/delete/" + id + ".do").then((res) => {
+                let data = res.data;
+                if (data.success) {
+                    _this.pageHandler(1);
+                } else {
+                    console.log(data.message)
+                }
+            })
         }
     },
     created: function () {
