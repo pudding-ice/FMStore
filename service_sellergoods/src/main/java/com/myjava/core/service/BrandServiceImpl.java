@@ -33,7 +33,9 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public PageResponse<Brand> queryPage(PageRequest request) {
         PageHelper.startPage(request.getCurrent(), request.getPageSize());
-        List<Brand> brands = dao.selectByExample(null);
+        BrandQuery brandQuery = new BrandQuery();
+        brandQuery.setOrderByClause("first_char asc");
+        List<Brand> brands = dao.selectByExample(brandQuery);
         PageInfo<Brand> info = new PageInfo<>(brands, request.getCurrent());
         PageResponse<Brand> response = new PageResponse<>(info.getTotal(), brands);
         return response;
