@@ -6,8 +6,11 @@ import com.github.pagehelper.PageInfo;
 import com.myjava.core.dao.specification.SpecificationDao;
 import com.myjava.core.dao.specification.SpecificationOptionDao;
 import com.myjava.core.pojo.request.PageRequest;
+import com.myjava.core.pojo.request.SpecificationRequest;
 import com.myjava.core.pojo.response.PageResponse;
+import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.specification.Specification;
+import com.myjava.core.pojo.specification.SpecificationOption;
 import com.myjava.core.pojo.specification.SpecificationQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,15 +42,22 @@ public class SpecificationServiceImpl<T> implements SpecificationService {
         return response;
     }
 
-//    @Override
-//    public ResultMessage addOne(Brand brand) {
-//        try {
-//            dao.insertSelective(brand);
-//            return new ResultMessage(true, "保存品牌成功");
-//        } catch (Exception e) {
-//            return new ResultMessage(false, "保存品牌失败");
-//        }
-//    }
+    @Override
+    public ResultMessage addOne(SpecificationRequest request) {
+        try {
+            Specification specification = request.getSpec();
+            specDao.insertSelective(specification);
+            List<SpecificationOption> options = request.getSpecOpts();
+            for (SpecificationOption option : options) {
+                option.setSpecId(specification.getId());
+                specOptionDao.insertSelective(option);
+            }
+            return new ResultMessage(true, "添加规格成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "添加规格失败");
+        }
+    }
 //
 //    @Override
 //    public ResultMessage updateOne(Brand brand) {

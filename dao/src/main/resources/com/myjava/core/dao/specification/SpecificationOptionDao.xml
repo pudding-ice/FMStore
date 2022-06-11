@@ -146,6 +146,8 @@
             </if>
         </trim>
     </insert>
+
+
     <select id="countByExample" parameterType="com.myjava.core.pojo.specification.SpecificationOptionQuery"
             resultType="java.lang.Integer">
         select count(*) from tb_specification_option

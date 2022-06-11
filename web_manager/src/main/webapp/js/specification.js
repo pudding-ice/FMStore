@@ -7,11 +7,14 @@ new Vue({
         total: 0,
         maxPageIndex: 15,
         queryName: '',
-        specName: '',
+        spec: {
+            id: null,
+            specName: '',
+        },
         OptionList: {
-            specId: null,
+            specName: null,
             specOpts: []
-        }
+        },
         // selectedId: [],
         // searchBrand: {
         //     name: '',
@@ -34,7 +37,11 @@ new Vue({
         },
         addSpecOption: function () {
             var specOpts = this.OptionList.specOpts
-            specOpts.push({})
+            specOpts.push({
+                id: null,
+                optionName: '',
+                orders: null
+            })
         },
         deleteOption: function (index) {
             var specOpts = this.OptionList.specOpts;
@@ -45,7 +52,12 @@ new Vue({
         },
         save: function () {
             var _this = this;
-            axios.post("/brand/save.do", _this.brand).then((res) => {
+            // console.log(this.OptionList.specOpts);
+            var parmas = {
+                spec: _this.spec,
+                specOpts: this.OptionList.specOpts
+            }
+            axios.post("/spec/save.do", parmas).then((res) => {
                 var data = res.data;
                 if (data.success) {
                     _this.pageHandler(1);

@@ -17,6 +17,7 @@ public interface SpecificationOptionDao {
 
     int insertSelective(SpecificationOption record);
 
+
     List<SpecificationOption> selectByExample(SpecificationOptionQuery example);
 
     SpecificationOption selectByPrimaryKey(Long id);

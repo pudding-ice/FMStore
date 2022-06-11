@@ -109,7 +109,8 @@
         insert into tb_specification (id, spec_name)
         values (#{id,jdbcType=BIGINT}, #{specName,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.myjava.core.pojo.specification.Specification">
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+            parameterType="com.myjava.core.pojo.specification.Specification">
         insert into tb_specification
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

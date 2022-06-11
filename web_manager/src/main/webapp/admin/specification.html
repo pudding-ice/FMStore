@@ -82,7 +82,8 @@
                     <table class="table table-bordered table-striped" width="800px">
                         <tr>
                             <td>规格名称</td>
-                            <td><input class="form-control" placeholder="规格名称" v-bind="specName"></td>
+                            <td hidden><input class="form-control" placeholder="id" v-model="spec.id"></td>
+                            <td><input class="form-control" placeholder="规格名称" v-model="spec.specName"></td>
                         </tr>
                     </table>
                     <!-- 规格选项 -->
@@ -102,8 +103,9 @@
                         </thead>
                         <tbody>
                         <tr v-for="(option,index) in OptionList.specOpts">
-                            <td><input class="form-control" placeholder="规格选项"></td>
-                            <td><input class="form-control" placeholder="排序"></td>
+                            <td hidden="hidden"><input class="form-control" placeholder="id" v-model="option.id"></td>
+                            <td><input class="form-control" placeholder="规格选项" v-model="option.optionName"></td>
+                            <td><input class="form-control" placeholder="排序" v-model="option.orders"></td>
                             <td>
                                 <button @click="deleteOption(index)" class="btn btn-default" title="删除" type="button"><i
                                         class="fa fa-trash-o"></i>
@@ -115,7 +117,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
+                    <button @click="save()" aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
                     <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>

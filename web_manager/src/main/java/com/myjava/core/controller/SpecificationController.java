@@ -2,12 +2,12 @@ package com.myjava.core.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.myjava.core.pojo.request.PageRequest;
+import com.myjava.core.pojo.request.SpecificationRequest;
 import com.myjava.core.pojo.response.PageResponse;
+import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.specification.Specification;
 import com.myjava.core.service.SpecificationService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/spec")
@@ -30,14 +30,23 @@ public class SpecificationController {
         return response;
     }
 
-//    @PostMapping("/save")
-//    public ResultMessage save(@RequestBody Brand brand) {
-//        if (brand.getId() == null) {
-//            return service.addOne(brand);
-//        } else {
-//            return service.updateOne(brand);
-//        }
-//    }
+    /**
+     * 保存前端的规格,规格选项
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/save")
+    public ResultMessage save(@RequestBody SpecificationRequest request) {
+//        System.out.println(request);
+        if (request.getSpec().getId() == null) {
+            //添加操作
+            return service.addOne(request);
+        } else {
+//            return service.updateOne(request);
+            return null;
+        }
+    }
 //
 //    @PostMapping("/delete")
 //    public ResultMessage deleteSelected(Long[] ids) {
