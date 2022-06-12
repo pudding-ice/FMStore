@@ -43,4 +43,8 @@ public class BrandController {
         return service.deleteByIds(ids);
     }
 
+    @GetMapping("/selectOptionList")
+    public List<Brand> getAllBrands() {
+        return service.getAll();
+    }
 }
