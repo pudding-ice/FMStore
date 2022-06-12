@@ -30,7 +30,6 @@ new Vue({
                     //取服务端响应的结果
                     _this.tempList = data.rows;
                     _this.total = data.total;
-                    console.log(data);
                 }).catch(function (reason) {
                 console.log(reason);
             })
@@ -47,13 +46,13 @@ new Vue({
             }
             return value;
         },
-        selected_brand: function (values) {
-            this.selectBrands = values.map(function (obj) {
+        selected_brand: function () {
+            this.selectBrands = this.sel_brand_obj.map(function (obj) {
                 return obj.id
             });
         },
         getSelectionData: function () {
-            _this = this;
+            var _this = this;
             axios.get("/brand/selectOptionList.do")
                 .then(function (response) {
                     _this.brandsOptions = response.data;
