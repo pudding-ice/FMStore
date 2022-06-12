@@ -5,6 +5,7 @@ new Vue({
         tempList: [],
         temp: {},
         searchTemp: '',
+        templateName: '',
         current: 1,  //显示的是哪一页
         pageSize: 10, //每一页显示的数据条数
         total: 0, //记录总数
@@ -18,6 +19,8 @@ new Vue({
         specOptions: [],
         selectSpecs: [],
         sel_spec_obj: [],
+        otherExtends: []
+
     },
     methods: {
         pageHandler: function (current) {
@@ -72,7 +75,6 @@ new Vue({
             axios.get("/spec/selectOptionList.do")
                 .then(function (response) {
                     _this.specOptions = response.data;
-                    console.log(_this.specOptions)
                 }).catch(function (reason) {
                 console.log(reason);
             })
@@ -83,6 +85,25 @@ new Vue({
             });
             console.log(this.sel_spec_obj);
         },
+        save: function () {
+            var _this = this;
+            var entity = {
+                name: this.templateName,
+                specIds: this.sel_spec_obj,
+                brandIds: this.sel_brand_obj,
+                customAttributeItems: this.otherExtends
+            };
+            axios.post("/temp/save.do", entity).then(function (response) {
+                console.log(response);
+                if (response.data.success) {
+                    alert(response.data.message)
+                    window.location.reload();
+                }
+            }).catch(function (reason) {
+                console.log(reason);
+            });
+        }
+
     },
     created: function () {
         this.pageHandler(1);

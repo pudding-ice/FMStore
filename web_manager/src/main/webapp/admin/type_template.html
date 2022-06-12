@@ -54,7 +54,7 @@
                     <input class="icheckbox_square-blue" id="selall" type="checkbox">
                 </th>
                 <th class="sorting_asc">模板ID</th>
-                <th class="sorting">分类模板名称</th>
+                <th class="sorting">模板名称</th>
                 <th class="sorting">关联品牌</th>
                 <th class="sorting">关联规格</th>
                 <th class="sorting">扩展属性</th>
@@ -68,7 +68,7 @@
                 <td>{{tempItem.id}}</td>
                 <td>{{tempItem.name}}</td>
                 <td>{{jsonToString(tempItem.brandIds,'name')}}</td>
-                <td>{{jsonToString(tempItem.specIds,'spec_name')}}</td>
+                <td>{{jsonToString(tempItem.specIds,'specName')}}</td>
                 <!--                <td>{{jsonToString(tempItem.customAttributeItems,'text')}}</td>-->
                 <td class="text-center">
                     <button class="btn bg-olive btn-xs" data-target="#editModal"
@@ -94,8 +94,8 @@
             <div class="modal-body">
                 <table class="table table-bordered table-striped" width="800px">
                     <tr>
-                        <td>商品类型</td>
-                        <td><input class="form-control" placeholder="商品类型"></td>
+                        <td>模板名称</td>
+                        <td><input class="form-control" placeholder="商品类型" v-model="templateName"></td>
                     </tr>
                     <tr>
                         <td>关联品牌</td>
@@ -165,7 +165,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
+                <button @click="save()" aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
                 <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>

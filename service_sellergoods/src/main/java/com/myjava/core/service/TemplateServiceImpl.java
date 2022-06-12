@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.myjava.core.dao.template.TypeTemplateDao;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
+import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.template.TypeTemplate;
 import com.myjava.core.pojo.template.TypeTemplateQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,15 @@ public class TemplateServiceImpl implements TemplateService {
         long total = info.getTotal();
         PageResponse<TypeTemplate> response = new PageResponse<>(total, typeTemplates);
         return response;
+    }
+
+    @Override
+    public ResultMessage save(TypeTemplate template) {
+        try {
+            dao.insertSelective(template);
+            return new ResultMessage(true, "保存成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "保存失败");
+        }
     }
 }
