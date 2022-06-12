@@ -11,6 +11,7 @@ import com.myjava.core.pojo.template.TypeTemplate;
 import com.myjava.core.pojo.template.TypeTemplateQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -44,6 +45,19 @@ public class TemplateServiceImpl implements TemplateService {
             return new ResultMessage(true, "保存成功");
         } catch (Exception e) {
             return new ResultMessage(false, "保存失败");
+        }
+    }
+
+    @Override
+    public ResultMessage deleteByIds(Long[] ids) {
+        TypeTemplateQuery query = new TypeTemplateQuery();
+        TypeTemplateQuery.Criteria criteria = query.createCriteria();
+        criteria.andIdIn(Arrays.asList(ids));
+        try {
+            dao.deleteByExample(query);
+            return new ResultMessage(true, "删除成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "删除失败");
         }
     }
 }

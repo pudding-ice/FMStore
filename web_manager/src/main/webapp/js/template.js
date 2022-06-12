@@ -15,12 +15,12 @@ new Vue({
         placeholder: '可以进行多选',
         selectBrands: [],
         sel_brand_obj: [],
-
         specOptions: [],
         selectSpecs: [],
         sel_spec_obj: [],
-        otherExtends: []
+        otherExtends: [],
 
+        selectedId: []
     },
     methods: {
         pageHandler: function (current) {
@@ -102,7 +102,36 @@ new Vue({
             }).catch(function (reason) {
                 console.log(reason);
             });
-        }
+        },
+        handleSelected: function (event, id) {
+            if (event.target.checked) {
+                //选中
+                this.selectedId.push(id);
+            } else {
+                //取消选中
+                let idx = this.selectedId.indexOf(id);
+                this.selectedId.splice(idx, 1)
+            }
+            console.log(this.selectedId)
+        },
+        deleteTemplate: function () {
+            if (this.selectedId.length == 0) {
+                alert("至少选中一行删除!");
+                return;
+            }
+            var _this = this;
+            let param = Qs.stringify({ids: _this.selectedId}, {indices: false});
+            axios.post("/temp/delete.do", param).then((res) => {
+                let data = res.data;
+                if (data.success) {
+                    window.location.reload();
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
+        },
+
 
     },
     created: function () {

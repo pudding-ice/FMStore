@@ -33,7 +33,9 @@
                     <button class="btn btn-default" data-target="#editModal" data-toggle="modal" title="新建"
                             type="button"><i class="fa fa-file-o"></i> 新建
                     </button>
-                    <button class="btn btn-default" title="删除" type="button"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button @click="deleteTemplate()" class="btn btn-default" title="删除" type="button"><i
+                            class="fa fa-trash-o"></i> 删除
+                    </button>
                     <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button"><i
                             class="fa fa-refresh"></i> 刷新
                     </button>
@@ -51,7 +53,6 @@
             <thead>
             <tr>
                 <th class="" style="padding-right:0px">
-                    <input class="icheckbox_square-blue" id="selall" type="checkbox">
                 </th>
                 <th class="sorting_asc">模板ID</th>
                 <th class="sorting">模板名称</th>
@@ -64,7 +65,7 @@
             <tbody>
 
             <tr v-for="tempItem in tempList">
-                <td><input type="checkbox"></td>
+                <td><input @click="handleSelected($event,tempItem.id)" type="checkbox"></td>
                 <td>{{tempItem.id}}</td>
                 <td>{{tempItem.name}}</td>
                 <td>{{jsonToString(tempItem.brandIds,'name')}}</td>

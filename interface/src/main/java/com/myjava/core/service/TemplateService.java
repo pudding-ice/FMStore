@@ -9,4 +9,6 @@ public interface TemplateService {
     PageResponse<TypeTemplate> getPage(PageRequest<String> request);
 
     ResultMessage save(TypeTemplate template);
+
+    ResultMessage deleteByIds(Long[] ids);
 }

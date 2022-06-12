@@ -30,4 +30,9 @@ public class TemplateController {
     public ResultMessage save(@RequestBody TypeTemplate template) {
         return service.save(template);
     }
+
+    @PostMapping("/delete")
+    public ResultMessage delete(Long[] ids) {
+        return service.deleteByIds(ids);
+    }
 }
