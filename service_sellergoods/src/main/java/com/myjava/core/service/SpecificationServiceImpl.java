@@ -118,4 +118,10 @@ public class SpecificationServiceImpl<T> implements SpecificationService {
             return new ResultMessage(false, "删除失败");
         }
     }
+
+    @Override
+    public List<Specification> getAll() {
+        List<Specification> specifications = specDao.selectByExample(null);
+        return specifications;
+    }
 }

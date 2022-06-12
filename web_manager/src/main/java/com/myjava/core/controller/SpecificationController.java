@@ -10,6 +10,8 @@ import com.myjava.core.pojo.specification.Specification;
 import com.myjava.core.service.SpecificationService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/spec")
 public class SpecificationController {
@@ -57,4 +59,8 @@ public class SpecificationController {
         return service.deleteByIds(ids);
     }
 
+    @GetMapping("/selectOptionList")
+    public List<Specification> getAllSpecs() {
+        return service.getAll();
+    }
 }

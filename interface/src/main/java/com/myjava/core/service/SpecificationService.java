@@ -5,6 +5,9 @@ import com.myjava.core.pojo.request.SpecificationRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.response.SpecificationResponse;
+import com.myjava.core.pojo.specification.Specification;
+
+import java.util.List;
 
 public interface SpecificationService<T> {
     /**
@@ -23,4 +26,6 @@ public interface SpecificationService<T> {
     ResultMessage updateOne(SpecificationRequest request);
 
     ResultMessage deleteByIds(Long[] ids);
+
+    List<Specification> getAll();
 }

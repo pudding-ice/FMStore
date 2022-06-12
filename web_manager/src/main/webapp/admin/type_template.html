@@ -111,7 +111,16 @@
                     </tr>
                     <tr>
                         <td>关联规格</td>
-                        <td></td>
+                        <td>
+                            <v-select :options="specOptions"
+                                      :placeholder="placeholder"
+                                      :value.sync="sel_spec_obj"
+                                      @input="select_spec"
+                                      label="specName"
+                                      multiple>
+                            </v-select>
+                        </td>
+                        </td>
                     </tr>
                     <tr>
                         <td>扩展属性</td>

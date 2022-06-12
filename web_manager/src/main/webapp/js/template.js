@@ -13,7 +13,11 @@ new Vue({
         brandsOptions: [],
         placeholder: '可以进行多选',
         selectBrands: [],
-        sel_brand_obj: []
+        sel_brand_obj: [],
+
+        specOptions: [],
+        selectSpecs: [],
+        sel_spec_obj: [],
     },
     methods: {
         pageHandler: function (current) {
@@ -46,11 +50,8 @@ new Vue({
             }
             return value;
         },
-        selected_brand: function () {
-            this.selectBrands = this.sel_brand_obj.map(function (obj) {
-                return obj.id
-            });
-        },
+
+
         getSelectionData: function () {
             var _this = this;
             axios.get("/brand/selectOptionList.do")
@@ -59,10 +60,33 @@ new Vue({
                 }).catch(function (reason) {
                 console.log(reason);
             })
-        }
+        },
+        selected_brand: function () {
+            this.selectBrands = this.sel_brand_obj.map(function (obj) {
+                return obj.id
+            });
+        },
+
+        getSpecOptionData: function () {
+            var _this = this;
+            axios.get("/spec/selectOptionList.do")
+                .then(function (response) {
+                    _this.specOptions = response.data;
+                    console.log(_this.specOptions)
+                }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
+        select_spec: function () {
+            this.selectSpecs = this.sel_spec_obj.map(function (obj) {
+                return obj.id
+            });
+            console.log(this.sel_spec_obj);
+        },
     },
     created: function () {
         this.pageHandler(1);
         this.getSelectionData();
+        this.getSpecOptionData();
     }
 });
