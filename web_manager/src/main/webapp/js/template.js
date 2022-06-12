@@ -1,3 +1,4 @@
+Vue.component('v-select', VueSelect.VueSelect);
 new Vue({
     el: "#app",
     data: {
@@ -8,7 +9,11 @@ new Vue({
         pageSize: 10, //每一页显示的数据条数
         total: 0, //记录总数
         maxPageIndex: 15,
-        selectIds: [] //记录选择了哪些记录的id
+        selectIds: [], //记录选择了哪些记录的id
+        brandsOptions: [],
+        placeholder: '可以进行多选',
+        selectBrands: [],
+        sel_brand_obj: []
     },
     methods: {
         pageHandler: function (current) {
@@ -42,9 +47,23 @@ new Vue({
             }
             return value;
         },
-
+        selected_brand: function (values) {
+            this.selectBrands = values.map(function (obj) {
+                return obj.id
+            });
+        },
+        getSelectionData: function () {
+            _this = this;
+            axios.get("/brand/selectOptionList.do")
+                .then(function (response) {
+                    _this.brandsOptions = response.data;
+                }).catch(function (reason) {
+                console.log(reason);
+            })
+        }
     },
     created: function () {
         this.pageHandler(1);
+        this.getSelectionData();
     }
 });
