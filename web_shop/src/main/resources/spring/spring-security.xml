@@ -1,20 +1,20 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<beans:beans-->
-<!--        xmlns="http://www.springframework.org/schema/security"-->
-<!--        xmlns:beans="http://www.springframework.org/schema/beans"-->
-<!--        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-<!--        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd-->
-<!--						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">-->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/security"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-<!--    &lt;!&ndash; 配置放行的资源 &ndash;&gt;-->
-<!--    <http pattern="/login.html" security="none"/>-->
-<!--    <http pattern="/css/**" security="none"/>-->
-<!--    <http pattern="/img/**" security="none"/>-->
-<!--    <http pattern="/js/**" security="none"/>-->
-<!--    <http pattern="/plugins/**" security="none"/>-->
+    <!--    &lt;!&ndash; 配置放行的资源 &ndash;&gt;-->
+    <!--    <http pattern="/login.html" security="none"/>-->
+    <!--    <http pattern="/css/**" security="none"/>-->
+    <!--    <http pattern="/img/**" security="none"/>-->
+    <!--    <http pattern="/js/**" security="none"/>-->
+    <!--    <http pattern="/plugins/**" security="none"/>-->
 
-<!--    &lt;!&ndash; use-expressions:设置是否启动SpEL表达式，默认值是true。 &ndash;&gt;-->
-<!--    <http use-expressions="false">-->
+    <!--    &lt;!&ndash; use-expressions:设置是否启动SpEL表达式，默认值是true。 &ndash;&gt;-->
+    <!--    <http use-expressions="false">-->
 <!--        &lt;!&ndash;-->
 <!--            配置SpringSecurity的拦截路径（拦截规则）-->
 <!--            * pattern:配置拦截规则。-->
@@ -50,14 +50,14 @@
 <!--    </http>-->
 
 <!--    &lt;!&ndash; 配置认证管理器 &ndash;&gt;-->
-<!--    <authentication-manager>-->
-<!--        &lt;!&ndash; 认证的提供者 &ndash;&gt;-->
-<!--        <authentication-provider>-->
-<!--            <user-service>-->
-<!--                <user name="admin" password="{noop}1234" authorities="ROLE_ADMIN"/>-->
-<!--                <user name="wc" password="{noop}1234" authorities="ROLE_ADMIN"/>-->
-<!--            </user-service>-->
-<!--        </authentication-provider>-->
-<!--    </authentication-manager>-->
+    <!--    <authentication-manager>-->
+    <!--        &lt;!&ndash; 认证的提供者 &ndash;&gt;-->
+    <!--        <authentication-provider>-->
+    <!--            <user-service>-->
+    <!--                <user name="admin" password="{noop}1234" authorities="ROLE_ADMIN"/>-->
+    <!--                <user name="wc" password="{noop}1234" authorities="ROLE_ADMIN"/>-->
+    <!--            </user-service>-->
+    <!--        </authentication-provider>-->
+    <!--    </authentication-manager>-->
 
-<!--</beans:beans>-->
+</beans:beans>

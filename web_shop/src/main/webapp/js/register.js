@@ -1,0 +1,18 @@
+new Vue({
+    el: "#app",
+    data: {
+        enterprise: {}
+    },
+    methods: {
+        save: function () {
+            var _this = this;
+            console.log(_this.enterprise);
+            axios.post("/seller/save.do", _this.enterprise).then((res) => {
+                let data = res.data;
+                if (data.success) {
+                    console.log(data.message);
+                }
+            })
+        },
+    }
+});
