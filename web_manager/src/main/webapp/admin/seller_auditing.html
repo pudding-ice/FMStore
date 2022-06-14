@@ -32,7 +32,7 @@
                 <div class="has-feedback">
                     公司名称：<input v-model="searchSeller.name">
                     店铺名称： <input v-model="searchSeller.nickName">
-                    <button class="btn btn-default">查询</button>
+                    <button @click="pageHandler(1)" class="btn btn-default">查询</button>
                 </div>
             </div>
             <!--数据列表-->

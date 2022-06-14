@@ -31,25 +31,25 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public PageResponse<Seller> getPage(PageRequest<SellerQueryContent> request) {
-        SellerQuery sellerQuery = null;
+        SellerQuery query = null;
         SellerQueryContent queryContent = request.getQueryContent();
         if (queryContent != null) {
-            SellerQuery query = new SellerQuery();
+            query = new SellerQuery();
             SellerQuery.Criteria criteria = query.createCriteria();
             String name = queryContent.getName();
             if (name != null && !"".equals(name)) {
-                criteria.andNameLike(name);
+                criteria.andNameLike("%" + name + "%");
             }
             String nickName = queryContent.getNickName();
             if (nickName != null && !"".equals(nickName)) {
-                criteria.andNickNameLike(nickName);
+                criteria.andNickNameLike("%" + nickName + "%");
             }
         }
         try {
             Integer current = request.getCurrent();
             Integer pageSize = request.getPageSize();
             PageHelper.startPage(current, pageSize);
-            List<Seller> sellers = dao.selectByExample(sellerQuery);
+            List<Seller> sellers = dao.selectByExample(query);
             PageInfo<Seller> info = new PageInfo<>(sellers, current);
             long total = info.getTotal();
             PageResponse response = new PageResponse();
