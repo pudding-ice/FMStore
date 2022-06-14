@@ -1,0 +1,5 @@
+POST http://localhost:8083/seller/getPage.do
+Content-Type: application/json
+{username=admin,password=1234}
+
+###
