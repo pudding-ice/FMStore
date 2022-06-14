@@ -32,7 +32,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             if (seller != null && "1".equals(seller.getStatus())) {
                 ArrayList<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_SELLER"));
-                return new User(username, "{noop}" + seller.getPassword(), authorities);
+                return new User(username, seller.getPassword(), authorities);
             }
         }
         return null;

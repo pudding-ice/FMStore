@@ -58,7 +58,10 @@
     <!-- 配置认证管理器 -->
     <authentication-manager>
         <!-- 认证的提供者 -->
-        <authentication-provider user-service-ref="detailService"></authentication-provider>
+        <authentication-provider user-service-ref="detailService">
+            <!--            在认证的时候加密功能提供者-->
+            <password-encoder ref="passwordEncoder"></password-encoder>
+        </authentication-provider>
     </authentication-manager>
 
     <!-- 给当前服务起个名 -->
@@ -70,5 +73,11 @@
     <!--    自定义实现的获取用户信息的类-->
     <beans:bean name="detailService" class="com.myjava.core.service.UserDetailServiceImpl">
         <beans:property name="service" ref="sellerService"></beans:property>
+    </beans:bean>
+    <!--    引入spring自带的加密工具类-->
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    </beans:bean>
+    <beans:bean class="com.myjava.core.controller.SellerController">
+        <beans:property name="encoder" ref="passwordEncoder"></beans:property>
     </beans:bean>
 </beans:beans>
