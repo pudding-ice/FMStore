@@ -58,6 +58,14 @@
                     </div>
 
                     <div class="control-group">
+                        <label class="control-label">公司手机：</label>
+                        <div class="controls">
+                            <input class="input-xfat input-xlarge" placeholder="公司手机" type="text"
+                                   v-model="enterprise.mobile">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
                         <label class="control-label">公司电话：</label>
                         <div class="controls">
                             <input class="input-xfat input-xlarge" placeholder="公司电话" type="text"
@@ -134,13 +142,7 @@
                                    v-model="enterprise.legalPersonCardId">
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">银行账号：</label>
-                        <div class="controls">
-                            <input class="input-xfat input-xlarge" placeholder="银行账号" type="text"
-                                   v-model="enterprise.bankUser">
-                        </div>
-                    </div>
+
                     <div class="control-group">
                         <label class="control-label">开户行：</label>
                         <div class="controls">
@@ -148,6 +150,15 @@
                                    v-model="enterprise.bankName">
                         </div>
                     </div>
+
+                    <div class="control-group">
+                        <label class="control-label">银行账号：</label>
+                        <div class="controls">
+                            <input class="input-xfat input-xlarge" placeholder="银行账号" type="text"
+                                   v-model="enterprise.bankUser">
+                        </div>
+                    </div>
+
                     <div class="control-group">
                         <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                         <div class="controls">
