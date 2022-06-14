@@ -22,14 +22,8 @@
     </div>
     <div class="box-body">
         <ol class="breadcrumb">
-            <li>
-                <a href="#">顶级分类列表</a>
-            </li>
-            <li>
-                <a href="#">男装/女装</a>
-            </li>
-            <li>
-                <a href="#">男装</a>
+            <li v-for="item in breadList">
+                <a @click="breadHandler(item.id)" href="#">{{item.name}}</a>
             </li>
         </ol>
         <!-- 数据表格 -->
@@ -69,7 +63,8 @@
                         {{item.typeId}}
                     </td>
                     <td class="text-center">
-                        <button @click="selectCateByParentId(item.id)" class="btn bg-olive btn-xs" type="button">查询下级
+                        <button @click="selectCateByParentId(item.id,item.name)" class="btn bg-olive btn-xs"
+                                type="button">查询下级
                         </button>
                         <button class="btn bg-olive btn-xs" data-target="#editModal" data-toggle="modal" type="button">
                             修改
