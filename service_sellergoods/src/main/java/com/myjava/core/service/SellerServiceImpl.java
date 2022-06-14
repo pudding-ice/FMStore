@@ -78,4 +78,10 @@ public class SellerServiceImpl implements SellerService {
             return new ResultMessage(false, "更新状态失败");
         }
     }
+
+    @Override
+    public Seller getOneByName(String username) {
+        Seller seller = dao.selectByPrimaryKey(username);
+        return seller;
+    }
 }

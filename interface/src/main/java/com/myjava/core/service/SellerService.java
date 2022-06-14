@@ -12,4 +12,6 @@ public interface SellerService {
     PageResponse<Seller> getPage(PageRequest<SellerQueryContent> request);
 
     ResultMessage updateStatus(String id, String status);
+
+    Seller getOneByName(String username);
 }

@@ -58,12 +58,17 @@
     <!-- 配置认证管理器 -->
     <authentication-manager>
         <!-- 认证的提供者 -->
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="{noop}1234" authorities="ROLE_SELLER"/>
-                <user name="wc" password="{noop}1234" authorities="ROLE_SELLER"/>
-            </user-service>
-        </authentication-provider>
+        <authentication-provider user-service-ref="detailService"></authentication-provider>
     </authentication-manager>
 
+    <!-- 给当前服务起个名 -->
+    <dubbo:application name="fmjava-shop-web"/>
+    <!-- 配置连接zookeeper地址  -->
+    <dubbo:registry address="zookeeper://192.168.162.129:2181"/>
+    <dubbo:reference id="sellerService" interface="com.myjava.core.service.SellerService"></dubbo:reference>
+
+    <!--    自定义实现的获取用户信息的类-->
+    <beans:bean name="detailService" class="com.myjava.core.service.UserDetailServiceImpl">
+        <beans:property name="service" ref="sellerService"></beans:property>
+    </beans:bean>
 </beans:beans>
