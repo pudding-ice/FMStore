@@ -31,11 +31,13 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public PageResponse<Seller> getPage(PageRequest<SellerQueryContent> request) {
-        SellerQuery query = null;
+        SellerQuery query = new SellerQuery();
+        SellerQuery.Criteria criteria = query.createCriteria();
+        ;
+        //只有没有通过审核的才需要展示
+        criteria.andStatusEqualTo("0");
         SellerQueryContent queryContent = request.getQueryContent();
         if (queryContent != null) {
-            query = new SellerQuery();
-            SellerQuery.Criteria criteria = query.createCriteria();
             String name = queryContent.getName();
             if (name != null && !"".equals(name)) {
                 criteria.andNameLike("%" + name + "%");
@@ -45,6 +47,7 @@ public class SellerServiceImpl implements SellerService {
                 criteria.andNickNameLike("%" + nickName + "%");
             }
         }
+
         try {
             Integer current = request.getCurrent();
             Integer pageSize = request.getPageSize();
