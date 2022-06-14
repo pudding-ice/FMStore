@@ -20,7 +20,7 @@ public class SellerServiceImpl implements SellerService {
     private SellerDao dao;
 
     @Override
-    public ResultMessage save(Seller seller) {
+    public ResultMessage add(Seller seller) {
         try {
             dao.insertSelective(seller);
             return new ResultMessage(true, "保存成功");

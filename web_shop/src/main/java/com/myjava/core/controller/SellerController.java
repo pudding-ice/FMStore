@@ -21,9 +21,9 @@ public class SellerController {
     @Reference
     SellerService service;
 
-    @RequestMapping("/save")
-    public ResultMessage save(@RequestBody Seller enterprise) {
-        return service.save(enterprise);
+    @RequestMapping("/add")
+    public ResultMessage add(@RequestBody Seller enterprise) {
+        return service.add(enterprise);
     }
 
 }
