@@ -10,4 +10,6 @@ public interface SellerService {
     ResultMessage save(Seller seller);
 
     PageResponse<Seller> getPage(PageRequest<SellerQueryContent> request);
+
+    ResultMessage updateStatus(String id, String status);
 }

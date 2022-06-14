@@ -34,6 +34,19 @@ new Vue({
                     _this.sellerDetail = item;
                 }
             })
+        },
+        updateStatus: function (id, status) {
+            var _this = this;
+            axios.get("/seller/updateStatus/" + id + "/" + status + ".do").then(function (response) {
+                let data = response.data;
+                if (data.success) {
+                    //取服务端响应的结果
+                    alert(data.message);
+                    _this.pageHandler(1);
+                } else {
+                    alert(data.message);
+                }
+            })
         }
     },
     created: function () {

@@ -179,9 +179,15 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button aria-hidden="true" class="btn btn-success" data-dismiss="modal">审核通过</button>
-                    <button aria-hidden="true" class="btn btn-danger" data-dismiss="modal">审核未通过</button>
-                    <button aria-hidden="true" class="btn btn-danger" data-dismiss="modal">关闭商家</button>
+                    <button @click="updateStatus(sellerDetail.sellerId,'1')" aria-hidden="true" class="btn btn-success"
+                            data-dismiss="modal">审核通过
+                    </button>
+                    <button @click="updateStatus(sellerDetail.sellerId,'2')" aria-hidden="true" class="btn btn-danger"
+                            data-dismiss="modal">审核未通过
+                    </button>
+                    <button @click="updateStatus(sellerDetail.sellerId,'3')" aria-hidden="true" class="btn btn-danger"
+                            data-dismiss="modal">关闭商家
+                    </button>
                     <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>

@@ -63,4 +63,19 @@ public class SellerServiceImpl implements SellerService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public ResultMessage updateStatus(String id, String status) {
+        Seller seller = new Seller();
+        seller.setSellerId(id);
+        seller.setStatus(status);
+        try {
+            //由于上面是新建的一个对象很多字段都是null,如果使用 dao.selectByPrimaryKey() 就会导致这一行除了id和status,
+            //其他字段都被设置为null,updateByPrimaryKeySelective方法会使用动态SQL决定更新什么
+            dao.updateByPrimaryKeySelective(seller);
+            return new ResultMessage(true, "更新状态成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "更新状态失败");
+        }
+    }
 }
