@@ -240,6 +240,47 @@
                 <version>1.4.01</version>
             </dependency>
 
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.10</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.myjava</groupId>
+                <artifactId>ueditor</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <!--
+            mvn install:install-file -DgroupId=com.myjava -DartifactId=ueditor -Dversion=1.0.0 -Dpackaging=jar -Dfile=ueditor-1.0.0.jar
+            -->
+            <dependency>
+                <groupId>com.myjava</groupId>
+                <artifactId>json</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <!--
+            mvn install:install-file -DgroupId=com.myjava -DartifactId=json -Dversion=1.0.0 -Dpackaging=jar -Dfile=json-1.0.0.jar
+            -->
+<!--
+
+参数说明
+	  -DgroupId
+		表示jar对应的groupId
+		<groupId>com.fmjava</groupId>
+	 -DartifactId:
+		  -DartifactId: 表示jar对应的artifactId
+		<artifactId>ueditor</artifactId>
+	 -Dversion
+		 -Dversion: 表示jar对应的 version
+		<version>1.0.0</version>
+-->
         </dependencies>
     </dependencyManagement>
 
