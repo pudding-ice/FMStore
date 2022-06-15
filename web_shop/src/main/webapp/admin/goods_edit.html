@@ -13,10 +13,7 @@
     <link href="../css/style.css" rel="stylesheet">
     <script src="../plugins/jquery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- 富文本编辑器 -->
-    <script charset="utf-8" src="../plugins/umedit/ueditor.config.js"></script>
-    <script charset="utf-8" src="../plugins/umedit/ueditor.all.min.js"></script>
-    <script charset="utf-8" src="../plugins/umedit/lang/zh-cn/zh-cn.js"></script>
+
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
@@ -76,7 +73,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            模板ID:19
+                                            模板ID:{{typeId}}
                                         </td>
                                     </tr>
                                 </table>
@@ -87,8 +84,14 @@
                             </div>
                             <div class="col-md-2 title">品牌</div>
                             <div class="col-md-10 data">
-                                <select class="form-control"></select>
+                                <select class="form-control" v-model="selectBrand">
+                                    <option :value="-1">请选择品牌</option>
+                                    <option :value="brand.id" v-for="brand in brandList">
+                                        {{brand.name}}
+                                    </option>
+                                </select>
                             </div>
+
 
                             <div class="col-md-2 title">副标题</div>
                             <div class="col-md-10 data">

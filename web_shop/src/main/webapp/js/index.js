@@ -9,7 +9,6 @@ new Vue({
             axios.get("/index/getLoginDetail.do").then(function (response) {
                 var data = response.data;
                 _this.seller = data;
-                console.log(response.data);
             }).catch(function (reason) {
                 console.log(reason);
             })

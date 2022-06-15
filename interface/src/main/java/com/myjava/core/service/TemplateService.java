@@ -11,4 +11,6 @@ public interface TemplateService {
     ResultMessage save(TypeTemplate template);
 
     ResultMessage deleteByIds(Long[] ids);
+
+    TypeTemplate getOneById(Long id);
 }

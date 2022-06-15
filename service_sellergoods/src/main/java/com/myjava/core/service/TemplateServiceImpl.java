@@ -60,4 +60,9 @@ public class TemplateServiceImpl implements TemplateService {
             return new ResultMessage(false, "删除失败");
         }
     }
+
+    @Override
+    public TypeTemplate getOneById(Long id) {
+        return dao.selectByPrimaryKey(id);
+    }
 }

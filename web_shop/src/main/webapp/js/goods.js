@@ -8,6 +8,9 @@ new Vue({
         cateSelected1: -1,//分类1选中的id
         cateSelected2: -1,//分类2选中的id
         cateSelected3: -1,//分类3选中的id,
+        typeId: 0,
+        selectBrand: -1,
+        brandList: null
     },
     methods: {
         loadCateData: function (id) {
@@ -31,6 +34,8 @@ new Vue({
             })
         },
         getCateSelected: function (grade) {//选项改变时调用
+            //重置模板
+            this.typeId = 0;
             if (grade == 1) { //第1级选项改变
                 this.categoryList2 = [];//清空二级分类数据
                 this.catSelected2 = -1;   //默认选择
@@ -46,10 +51,30 @@ new Vue({
                 this.loadCateData(this.cateSelected2);
             }
             if (grade == 3) { //第3级选项改变
-                //加载模板
+                //找到对应的模板
+                let select = this.cateSelected3;
+                this.categoryList3.forEach((item) => {
+                    if (item.id == select) {
+                        this.typeId = item.typeId;
+                    }
+                })
             }
         }
 
+    },
+    watch: {
+        typeId: function (newValue, oldValue) {
+            var _this = this;
+            if (newValue == 0) {
+                return;
+            }
+            axios.get("/temp/getOne/" + newValue + ".do").then((res) => {
+                let data = JSON.parse(res.data.brandIds);
+                _this.brandList = data;
+            }).catch(reason => {
+                console.log(reason)
+            })
+        }
     },
     created: function () {
         this.loadCateData(0);
