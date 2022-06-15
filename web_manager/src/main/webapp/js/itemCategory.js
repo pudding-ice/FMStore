@@ -9,10 +9,12 @@ new Vue({
     },
     methods: {
         selectCateByParentId: function (id, name) {
-            var _this = this;
-            if (id != 0) {
-                this.breadList.push({id, name});
+            var item = {
+                id: id,
+                name: name,
             }
+            this.breadHandler(item);
+            var _this = this;
             axios.get("/itemCate/findByParentId/" + id + ".do")
                 .then(function (response) {
                     //取服务端响应的结果
@@ -28,24 +30,22 @@ new Vue({
                 console.log(reason);
             })
         },
-        breadHandler: function (id) {
-            if (id === 0) {
-                this.selectCateByParentId(0);
+        breadHandler: function (item) {
+            let breadList = this.breadList;
+            if (breadList[breadList.length - 1].id == item.id) {
                 return;
+            } else if (breadList.indexOf(item) > -1) {
+                //如果存在,而且不是最后一个,就是删除
+                let index = breadList.indexOf(item);
+                //计算要删除的数量
+                let delCount = breadList.length - index - 1;
+                breadList.splice(index + 1, delCount);
+            } else {
+                //如果不存在,就是添加
+                breadList.push(item);
             }
-            var _this = this;
-            var flag = false;
-            this.breadList.forEach((item) => {
-                if (flag) {
-                    let index = _this.breadList.indexOf(item);
-                    _this.breadList.splice(index, 1);
-                }
-                if (item.id === id) {
-                    flag = true;
-                }
-            })
-            console.log(_this.breadList);
-            this.selectCateByParentId(id);
+            this.selectCateByParentId(item.id);
+            console.log(this.breadList);
         }
     },
     created: function () {
