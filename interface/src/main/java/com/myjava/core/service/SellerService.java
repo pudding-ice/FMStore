@@ -14,4 +14,5 @@ public interface SellerService {
     ResultMessage updateStatus(String id, String status);
 
     Seller getOneByName(String username);
+
 }

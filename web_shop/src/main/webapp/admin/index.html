@@ -6,13 +6,12 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <title>商家后台管理系统</title>
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-
-    <link href="img/favicon.ico" rel="icon">
+    <link href="../img/favicon.ico" rel="icon">
     <link href="../plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../plugins/adminLTE/css/AdminLTE.css" rel="stylesheet">
     <link href="../plugins/adminLTE/css/skins/_all-skins.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
-    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/jquery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="../plugins/adminLTE/js/app.min.js"></script>
     <script type="text/javascript">
@@ -28,95 +27,102 @@
 </head>
 
 <body class="hold-transition skin-green sidebar-mini">
-
-<div class="wrapper">
-    <!-- 页面头部 -->
-    <header class="main-header">
-        <!--顶部左侧-->
-        <a class="logo" href="index.html" style="background: #1a2226;">
-            <span class="logo-mini"><b>商城列表</b></span>
-            <span class="logo-lg"><b>商家管理</b></span>
-        </a>
-        <!--顶部右侧-->
-        <nav class="navbar navbar-static-top" style="background: #222d32;">
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown user user-menu">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <img alt="User Image" class="user-image" src="../img/logo.png">
-                            <span class="hidden-xs">FMJava</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <!-- 导航侧栏 -->
-    <aside class="main-sidebar">
-        <section class="sidebar">
-            <div class="user-panel">
-                <div class="pull-left image">
-                    <img alt="User Image" class="img-circle" src="../img/logo.png" style="border-radius: 200px">
-                </div>
-                <div class="pull-left info">
-                    <p> FMJava </p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
-                </div>
-            </div>
-            <ul class="sidebar-menu">
-                <li class="header">菜单</li>
-                <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
-                <!-- 菜单 -->
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-folder"></i>
-                        <span>资料管理</span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li id="admin-login1">
-                            <a href="password.html" target="iframe">
-                                <i class="fa fa-circle-o"></i>修改密码
-                            </a>
-                        </li>
-                        <li id="admin-login2">
-                            <a href="seller.html" target="iframe">
-                                <i class="fa fa-circle-o"></i>商家资料
+<div id="app">
+    <div class="wrapper">
+        <!-- 页面头部 -->
+        <header class="main-header">
+            <!--顶部左侧-->
+            <a class="logo" href="index.html" style="background: #1a2226;">
+                <span class="logo-mini"><b>商城列表</b></span>
+                <span class="logo-lg"><b>商家管理</b></span>
+            </a>
+            <!--顶部右侧-->
+            <nav class="navbar navbar-static-top" style="background: #222d32;">
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <img alt="User Image" class="user-image" src="../img/logo.png">
+                                <span class="hidden-xs">{{seller.sellerId}}</span>
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-folder"></i>
-                        <span>商品管理</span>
-                        <span class="pull-right-container">
+                </div>
+            </nav>
+        </header>
+        <!-- 导航侧栏 -->
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img alt="User Image" class="img-circle" src="../img/logo.png" style="border-radius: 200px">
+                    </div>
+                    <div class="pull-left info">
+                        <p> {{seller.sellerId}} </p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+                    </div>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="header">菜单</li>
+                    <li id="admin-index"><a href="index.html"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                    <!-- 菜单 -->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-folder"></i>
+                            <span>资料管理</span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="admin-login1">
+                                <a href="password.html" target="iframe">
+                                    <i class="fa fa-circle-o"></i>修改密码
+                                </a>
+                            </li>
+                            <li id="admin-login2">
+                                <a href="seller.html" target="iframe">
+                                    <i class="fa fa-circle-o"></i>商家资料
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-folder"></i>
+                            <span>商品管理</span>
+                            <span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li id="admin-login3">
-                            <a href="goods_edit.html" target="iframe">
-                                <i class="fa fa-circle-o"></i>添加商品
-                            </a>
-                        </li>
-                        <li id="admin-login4">
-                            <a href="goods.html" target="iframe">
-                                <i class="fa fa-circle-o"></i>商品管理
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="admin-login3">
+                                <a href="goods_edit.html" target="iframe">
+                                    <i class="fa fa-circle-o"></i>添加商品
+                                </a>
+                            </li>
+                            <li id="admin-login4">
+                                <a href="goods.html" target="iframe">
+                                    <i class="fa fa-circle-o"></i>商品管理
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-            </ul>
-        </section>
-    </aside>
-    <!-- 内容区域 -->
-    <div class="content-wrapper">
-        <iframe frameborder="0" id="iframe" name="iframe" onload="SetIFrameHeight()"
-                scrolling="no" src="home.html" width="100%"></iframe>
+                </ul>
+            </section>
+        </aside>
+        <!-- 内容区域 -->
+        <div class="content-wrapper">
+            <iframe frameborder="0" id="iframe" name="iframe" onload="SetIFrameHeight()"
+                    scrolling="no" src="home.html" width="100%"></iframe>
+        </div>
     </div>
+
 </div>
 
 </body>
 
 </html>
+
+
+<script src="../plugins/vue/vuejs-2.5.16.js" type="text/javascript"></script>
+<script src="../plugins/vue/axios-0.18.0.js" type="text/javascript"></script>
+<script src="../js/index.js" type="text/javascript"></script>

@@ -45,7 +45,6 @@ new Vue({
                 breadList.push(item);
             }
             this.selectCateByParentId(item.id);
-            console.log(this.breadList);
         }
     },
     created: function () {
