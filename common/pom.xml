@@ -175,6 +175,13 @@
             <artifactId>json</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!--添加fastDFS依赖-->
+        <dependency>
+            <groupId>org.csource.fastdfs</groupId>
+            <artifactId>fastdfs</artifactId>
+            <version>1.2</version>
+        </dependency>
+
         <!--
         mvn install:install-file -DgroupId=com.myjava -DartifactId=json -Dversion=1.0.0 -Dpackaging=jar -Dfile=json-1.0.0.jar
         -->
