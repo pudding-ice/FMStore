@@ -10,7 +10,11 @@ new Vue({
         cateSelected3: -1,//分类3选中的id,
         typeId: 0,
         selectBrand: -1,
-        brandList: null
+        brandList: null,
+        currentImage: {
+            color: '',
+            url: ''
+        }
     },
     methods: {
         loadCateData: function (id) {
@@ -59,7 +63,25 @@ new Vue({
                     }
                 })
             }
-        }
+        },
+        uploadImg: function () {
+            let formData = new FormData();
+            formData.append('file', file.files[0]);
+            let instance = axios.create({
+                withCredentials: true
+            });
+            var _this = this;
+            instance.post('/fdfs/upload.do', formData).then((res) => {
+                let data = res.data;
+                if (data.success) {
+                    //如果上传成功,使用实例对象的message字段存储URL信息(fastdfs上传成功后返回的路径)
+                    _this.currentImage.url = data.message
+                } else {
+                    console.log(data.message);
+                }
+            })
+        },
+
 
     },
     watch: {

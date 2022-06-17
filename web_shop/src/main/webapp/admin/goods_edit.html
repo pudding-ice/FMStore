@@ -273,7 +273,7 @@
                     <table class="table table-bordered table-striped">
                         <tr>
                             <td>颜色</td>
-                            <td><input class="form-control" placeholder="颜色"></td>
+                            <td><input class="form-control" placeholder="颜色" v-model="currentImage.color"></td>
                         </tr>
                         <tr>
                             <td>图片</td>
@@ -282,11 +282,12 @@
                                     <tr>
                                         <td>
                                             <input id="file" type="file"/>
-                                            <button class="btn btn-primary" style="margin-top: 10px;" type="button">上传
+                                            <button @click="uploadImg()" class="btn btn-primary"
+                                                    style="margin-top: 10px;" type="button">上传
                                             </button>
                                         </td>
                                         <td>
-                                            <img alt="" height="200px" src="#" width="200px"/>
+                                            <img :src="currentImage.url" alt="" height="200px" width="200px"/>
                                         </td>
                                     </tr>
                                 </table>
