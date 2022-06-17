@@ -17,11 +17,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/***
+ * 遗留问题:
+ * 33行  如果改为  private String conf = this.getClass().getResource("/").getPath();
+ * 预期的conf的值应该是当前this(FastDFSController实例对象)所在的项目目录(web_shop模块)的classpath,
+ * 但是实际的打印却跑到了interface模块,查看项目结构和模块输出目录都没有查询到问题,这个暂时未解决
+ */
+
 @RestController
 @RequestMapping("/fdfs")
 public class FastDFSController {
     @Value("${FILE_SERVER_URL}")
     private String FILE_SERVER_URL;
+
     private String conf = this.getClass().getResource("/FastDFS/fdfs_client.conf").getPath();
 
     public void setFILE_SERVER_URL(String file_server_url) {
