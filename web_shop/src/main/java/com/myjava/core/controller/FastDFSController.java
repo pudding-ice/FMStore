@@ -1,12 +1,21 @@
 package com.myjava.core.controller;
+import javax.servlet.http.HttpServletRequest;
 
 import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.utils.FastDFSClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/fdfs")
@@ -45,4 +54,21 @@ public class FastDFSController {
         }
     }
 
+    @RequestMapping("/uploadUeImage")
+    public Map uploadUeImage(MultipartHttpServletRequest request) throws Exception {
+        MultiValueMap<String, MultipartFile> multiFileMap = request.getMultiFileMap();
+        Map<String, MultipartFile> map = multiFileMap.toSingleValueMap();
+        MultipartFile ueFile = map.get("upfile");
+        FastDFSClient fastDFS = new FastDFSClient(conf);
+        //上传文件返回文件保存的路径和文件名
+        String path = fastDFS.uploadFile(ueFile.getBytes(), ueFile.getOriginalFilename(), ueFile.getSize());
+        //拼接上服务器的地址返回给前端
+        String url = FILE_SERVER_URL + path;
+        Map<String, Object> result = new HashMap<>();
+        result.put("state", "SUCCESS");
+        result.put("url", url);
+        result.put("title", ueFile.getOriginalFilename());
+        result.put("original", ueFile.getOriginalFilename());
+        return result;
+    }
 }

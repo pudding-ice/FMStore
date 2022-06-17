@@ -181,6 +181,12 @@
             <artifactId>fastdfs</artifactId>
             <version>1.2</version>
         </dependency>
+        <!--        添加servlet依赖-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
 
         <!--
         mvn install:install-file -DgroupId=com.myjava -DartifactId=json -Dversion=1.0.0 -Dpackaging=jar -Dfile=json-1.0.0.jar
