@@ -16,6 +16,7 @@ new Vue({
             url: ''
         },
         imgList: [],
+        currentTemplate: ''
     },
     methods: {
         loadCateData: function (id) {
@@ -138,9 +139,7 @@ new Vue({
             })
             // 查询模板中对应的规格信息
             axios.get("/temp/getSpecificationById/" + newValue + ".do").then((res) => {
-                console.log("获取到模板对应的规格数据")
-                console.log(res);
-                console.log(res.data);
+                _this.currentTemplate = res.data;
             })
         },
     },

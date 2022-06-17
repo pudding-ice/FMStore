@@ -76,7 +76,7 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public List<SpecificationResponse> getSpecById(Long id) {
+    public TemplateResponse getSpecById(Long id) {
         TypeTemplate template = dao.selectByPrimaryKey(id);
         if (template == null) {
             return null;
@@ -88,7 +88,7 @@ public class TemplateServiceImpl implements TemplateService {
         String templateSpecIds = template.getSpecIds();
         //[{"specName":"选择颜色","id":42},{"specName":"选择版本","id":43},{"specName":"套　　餐","id":44}]
         List<Specification> specifications = JSON.parseArray(templateSpecIds, Specification.class);
-        List<SpecificationResponse> responses = new ArrayList<>();
+        List<SpecificationResponse> specificationResponseList = new ArrayList<>();
         for (Specification spec : specifications) {
             SpecificationResponse specificationResponse = new SpecificationResponse();
             specificationResponse.setSpec(spec);
@@ -97,8 +97,9 @@ public class TemplateServiceImpl implements TemplateService {
             criteria.andSpecIdEqualTo(spec.getId());
             List<SpecificationOption> options = specOptionDao.selectByExample(query);
             specificationResponse.setSpecOpts(options);
-            responses.add(specificationResponse);
+            specificationResponseList.add(specificationResponse);
         }
-        return responses;
+        response.setSpecificationList(specificationResponseList);
+        return response;
     }
 }

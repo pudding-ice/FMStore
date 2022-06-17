@@ -1,12 +1,10 @@
 package com.myjava.core.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.myjava.core.pojo.response.SpecificationResponse;
+import com.myjava.core.pojo.response.TemplateResponse;
 import com.myjava.core.pojo.template.TypeTemplate;
 import com.myjava.core.service.TemplateService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/temp")
@@ -20,7 +18,7 @@ public class TemplateController {
     }
 
     @RequestMapping("/getSpecificationById/{id}")
-    public List<SpecificationResponse> getSpecificationById(@PathVariable Long id) {
+    public TemplateResponse getSpecificationById(@PathVariable Long id) {
         return service.getSpecById(id);
     }
 }
