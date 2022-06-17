@@ -1,23 +1,32 @@
 package com.myjava.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.myjava.core.dao.specification.SpecificationOptionDao;
 import com.myjava.core.dao.template.TypeTemplateDao;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
+import com.myjava.core.pojo.response.SpecificationResponse;
+import com.myjava.core.pojo.response.TemplateResponse;
+import com.myjava.core.pojo.specification.Specification;
+import com.myjava.core.pojo.specification.SpecificationOption;
+import com.myjava.core.pojo.specification.SpecificationOptionQuery;
 import com.myjava.core.pojo.template.TypeTemplate;
 import com.myjava.core.pojo.template.TypeTemplateQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TemplateServiceImpl implements TemplateService {
     @Autowired
     TypeTemplateDao dao;
+
+    @Autowired
+    SpecificationOptionDao specOptionDao;
 
     @Override
     public PageResponse<TypeTemplate> getPage(PageRequest<String> request) {
@@ -64,5 +73,32 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public TypeTemplate getOneById(Long id) {
         return dao.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<SpecificationResponse> getSpecById(Long id) {
+        TypeTemplate template = dao.selectByPrimaryKey(id);
+        if (template == null) {
+            return null;
+        }
+        TemplateResponse response = new TemplateResponse();
+        response.setId(id);
+        response.setName(template.getName());
+
+        String templateSpecIds = template.getSpecIds();
+        //[{"specName":"选择颜色","id":42},{"specName":"选择版本","id":43},{"specName":"套　　餐","id":44}]
+        List<Specification> specifications = JSON.parseArray(templateSpecIds, Specification.class);
+        List<SpecificationResponse> responses = new ArrayList<>();
+        for (Specification spec : specifications) {
+            SpecificationResponse specificationResponse = new SpecificationResponse();
+            specificationResponse.setSpec(spec);
+            SpecificationOptionQuery query = new SpecificationOptionQuery();
+            SpecificationOptionQuery.Criteria criteria = query.createCriteria();
+            criteria.andSpecIdEqualTo(spec.getId());
+            List<SpecificationOption> options = specOptionDao.selectByExample(query);
+            specificationResponse.setSpecOpts(options);
+            responses.add(specificationResponse);
+        }
+        return responses;
     }
 }
