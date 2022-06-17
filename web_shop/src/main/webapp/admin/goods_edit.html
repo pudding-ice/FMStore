@@ -133,7 +133,7 @@
                             <div class="btn-group">
                                 <button class="btn btn-default" data-target="#uploadModal" data-toggle="modal"
                                         title="新建"
-                                        click="@reloadForm()"
+                                        @click="reloadForm()"
                                         type="button"><i class="fa fa-file-o"></i> 新建
                                 </button>
                             </div>
@@ -152,7 +152,9 @@
                                         <img :src="item.url" alt="" height="100px" width="100px">
                                     </td>
                                     <td>
-                                        <button class="btn btn-default" title="删除" type="button"><i
+                                        <button @click="deleteImg(index)" class="btn btn-default" title="删除"
+                                                type="button"
+                                        ><i
                                                 class="fa fa-trash-o"></i> 删除
                                         </button>
                                     </td>

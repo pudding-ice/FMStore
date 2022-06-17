@@ -68,8 +68,8 @@ new Vue({
         },
         uploadImg: function () {
             //先检查
-            if (this.currentImage.url == '' || this.currentImage.color == '') {
-                alert("必须上传图片并且填写图片颜色");
+            if (this.currentImage.color === '') {
+                alert("必须填写图片颜色");
                 return;
             }
             let formData = new FormData();
@@ -105,7 +105,23 @@ new Vue({
             }
             this.imgList.push(obj);
 
-        }
+        },
+        deleteImg: function (index) {
+            var _this = this;
+            //获取要删除的图片URL
+            var url = this.imgList[index].url;
+            axios.get("/fdfs/deleteImg.do?url=" + url)
+                .then(function (response) {
+                    let data = response.data;
+                    if (data.success) {
+                        // 从数组中移除
+                        _this.imgList.splice(index, 1);
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+        },
 
 
     },
