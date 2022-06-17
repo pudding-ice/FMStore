@@ -14,7 +14,9 @@ new Vue({
         currentImage: {
             color: '',
             url: ''
-        }
+        },
+        imgList: [],
+
     },
     methods: {
         loadCateData: function (id) {
@@ -65,6 +67,11 @@ new Vue({
             }
         },
         uploadImg: function () {
+            //先检查
+            if (this.currentImage.url == '' || this.currentImage.color == '') {
+                alert("必须上传图片并且填写图片颜色");
+                return;
+            }
             let formData = new FormData();
             formData.append('file', file.files[0]);
             let instance = axios.create({
@@ -81,6 +88,24 @@ new Vue({
                 }
             })
         },
+        reloadForm: function () {
+            this.currentImage.color = '',
+                this.currentImage.url = ''
+        },
+        saveImage: function () {
+            if (this.currentImage.color == '') {
+                alert("图片颜色不能为空");
+            }
+            if (this.currentImage.url == '') {
+                alert("请上传图片");
+            }
+            var obj = {
+                color: this.currentImage.color,
+                url: this.currentImage.url
+            }
+            this.imgList.push(obj);
+
+        }
 
 
     },

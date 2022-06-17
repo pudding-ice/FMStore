@@ -133,6 +133,7 @@
                             <div class="btn-group">
                                 <button class="btn btn-default" data-target="#uploadModal" data-toggle="modal"
                                         title="新建"
+                                        click="@reloadForm()"
                                         type="button"><i class="fa fa-file-o"></i> 新建
                                 </button>
                             </div>
@@ -145,10 +146,10 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td></td>
+                                <tr v-for="(item,index) in imgList">
+                                    <td>{{item.color}}</td>
                                     <td>
-                                        <img alt="" height="100px" src="" width="100px">
+                                        <img :src="item.url" alt="" height="100px" width="100px">
                                     </td>
                                     <td>
                                         <button class="btn btn-default" title="删除" type="button"><i
@@ -296,7 +297,8 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
+                    <button @click="saveImage()" aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存
+                    </button>
                     <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
