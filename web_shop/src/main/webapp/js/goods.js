@@ -16,7 +16,8 @@ new Vue({
             url: ''
         },
         imgList: [],
-        currentTemplate: ''
+        currentTemplate: '',
+        specSelList: []
     },
     methods: {
         loadCateData: function (id) {
@@ -122,6 +123,44 @@ new Vue({
                     }
                 })
         },
+        //专门用来寻找列表中的对象
+        findObjectByKey: function (list, key, value) {
+            for (let i = 0; i < list.length; i++) {
+                if (list[i][key] === value) {
+                    return list[i];
+                }
+            }
+            return null;
+        },
+        updateSpecListStatus: function (event, specName, option) {
+            let findObj = this.findObjectByKey(this.specSelList, "specName", specName);
+            if (findObj != null) {
+                if (event.target.checked) {
+                    //处理选中
+                    this.specSelList.forEach((item) => {
+                        if (item.specName === specName) {
+                            item.specOptions.push(option)
+                        }
+                    });
+                } else {
+                    //处理取消选中
+                    let idx = findObj.specOptions.indexOf(option);
+                    findObj.specOptions.splice(idx, 1);
+                    if (findObj.specOptions.length === 0) {
+                        let idx = this.specSelList.indexOf(findObj);
+                        this.specSelList.splice(idx, 1);
+                    }
+                }
+            } else {
+                //不存在,就添加
+                this.specSelList.push({
+                    "specName": specName,
+                    "specOptions": [option]
+                })
+            }
+            console.log(this.specSelList)
+
+        }
 
 
     },
@@ -142,6 +181,7 @@ new Vue({
                 _this.currentTemplate = res.data;
             })
         },
+
     },
     created: function () {
         this.loadCateData(0);

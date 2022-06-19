@@ -178,7 +178,8 @@
                                     <div class="col-md-2 title">{{specItem.spec.specName}}</div>
                                     <div class="col-md-10 data">
 									<span v-for="opt in specItem.specOpts">
-										<input type="checkbox">{{opt.optionName}}
+										<input @click="updateSpecListStatus($event,specItem.spec.specName,opt)"
+                                               type="checkbox">{{opt.optionName}}
 									</span>
                                     </div>
                                 </div>
