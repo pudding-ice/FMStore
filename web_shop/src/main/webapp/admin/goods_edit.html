@@ -188,8 +188,9 @@
                                 <table class="table table-bordered table-striped table-hover dataTable">
                                     <thead>
                                     <tr>
-                                        <th class="sorting">屏幕尺寸</th>
-                                        <th class="sorting">网络制式</th>
+                                        <template v-for="spec in specSelList">
+                                            <th class="sorting">{{spec.specName}}</th>
+                                        </template>
                                         <th class="sorting">价格</th>
                                         <th class="sorting">库存</th>
                                         <th class="sorting">是否启用</th>
@@ -197,37 +198,15 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>4.0</td>
-                                        <td>3G</td>
-                                        <td><input class="form-control" placeholder="价格"></td>
-                                        <td><input class="form-control" placeholder="库存数量"></td>
-                                        <td><input type="checkbox"></td>
-                                        <td><input type="checkbox"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.0</td>
-                                        <td>3G</td>
-                                        <td><input class="form-control" placeholder="价格"></td>
-                                        <td><input class="form-control" placeholder="库存数量"></td>
-                                        <td><input type="checkbox"></td>
-                                        <td><input type="checkbox"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.0</td>
-                                        <td>3G</td>
-                                        <td><input class="form-control" placeholder="价格"></td>
-                                        <td><input class="form-control" placeholder="库存数量"></td>
-                                        <td><input type="checkbox"></td>
-                                        <td><input type="checkbox"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.0</td>
-                                        <td>3G</td>
-                                        <td><input class="form-control" placeholder="价格"></td>
-                                        <td><input class="form-control" placeholder="库存数量"></td>
-                                        <td><input type="checkbox"></td>
-                                        <td><input type="checkbox"></td>
+                                    <tr v-for="row in rowList">
+
+                                        <td v-for="sp in specSelList">
+                                            {{row.spec[sp.specName]}}
+                                        </td>
+                                        <td><input :value="row.price" class="form-control" placeholder="价格"></td>
+                                        <td><input :value="row.num" class="form-control" placeholder="库存数量"></td>
+                                        <td><input :value="row.status" type="checkbox"></td>
+                                        <td><input :value="row.isDefault" type="checkbox"></td>
                                     </tr>
                                     </tbody>
                                 </table>

@@ -198,12 +198,13 @@ new Vue({
                         //这里循环边界 rowList.length 是动态的
                         for (let k = 0; k < options.length; k++) {
                             let oldRow = JSON.parse(JSON.stringify(rowList[j]));
-                            oldRow.spec[specName] = options[k];
+                            oldRow.spec[specName] = options[k].optionName;
                             newRowList.push(oldRow);
                         }
                     }
                     rowList = newRowList;
                 }
+                this.rowList = rowList;
                 console.log(rowList)
             },
             deep: true
