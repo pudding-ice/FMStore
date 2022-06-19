@@ -17,7 +17,8 @@ new Vue({
         },
         imgList: [],
         currentTemplate: '',
-        specSelList: []
+        specSelList: [],
+        rowList: []
     },
     methods: {
         loadCateData: function (id) {
@@ -159,8 +160,7 @@ new Vue({
                 })
             }
             console.log(this.specSelList)
-
-        }
+        },
 
 
     },
@@ -181,9 +181,39 @@ new Vue({
                 _this.currentTemplate = res.data;
             })
         },
+        specSelList: {
+            handler: function () {
+                console.log("构造规格列表")
+                let specList = JSON.parse(JSON.stringify(this.specSelList));
+                let rowList = [
+                    {spec: {}, price: 0, num: 0, status: '0', isDefault: '0'}
+                ]
+                for (let i = 0; i < specList.length; i++) {
+                    //总遍历次数
+                    let oneSpec = specList[i];
+                    let specName = oneSpec.specName; // "选择版本"
+                    let options = oneSpec.specOptions;  //specOptions: Array [ {…}, {…} ]
+                    let newRowList = []
+                    for (let j = 0; j < rowList.length; j++) {
+                        //这里循环边界 rowList.length 是动态的
+                        for (let k = 0; k < options.length; k++) {
+                            let oldRow = JSON.parse(JSON.stringify(rowList[j]));
+                            oldRow.spec[specName] = options[k];
+                            newRowList.push(oldRow);
+                        }
+                    }
+                    rowList = newRowList;
+                }
+                console.log(rowList)
+            },
+            deep: true
+        }
+
 
     },
     created: function () {
         this.loadCateData(0);
     }
 });
+
+
