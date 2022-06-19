@@ -18,7 +18,18 @@ new Vue({
         imgList: [],
         currentTemplate: '',
         specSelList: [],
-        rowList: []
+        rowList: [],
+        goodsEntity: {
+            goods: {
+                goodsName: '',
+                caption: ''
+            },
+            goodsDesc: {
+                specificationItems: []
+            },
+            itemList: {}
+        },
+        isEnableSpec: 1
     },
     methods: {
         loadCateData: function (id) {
@@ -161,6 +172,59 @@ new Vue({
             }
             console.log(this.specSelList)
         },
+        saveGoods: function () {
+            let entity = this.goodsEntity;
+            //商品基本信息
+            entity.goods.brandId = this.selectBrand;
+            entity.goods.cateSelected1 = this.cateSelected1;
+            entity.goods.cateSelected2 = this.cateSelected2;
+            entity.goods.cateSelected3 = this.cateSelected3;
+            entity.goods.typeTemplateId = this.typeId;
+            entity.goods.isEnableSpec = this.isEnableSpec;
+            //商品描述信息
+            entity.goodsDesc.introduction = UE.getEditor('editor').getContent();
+            entity.goodsDesc.specificationItems = this.specSelList;
+            entity.goodsDesc.itemImages = this.imgList;
+            //商品规格信息
+            entity.itemList = this.rowList;
+            //判断前端取值再发送给后端
+            if (entity.goods.cateSelected3 === null || -1 === entity.goods.cateSelected3) {
+                alert("请选择商品分类");
+                return;
+            }
+            if (entity.goods.goodsName === null || '' === entity.goods.goodsName) {
+                alert("请填写商品名称");
+                return;
+            }
+            if (entity.goods.brandId === null || -1 === entity.goods.brandId) {
+                alert("请选择品牌");
+                return;
+            }
+            if (entity.goods.caption === null || '' === entity.goods.caption) {
+                alert("请填写商品副标题");
+                return;
+            }
+            if (entity.goods.price === null || '' === entity.goods.price) {
+                alert("请填写商品价格");
+                return;
+            }
+
+            if (entity.goodsDesc.itemImages === null || entity.goodsDesc.itemImages.length === 0) {
+                alert("请上传商品图片");
+                return;
+            }
+            if (entity.goods.isEnableSpec === 1) {
+                if (entity.goodsDesc.specificationItems === null || entity.goodsDesc.specificationItems.length === 0) {
+                    alert("已启用商品规格,请选择商品规格")
+                    return;
+                }
+            }
+            //通过全部验证,发送数据给后端
+            console.log(this.goodsEntity);
+            axios.post("/goods/save.do", this.goodsEntity).then((res) => {
+
+            })
+        }
 
 
     },

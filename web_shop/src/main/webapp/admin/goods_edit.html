@@ -83,7 +83,8 @@
                             </div>
                             <div class="col-md-2 title">商品名称</div>
                             <div class="col-md-10 data">
-                                <input class="form-control" placeholder="商品名称" type="text" value="">
+                                <input class="form-control" placeholder="商品名称" type="text"
+                                       v-model="goodsEntity.goods.goodsName" value="">
                             </div>
                             <div class="col-md-2 title">品牌</div>
                             <div class="col-md-10 data">
@@ -98,14 +99,16 @@
 
                             <div class="col-md-2 title">副标题</div>
                             <div class="col-md-10 data">
-                                <input class="form-control" placeholder="副标题" type="text" value="">
+                                <input class="form-control" placeholder="副标题" type="text"
+                                       v-model="goodsEntity.goods.caption" value="">
                             </div>
 
                             <div class="col-md-2 title">价格</div>
                             <div class="col-md-10 data">
                                 <div class="input-group">
                                     <span class="input-group-addon">¥</span>
-                                    <input class="form-control" placeholder="价格" type="text" value="">
+                                    <input class="form-control" placeholder="价格" type="text"
+                                           v-model="goodsEntity.goods.price" value="">
                                 </div>
                             </div>
 
@@ -125,6 +128,7 @@
                             </div>
 
                         </div>
+
                     </div>
                     <!--图片上传-->
                     <div class="tab-pane" id="pic_upload">
@@ -168,7 +172,7 @@
                         <div class="row data-type">
                             <div class="col-md-2 title">是否启用规格</div>
                             <div class="col-md-10 data">
-                                <input type="checkbox">
+                                <input :false-value="0" :true-value="1" type="checkbox" v-model="isEnableSpec">
                             </div>
                         </div>
                         <p>
@@ -203,10 +207,10 @@
                                         <td v-for="sp in specSelList">
                                             {{row.spec[sp.specName]}}
                                         </td>
-                                        <td><input :value="row.price" class="form-control" placeholder="价格"></td>
-                                        <td><input :value="row.num" class="form-control" placeholder="库存数量"></td>
-                                        <td><input :value="row.status" type="checkbox"></td>
-                                        <td><input :value="row.isDefault" type="checkbox"></td>
+                                        <td><input class="form-control" placeholder="价格" v-model="row.price"></td>
+                                        <td><input class="form-control" placeholder="库存数量" v-model="row.num"></td>
+                                        <td><input type="checkbox" v-model="row.status"></td>
+                                        <td><input type="checkbox" v-model="row.isDefault"></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -217,7 +221,7 @@
             </div>
         </div>
         <div class="btn-toolbar list-toolbar">
-            <button class="btn btn-primary">
+            <button @click="saveGoods()" class="btn btn-primary">
                 <i class="fa fa-save"></i>保存
             </button>
             <button class="btn btn-default">返回列表</button>
