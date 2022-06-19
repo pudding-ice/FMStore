@@ -176,9 +176,9 @@ new Vue({
             let entity = this.goodsEntity;
             //商品基本信息
             entity.goods.brandId = this.selectBrand;
-            entity.goods.cateSelected1 = this.cateSelected1;
-            entity.goods.cateSelected2 = this.cateSelected2;
-            entity.goods.cateSelected3 = this.cateSelected3;
+            entity.goods.category1Id = this.cateSelected1;
+            entity.goods.category2Id = this.cateSelected2;
+            entity.goods.category3Id = this.cateSelected3;
             entity.goods.typeTemplateId = this.typeId;
             entity.goods.isEnableSpec = this.isEnableSpec;
             //商品描述信息
