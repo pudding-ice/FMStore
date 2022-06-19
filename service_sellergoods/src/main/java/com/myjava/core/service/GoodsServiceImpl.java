@@ -2,6 +2,8 @@ package com.myjava.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.myjava.core.dao.good.BrandDao;
 import com.myjava.core.dao.good.GoodsDao;
 import com.myjava.core.dao.good.GoodsDescDao;
@@ -10,9 +12,12 @@ import com.myjava.core.dao.item.ItemDao;
 import com.myjava.core.pojo.good.Brand;
 import com.myjava.core.pojo.good.Goods;
 import com.myjava.core.pojo.good.GoodsDesc;
+import com.myjava.core.pojo.good.GoodsQuery;
 import com.myjava.core.pojo.item.Item;
 import com.myjava.core.pojo.item.ItemCat;
 import com.myjava.core.pojo.request.GoodsEntity;
+import com.myjava.core.pojo.request.PageRequest;
+import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +56,18 @@ public class GoodsServiceImpl implements GoodsService {
         goodsDescDao.insertSelective(goodsDesc);
         //插入商品规格信息
         insertItem(entity);
+    }
+
+    @Override
+    public PageResponse<Goods> getPage(PageRequest request) {
+        GoodsQuery query = new GoodsQuery();
+        PageHelper.startPage(request.getCurrent(), request.getPageSize());
+        List<Goods> goods = goodsDao.selectByExample(query);
+        PageInfo<Goods> info = new PageInfo<>(goods, request.getCurrent());
+        PageResponse<Goods> response = new PageResponse<>();
+        response.setTotal(info.getTotal());
+        response.setRows(goods);
+        return response;
     }
 
 

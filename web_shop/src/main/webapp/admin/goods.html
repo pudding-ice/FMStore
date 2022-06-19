@@ -12,109 +12,113 @@
     <link href="../plugins/adminLTE/css/AdminLTE.css" rel="stylesheet">
     <link href="../plugins/adminLTE/css/skins/_all-skins.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
-    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/jquery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-
+    <script src="../plugins/vue/vuejs-2.5.16.js" type="text/javascript"></script>
+    <script src="../plugins/vue/axios-0.18.0.js" type="text/javascript"></script>
+    <script src="../plugins/pageination/zpageNav.js" type="text/javascript"></script>
+    <script src="../plugins/vue/qs.js" type="text/javascript"></script>
+    <link href="../plugins/pageination/zpageNav.css" rel="stylesheet">
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
-<!-- .box-body -->
-<div class="box-header with-border" style="height: 64.5px;line-height: 54px;">
-    <h3 class="box-title">商品审核</h3>
-</div>
+<div id="app">
+    <!-- .box-body -->
+    <div class="box-header with-border" style="height: 64.5px;line-height: 54px;">
+        <h3 class="box-title">商品审核</h3>
+    </div>
 
-<div class="box-body">
+    <div class="box-body">
 
-    <!-- 数据表格 -->
-    <div class="table-box">
+        <!-- 数据表格 -->
+        <div class="table-box">
 
-        <!--工具栏-->
-        <div class="pull-left">
-            <div class="form-group form-inline">
-                <div class="btn-group">
-                    <button class="btn btn-default" title="新建" type="button"><i class="fa fa-file-o"></i> 新建</button>
-                    <button class="btn btn-default" title="删除" type="button"><i class="fa fa-trash-o"></i> 删除</button>
-                    <button class="btn btn-default" title="提交审核" type="button"><i class="fa fa-check"></i> 提交审核</button>
-                    <button class="btn btn-default" onclick='confirm("你确认要屏蔽吗？")' title="屏蔽" type="button"><i
-                            class="fa fa-ban"></i> 屏蔽
-                    </button>
-                    <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button"><i
-                            class="fa fa-refresh"></i> 刷新
-                    </button>
+            <!--工具栏-->
+            <div class="pull-left">
+                <div class="form-group form-inline">
+                    <div class="btn-group">
+                        <button class="btn btn-default" title="新建" type="button"><i class="fa fa-file-o"></i> 新建
+                        </button>
+                        <button class="btn btn-default" title="删除" type="button"><i class="fa fa-trash-o"></i> 删除
+                        </button>
+                        <button class="btn btn-default" title="提交审核" type="button"><i class="fa fa-check"></i> 提交审核
+                        </button>
+                        <button class="btn btn-default" onclick='confirm("你确认要屏蔽吗？")' title="屏蔽" type="button"><i
+                                class="fa fa-ban"></i> 屏蔽
+                        </button>
+                        <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button"><i
+                                class="fa fa-refresh"></i> 刷新
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="box-tools pull-right">
-            <div class="has-feedback">
-                状态：<select>
-                <option value="">全部</option>
-                <option value="0">未申请</option>
-                <option value="1">申请中</option>
-                <option value="2">审核通过</option>
-                <option value="3">已驳回</option>
-            </select>
-                商品名称：<input>
-                <button class="btn btn-default">查询</button>
+            <div class="box-tools pull-right">
+                <div class="has-feedback">
+                    状态：<select>
+                    <option value="">全部</option>
+                    <option value="0">未申请</option>
+                    <option value="1">申请中</option>
+                    <option value="2">审核通过</option>
+                    <option value="3">已驳回</option>
+                </select>
+                    商品名称：<input>
+                    <button class="btn btn-default">查询</button>
+                </div>
             </div>
+            <!--工具栏/-->
+
+            <!--数据列表-->
+            <table class="table table-bordered table-striped table-hover dataTable" id="dataList">
+                <thead>
+                <tr>
+                    <th class="" style="padding-right:0px">
+                        <input class="icheckbox_square-blue" id="selall" type="checkbox">
+                    </th>
+                    <th class="sorting_asc">商品ID</th>
+                    <th class="sorting">商品名称</th>
+                    <th class="sorting">商品价格</th>
+                    <th class="sorting">一级分类</th>
+                    <th class="sorting">二级分类</th>
+                    <th class="sorting">三级分类</th>
+                    <th class="sorting">状态</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="goods in goodsList">
+                    <td><input type="checkbox"></td>
+                    <td>{{goods.id}}</td>
+                    <td>{{goods.goodsName}}</td>
+                    <td>{{goods.price}}</td>
+                    <td>{{goods.category1Id}}</td>
+                    <td>{{goods.category2Id}}</td>
+                    <td>{{goods.category3Id}}</td>
+                    <td>
+                        <span>
+                            未申请
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <button class="btn bg-olive btn-xs" type="button">修改</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--数据列表/-->
+
+
         </div>
-        <!--工具栏/-->
+        <!-- 数据表格 /-->
 
-        <!--数据列表-->
-        <table class="table table-bordered table-striped table-hover dataTable" id="dataList">
-            <thead>
-            <tr>
-                <th class="" style="padding-right:0px">
-                    <input class="icheckbox_square-blue" id="selall" type="checkbox">
-                </th>
-                <th class="sorting_asc">商品ID</th>
-                <th class="sorting">商品名称</th>
-                <th class="sorting">商品价格</th>
-                <th class="sorting">一级分类</th>
-                <th class="sorting">二级分类</th>
-                <th class="sorting">三级分类</th>
-                <th class="sorting">状态</th>
-                <th class="text-center">操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>1</td>
-                <td>小米6S手机</td>
-                <td>1090</td>
-                <td>数码</td>
-                <td>手机</td>
-                <td>国产手机</td>
-                <td>
-		                                  	<span>
-		                                  		未申请
-		                                  	</span>
-                    <span>
-		                                  		申请中
-		                                  	</span>
-                    <span>
-		                                  		审核通过
-		                                  	</span>
-                    <span>
-		                                  		已驳回
-		                                  	</span>
-                </td>
-                <td class="text-center">
-                    <button class="btn bg-olive btn-xs" type="button">修改</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <!--数据列表/-->
-
-
+        <!--分页-->
+        <zpagenav v-bind:max-page="maxPageIndex" v-bind:page="current" v-bind:page-size="pageSize"
+                  v-bind:total="total" v-on:pagehandler="pageHandler">
+        </zpagenav>
     </div>
-    <!-- 数据表格 /-->
-
+    <!-- /.box-body -->
 
 </div>
-<!-- /.box-body -->
-
 </body>
-
 </html>
+
+<script src="../js/goods_mange.js" type="text/javascript"></script>
