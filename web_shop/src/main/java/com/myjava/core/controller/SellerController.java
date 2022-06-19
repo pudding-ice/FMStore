@@ -31,9 +31,14 @@ public class SellerController {
 
     @RequestMapping("/add")
     public ResultMessage add(@RequestBody Seller enterprise) {
-        String encode = encoder.encode(enterprise.getPassword());
-        enterprise.setPassword(encode);
-        return service.add(enterprise);
+        try {
+            String encode = encoder.encode(enterprise.getPassword());
+            enterprise.setPassword(encode);
+            service.add(enterprise);
+            return new ResultMessage(true, "保存成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "保存失败");
+        }
     }
 
 

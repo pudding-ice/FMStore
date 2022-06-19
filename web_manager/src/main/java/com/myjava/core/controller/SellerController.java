@@ -23,6 +23,11 @@ public class SellerController {
 
     @GetMapping("/updateStatus/{id}/{status}")
     public ResultMessage updateStatus(@PathVariable String id, @PathVariable String status) {
-        return service.updateStatus(id, status);
+        try {
+            service.updateStatus(id, status);
+            return new ResultMessage(true, "更新状态成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "更新状态失败");
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.myjava.core.service;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.request.SpecificationRequest;
 import com.myjava.core.pojo.response.PageResponse;
-import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.response.SpecificationResponse;
 import com.myjava.core.pojo.specification.Specification;
 
@@ -18,14 +17,14 @@ public interface SpecificationService<T> {
      */
     PageResponse<T> querySpecificationPage(PageRequest request);
 
-    ResultMessage addOne(SpecificationRequest request);
+    int addOne(SpecificationRequest request);
 
     SpecificationResponse getOptionsById(Long id);
 
 
-    ResultMessage updateOne(SpecificationRequest request);
+    int updateOne(SpecificationRequest request);
 
-    ResultMessage deleteByIds(Long[] ids);
+    int deleteByIds(Long[] ids);
 
     List<Specification> getAll();
 }

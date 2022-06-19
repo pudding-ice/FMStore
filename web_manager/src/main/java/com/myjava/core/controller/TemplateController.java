@@ -28,11 +28,22 @@ public class TemplateController {
 
     @PostMapping("/save")
     public ResultMessage save(@RequestBody TypeTemplate template) {
-        return service.save(template);
+        try {
+            service.save(template);
+            return new ResultMessage(true, "保存成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "保存失败");
+        }
     }
 
     @PostMapping("/delete")
     public ResultMessage delete(Long[] ids) {
-        return service.deleteByIds(ids);
+        try {
+            service.deleteByIds(ids);
+
+            return new ResultMessage(true, "删除成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "删除失败");
+        }
     }
 }

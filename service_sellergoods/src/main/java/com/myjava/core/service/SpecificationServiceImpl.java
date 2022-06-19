@@ -46,20 +46,16 @@ public class SpecificationServiceImpl<T> implements SpecificationService {
     }
 
     @Override
-    public ResultMessage addOne(SpecificationRequest request) {
-        try {
-            Specification specification = request.getSpec();
-            specDao.insertSelective(specification);
-            List<SpecificationOption> options = request.getSpecOpts();
-            for (SpecificationOption option : options) {
-                option.setSpecId(specification.getId());
-                specOptionDao.insertSelective(option);
-            }
-            return new ResultMessage(true, "添加规格成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResultMessage(false, "添加规格失败");
+    public int addOne(SpecificationRequest request) {
+        int res = 0;
+        Specification specification = request.getSpec();
+        res += specDao.insertSelective(specification);
+        List<SpecificationOption> options = request.getSpecOpts();
+        for (SpecificationOption option : options) {
+            option.setSpecId(specification.getId());
+            res += specOptionDao.insertSelective(option);
         }
+        return res;
     }
 
     @Override
@@ -77,46 +73,42 @@ public class SpecificationServiceImpl<T> implements SpecificationService {
 
 
     @Override
-    public ResultMessage updateOne(SpecificationRequest request) {
-        try {
-            //更新规格选项
-            List<SpecificationOption> options = request.getSpecOpts();
-            //先根据规格id删除所有规格选项
-            SpecificationOptionQuery query = new SpecificationOptionQuery();
-            SpecificationOptionQuery.Criteria criteria = query.createCriteria();
-            criteria.andSpecIdEqualTo(request.getSpec().getId());
-            specOptionDao.deleteByExample(query);
-            //再插入所有规格选项
-            for (SpecificationOption option : options) {
-                option.setSpecId(request.getSpec().getId());
-                specOptionDao.insertSelective(option);
-            }
-            //再更新规格名称
-            specDao.updateByPrimaryKeySelective(request.getSpec());
-            return new ResultMessage(true, "更新成功");
-        } catch (Exception e) {
-            return new ResultMessage(false, "更新失败");
+    public int updateOne(SpecificationRequest request) {
+        int res = 0;
+        //更新规格选项
+        List<SpecificationOption> options = request.getSpecOpts();
+        //先根据规格id删除所有规格选项
+        SpecificationOptionQuery query = new SpecificationOptionQuery();
+        SpecificationOptionQuery.Criteria criteria = query.createCriteria();
+        criteria.andSpecIdEqualTo(request.getSpec().getId());
+        specOptionDao.deleteByExample(query);
+        //再插入所有规格选项
+        for (SpecificationOption option : options) {
+            option.setSpecId(request.getSpec().getId());
+            specOptionDao.insertSelective(option);
         }
+        //再更新规格名称
+        res = specDao.updateByPrimaryKeySelective(request.getSpec());
+        return res;
+
     }
 
 
     @Override
-    public ResultMessage deleteByIds(Long[] ids) {
-        try {
-            List<Long> list = Arrays.asList(ids);
-            for (Long specId : list) {
-                //先根据specId删除它所关联的options
-                SpecificationOptionQuery query = new SpecificationOptionQuery();
-                SpecificationOptionQuery.Criteria criteria = query.createCriteria();
-                criteria.andSpecIdEqualTo(specId);
-                specOptionDao.deleteByExample(query);
-                //再根据id删除规格
-                specDao.deleteByPrimaryKey(specId);
-            }
-            return new ResultMessage(true, "删除成功");
-        } catch (Exception e) {
-            return new ResultMessage(false, "删除失败");
+    public int deleteByIds(Long[] ids) {
+        int res = 0;
+        List<Long> list = Arrays.asList(ids);
+        for (Long specId : list) {
+            //先根据specId删除它所关联的options
+            SpecificationOptionQuery query = new SpecificationOptionQuery();
+            SpecificationOptionQuery.Criteria criteria = query.createCriteria();
+            criteria.andSpecIdEqualTo(specId);
+            res += specOptionDao.deleteByExample(query);
+            //再根据id删除规格
+            res += specDao.deleteByPrimaryKey(specId);
         }
+        return res;
+
     }
 
     @Override

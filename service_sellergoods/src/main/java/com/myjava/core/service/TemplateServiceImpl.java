@@ -8,7 +8,6 @@ import com.myjava.core.dao.specification.SpecificationOptionDao;
 import com.myjava.core.dao.template.TypeTemplateDao;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
-import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.response.SpecificationResponse;
 import com.myjava.core.pojo.response.TemplateResponse;
 import com.myjava.core.pojo.specification.Specification;
@@ -48,26 +47,20 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public ResultMessage save(TypeTemplate template) {
-        try {
-            dao.insertSelective(template);
-            return new ResultMessage(true, "保存成功");
-        } catch (Exception e) {
-            return new ResultMessage(false, "保存失败");
-        }
+    public int save(TypeTemplate template) {
+
+        return dao.insertSelective(template);
+
     }
 
     @Override
-    public ResultMessage deleteByIds(Long[] ids) {
+    public int deleteByIds(Long[] ids) {
         TypeTemplateQuery query = new TypeTemplateQuery();
         TypeTemplateQuery.Criteria criteria = query.createCriteria();
         criteria.andIdIn(Arrays.asList(ids));
-        try {
-            dao.deleteByExample(query);
-            return new ResultMessage(true, "删除成功");
-        } catch (Exception e) {
-            return new ResultMessage(false, "删除失败");
-        }
+
+        return dao.deleteByExample(query);
+
     }
 
     @Override

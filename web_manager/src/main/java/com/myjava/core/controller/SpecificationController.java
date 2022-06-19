@@ -43,9 +43,20 @@ public class SpecificationController {
     public ResultMessage save(@RequestBody SpecificationRequest request) {
         if (request.getSpec().getId() == null) {
             //添加操作
-            return service.addOne(request);
+            try {
+                service.addOne(request);
+                return new ResultMessage(true, "添加规格成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ResultMessage(false, "添加规格失败");
+            }
         } else {
-            return service.updateOne(request);
+            try {
+                service.updateOne(request);
+                return new ResultMessage(true, "更新成功");
+            } catch (Exception e) {
+                return new ResultMessage(false, "更新失败");
+            }
         }
     }
 
@@ -56,7 +67,12 @@ public class SpecificationController {
 
     @PostMapping("/delete")
     public ResultMessage deleteSelected(Long[] ids) {
-        return service.deleteByIds(ids);
+        try {
+            service.deleteByIds(ids);
+            return new ResultMessage(true, "删除成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "删除失败");
+        }
     }
 
     @GetMapping("/selectOptionList")

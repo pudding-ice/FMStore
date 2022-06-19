@@ -22,10 +22,6 @@ public class BrandServiceImpl implements BrandService {
     @Autowired
     private BrandDao dao;
 
-    @Override
-    public String findAll() {
-        return "远程调用 : findAll方法";
-    }
 
     @Override
     public List<Brand> getAll() {
@@ -57,35 +53,20 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public ResultMessage addOne(Brand brand) {
-        try {
-            dao.insertSelective(brand);
-            return new ResultMessage(true, "保存品牌成功");
-        } catch (Exception e) {
-            return new ResultMessage(false, "保存品牌失败");
-        }
+    public int addOne(Brand brand) {
+        return dao.insertSelective(brand);
     }
 
     @Override
-    public ResultMessage updateOne(Brand brand) {
-        try {
-            int i = dao.updateByPrimaryKeySelective(brand);
-            return new ResultMessage(true, "更新成功");
-        } catch (Exception e) {
-            return new ResultMessage(false, "更新失败");
-        }
+    public int updateOne(Brand brand) {
+        return dao.updateByPrimaryKeySelective(brand);
     }
 
     @Override
-    public ResultMessage deleteByIds(Long[] ids) {
-        try {
-            BrandQuery brandQuery = new BrandQuery();
-            BrandQuery.Criteria criteria = brandQuery.createCriteria();
-            criteria.andIdIn(Arrays.asList(ids));
-            dao.deleteByExample(brandQuery);
-            return new ResultMessage(true, "删除成功");
-        } catch (Exception e) {
-            return new ResultMessage(false, "删除失败");
-        }
+    public int deleteByIds(Long[] ids) {
+        BrandQuery brandQuery = new BrandQuery();
+        BrandQuery.Criteria criteria = brandQuery.createCriteria();
+        criteria.andIdIn(Arrays.asList(ids));
+        return dao.deleteByExample(brandQuery);
     }
 }

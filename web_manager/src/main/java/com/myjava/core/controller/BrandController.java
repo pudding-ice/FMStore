@@ -32,15 +32,30 @@ public class BrandController {
     @PostMapping("/save")
     public ResultMessage save(@RequestBody Brand brand) {
         if (brand.getId() == null) {
-            return service.addOne(brand);
+            try {
+                service.addOne(brand);
+                return new ResultMessage(true, "添加品牌成功");
+            } catch (Exception e) {
+                return new ResultMessage(false, "添加品牌失败");
+            }
         } else {
-            return service.updateOne(brand);
+            try {
+                service.updateOne(brand);
+                return new ResultMessage(true, "更新成功");
+            } catch (Exception e) {
+                return new ResultMessage(false, "更新失败");
+            }
         }
     }
 
     @PostMapping("/delete")
     public ResultMessage deleteSelected(Long[] ids) {
-        return service.deleteByIds(ids);
+        try {
+            service.deleteByIds(ids);
+            return new ResultMessage(true, "删除成功");
+        } catch (Exception e) {
+            return new ResultMessage(false, "删除失败");
+        }
     }
 
     @GetMapping("/selectOptionList")
