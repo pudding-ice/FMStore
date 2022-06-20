@@ -245,7 +245,6 @@ new Vue({
             return null;
         },
         checkSpecStatus: function (specName, optionName) {
-            console.log(this.specSelList);
             for (let i = 0; i < this.specSelList.length; i++) {
                 if (this.specSelList[i].specName === specName) {
                     for (let j = 0; j < this.specSelList[i].specOptions.length; j++) {

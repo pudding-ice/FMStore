@@ -16,4 +16,6 @@ public interface GoodsService {
     GoodsEntity getOneById(Long id);
 
     void updateGoods(GoodsEntity entity);
+
+    void delete(Long[] ids);
 }

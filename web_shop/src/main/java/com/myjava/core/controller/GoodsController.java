@@ -65,4 +65,16 @@ public class GoodsController {
     public GoodsEntity getOneById(@PathVariable Long id) {
         return goodsService.getOneById(id);
     }
+
+    @RequestMapping("/delete")
+    public ResultMessage delete(Long[] ids) {
+        try {
+            //假删除,逻辑删除
+            goodsService.delete(ids);
+            return new ResultMessage(true, "删除成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "删除失败!");
+        }
+    }
 }

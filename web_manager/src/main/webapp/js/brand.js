@@ -85,7 +85,6 @@ new Vue({
                 return;
             }
             var _this = this;
-            Qs.stringify()
             let param = Qs.stringify({ids: _this.selectedId}, {indices: false});
             axios.post("/brand/delete.do", param).then((res) => {
                 let data = res.data;

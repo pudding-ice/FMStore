@@ -74,9 +74,24 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public void delete(Long[] ids) {
+        if (ids != null) {
+            for (Long id : ids) {
+                Goods goods = new Goods();
+                goods.setIsDelete("1");
+                goods.setId(id);
+                goodsDao.updateByPrimaryKeySelective(goods);
+            }
+        }
+
+    }
+
+    @Override
     public PageResponse<Goods> getPage(PageRequest request) {
         GoodsQuery query = new GoodsQuery();
         PageHelper.startPage(request.getCurrent(), request.getPageSize());
+        GoodsQuery.Criteria criteria = query.createCriteria();
+        criteria.andIsDeleteIsNull();
         List<Goods> goods = goodsDao.selectByExample(query);
         PageInfo<Goods> info = new PageInfo<>(goods, request.getCurrent());
         PageResponse<Goods> response = new PageResponse<>();
