@@ -42,4 +42,15 @@ public class CategoryController {
             return new ResultMessage(false, "修改失败!");
         }
     }
+
+    @RequestMapping("/delete")
+    public ResultMessage delete(Long[] ids) {
+        try {
+            categoryService.delete(ids);
+            return new ResultMessage(true, "删除成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "删除失败!");
+        }
+    }
 }

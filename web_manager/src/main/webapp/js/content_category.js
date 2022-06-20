@@ -53,6 +53,31 @@ new Vue({
                     this.categoryEntity = JSON.parse(JSON.stringify(this.categoryList[i]));
                 }
             }
+        },
+        updateSelection: function (event, id) {
+            // 复选框选中
+            if (event.target.checked) {
+                // 向数组中添加元素
+                this.selectIds.push(id);
+            } else {
+                // 从数组中移除
+                var idx = this.selectIds.indexOf(id);
+                this.selectIds.splice(idx, 1);
+            }
+        },
+        deleteCategory: function () {
+            var _this = this;
+            //使用qs插件 处理数组
+            axios.post('/contentCategory/delete.do', Qs.stringify({ids: _this.selectIds}, {indices: false}))
+                .then((response) => {
+                    if (response.data.success) {
+                        _this.selectIds = [];
+                        alert(response.data.message)
+                        window.location.reload();
+                    }
+                }).catch(function (reason) {
+                alert(reason.message);
+            })
         }
     },
     created: function () {

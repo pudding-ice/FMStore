@@ -42,4 +42,12 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDao.updateByPrimaryKeySelective(category);
     }
 
+    @Override
+    public void delete(Long[] ids) {
+        if (ids != null) {
+            for (Long id : ids) {
+                categoryDao.deleteByPrimaryKey(id);
+            }
+        }
+    }
 }

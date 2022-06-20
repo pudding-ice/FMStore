@@ -9,4 +9,6 @@ public interface CategoryService {
     void add(ContentCategory category);
 
     void update(ContentCategory category);
+
+    void delete(Long[] ids);
 }
