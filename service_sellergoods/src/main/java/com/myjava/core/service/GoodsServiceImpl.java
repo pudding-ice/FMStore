@@ -87,6 +87,26 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public void updateStatus(Long[] ids, String status) {
+        if (ids != null) {
+            for (Long id : ids) {
+                //1. 根据商品id修改商品对象状态码
+                Goods goods = new Goods();
+                goods.setId(id);
+                goods.setAuditStatus(status);
+                goodsDao.updateByPrimaryKeySelective(goods);
+                //2. 根据商品id修改库存集合对象状态码
+                Item item = new Item();
+                item.setStatus(status);
+                ItemQuery query = new ItemQuery();
+                ItemQuery.Criteria criteria = query.createCriteria();
+                criteria.andGoodsIdEqualTo(id);
+                itemDao.updateByExampleSelective(item, query);
+            }
+        }
+    }
+
+    @Override
     public PageResponse<Goods> getPage(PageRequest request) {
         GoodsQuery query = new GoodsQuery();
         PageHelper.startPage(request.getCurrent(), request.getPageSize());

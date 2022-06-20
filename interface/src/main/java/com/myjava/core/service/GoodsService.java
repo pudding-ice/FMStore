@@ -18,4 +18,6 @@ public interface GoodsService {
     void updateGoods(GoodsEntity entity);
 
     void delete(Long[] ids);
+
+    void updateStatus(Long[] ids, String status);
 }
