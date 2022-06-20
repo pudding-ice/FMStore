@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/contentCategory")
-public class CategoryController {
+public class ContentCategoryController {
 
     @Reference
     private CategoryService categoryService;
