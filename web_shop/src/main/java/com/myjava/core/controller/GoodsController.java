@@ -9,6 +9,7 @@ import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.service.GoodsService;
 import com.myjava.core.service.ItemCateService;
+import org.apache.zookeeper.data.Id;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +45,10 @@ public class GoodsController {
     @GetMapping("/getCategory")
     public List<ItemCat> getCategory() {
         return itemCateService.getAllCategory();
+    }
+
+    @GetMapping("/getOneById/{id}")
+    public GoodsEntity getOneById(@PathVariable Long id) {
+        return goodsService.getOneById(id);
     }
 }

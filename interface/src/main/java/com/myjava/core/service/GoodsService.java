@@ -12,4 +12,6 @@ public interface GoodsService {
     void saveGoods(GoodsEntity entity);
 
     PageResponse<Goods> getPage(PageRequest request);
+
+    GoodsEntity getOneById(Long id);
 }

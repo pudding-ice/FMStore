@@ -1,0 +1,4 @@
+GET http://localhost:8084/temp/getOne/44.do
+Accept: text/json
+
+###

@@ -15,6 +15,7 @@ import com.myjava.core.pojo.good.GoodsDesc;
 import com.myjava.core.pojo.good.GoodsQuery;
 import com.myjava.core.pojo.item.Item;
 import com.myjava.core.pojo.item.ItemCat;
+import com.myjava.core.pojo.item.ItemQuery;
 import com.myjava.core.pojo.request.GoodsEntity;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
@@ -68,6 +69,21 @@ public class GoodsServiceImpl implements GoodsService {
         response.setTotal(info.getTotal());
         response.setRows(goods);
         return response;
+    }
+
+    @Override
+    public GoodsEntity getOneById(Long id) {
+        GoodsEntity res = new GoodsEntity();
+        Goods goods = goodsDao.selectByPrimaryKey(id);
+        res.setGoods(goods);
+        GoodsDesc goodsDesc = goodsDescDao.selectByPrimaryKey(id);
+        res.setGoodsDesc(goodsDesc);
+        ItemQuery query = new ItemQuery();
+        ItemQuery.Criteria criteria = query.createCriteria();
+        criteria.andGoodsIdEqualTo(id);
+        List<Item> items = itemDao.selectByExample(query);
+        res.setItemList(items);
+        return res;
     }
 
 

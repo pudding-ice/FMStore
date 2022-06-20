@@ -94,12 +94,14 @@
                     <td>{{categoryList[goods.category2Id]}}</td>
                     <td>{{categoryList[goods.category3Id]}}</td>
                     <td>
-                        <span>
-                            未申请
-                        </span>
+                        <button class="btn bg-teal btn-xs" type="button" v-if="goods.auditStatus==='0'">未申请</button>
+                        <button class="btn bg-orange-active btn-xs" type="button" v-if="goods.auditStatus==='1'">申请中
+                        </button>
+                        <button class="btn bg-olive btn-xs" type="button" v-if="goods.auditStatus==='2'">审核通过</button>
+                        <button class="btn bg-maroon btn-xs" type="button" v-if="goods.auditStatus==='3'">已驳回</button>
                     </td>
                     <td class="text-center">
-                        <button class="btn bg-olive btn-xs" type="button">修改</button>
+                        <a :href="'goods_edit.html?id='+goods.id" class="btn bg-olive btn-xs" type="button">修改</a>
                     </td>
                 </tr>
                 </tbody>

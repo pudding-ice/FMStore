@@ -31,11 +31,14 @@ new Vue({
         },
         isEnableSpec: 1
     },
+
     methods: {
-        loadCateData: function (id) {
-            var _this = this;
+        loadCateData(id) {
+            let _this = this;
             axios.get("/itemCate/findByParentId/" + id + ".do")
                 .then(function (response) {
+                    console.log("grade =" + _this.grade);
+                    console.log(response.data)
                     if (_this.grade == 1) {
                         //取服务端响应的结果
                         _this.categoryList1 = response.data;
@@ -224,9 +227,26 @@ new Vue({
             axios.post("/goods/save.do", this.goodsEntity).then((res) => {
 
             })
-        }
-
-
+        },
+        getQueryString: function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return (r[2]);
+            return null;
+        },
+        checkSpecStatus: function (specName, optionName) {
+            console.log(this.specSelList);
+            for (let i = 0; i < this.specSelList.length; i++) {
+                if (this.specSelList[i].specName === specName) {
+                    for (let j = 0; j < this.specSelList[i].specOptions.length; j++) {
+                        if (this.specSelList[i].specOptions[j].optionName === optionName) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        },
     },
     watch: {
         typeId: function (newValue, oldValue) {
@@ -235,10 +255,12 @@ new Vue({
                 return;
             }
             axios.get("/temp/getOne/" + newValue + ".do").then((res) => {
+                // console.log(res.data);
                 let data = JSON.parse(res.data.brandIds);
                 _this.brandList = data;
-            }).catch(reason => {
-                console.log(reason)
+                if (_this.goodsEntity.goods.brandId != null) {
+                    _this.selectBrand = _this.goodsEntity.goods.brandId;
+                }
             })
             // 查询模板中对应的规格信息
             axios.get("/temp/getSpecificationById/" + newValue + ".do").then((res) => {
@@ -278,7 +300,52 @@ new Vue({
     },
     created: function () {
         this.loadCateData(0);
-    }
+    },
+    mounted() {
+        let id = this.getQueryString("id");
+        let _this = this;
+        if (id != null) {
+            //根据id查询当前商品
+            // console.log(id);
+            axios.get("/goods/getOneById/" + id + ".do").then((res) => {
+                let data = res.data;
+                console.log(data);
+                _this.goodsEntity.goods = data.goods;
+                _this.goodsEntity.goodsDesc = data.goodsDesc;
+                _this.goodsEntity.itemList = data.itemList;
+                //回显富文本
+                UE.getEditor("editor").ready(function () {
+                    UE.getEditor("editor").setContent(data.goodsDesc.introduction);
+                });
+                //回显富文本
+                _this.typeId = data.goods.typeTemplateId;
+                //回显商品图片列表
+                _this.imgList = JSON.parse(data.goodsDesc.itemImages);
+                //回显选中规格
+                _this.specSelList = JSON.parse(data.goodsDesc.specificationItems);
+                //回显库存列表
+                _this.rowList = data.itemList;
+                _this.rowList.forEach((item) => {
+                    JSON.parse(item.spec)
+                });
+                _this.cateSelected1 = data.goods.category1Id;
+                if (data.goods.category2Id > -1) {
+                    _this.grade = 2;
+                    _this.cateSelected2 = data.goods.category2Id;
+                    _this.loadCateData(_this.cateSelected1);
+                    // console.log(_this.cateSelected2);
+                }
+                if (data.goods.category3Id > -1) {
+                    _this.grade = 3;
+                    _this.cateSelected3 = data.goods.category3Id;
+                    _this.loadCateData(_this.cateSelected2);
+                    // console.log(_this.cateSelected3);
+                }
+            })
+        }
+
+    },
+
 });
 
 
