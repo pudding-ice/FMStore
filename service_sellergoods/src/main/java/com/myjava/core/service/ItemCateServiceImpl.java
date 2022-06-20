@@ -24,4 +24,10 @@ public class ItemCateServiceImpl implements ItemCateService {
         List<ItemCat> itemCats = dao.selectByExample(query);
         return itemCats;
     }
+
+    @Override
+    public List<ItemCat> getAllCategory() {
+        List<ItemCat> itemCats = dao.selectByExample(null);
+        return itemCats;
+    }
 }

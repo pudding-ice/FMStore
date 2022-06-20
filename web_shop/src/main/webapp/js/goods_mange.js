@@ -6,7 +6,8 @@ new Vue({
         total: 0, //记录总数
         maxPageIndex: 15,
         searchContent: '',
-        goodsList: []
+        goodsList: [],
+        categoryList: {},
     },
     methods: {
         pageHandler: function (current) {
@@ -26,9 +27,21 @@ new Vue({
                 }).catch(function (reason) {
                 console.log(reason);
             })
+        },
+        async getCategoryList() {
+            let _this = this;
+            await axios.get("/goods/getCategory.do").then((res) => {
+                let data = res.data;
+                data.forEach((item) => {
+                    _this.categoryList[item.id] = item.name;
+                })
+            })
+            console.log(this.categoryList);
         }
     },
-    created: function () {
+    async created() {
+        await this.getCategoryList();
         this.pageHandler(1);
+
     }
 });
