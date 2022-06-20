@@ -5,4 +5,6 @@ import com.myjava.core.pojo.response.PageResponse;
 
 public interface CategoryService {
     PageResponse findPage(ContentCategory category, Integer current, Integer pageSize);
+
+    void add(ContentCategory category);
 }

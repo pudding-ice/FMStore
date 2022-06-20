@@ -31,4 +31,9 @@ public class CategoryServiceImpl implements CategoryService {
         Page<ContentCategory> categoryList = (Page<ContentCategory>) categoryDao.selectByExample(query);
         return new PageResponse(categoryList.getTotal(), categoryList.getResult());
     }
+
+    @Override
+    public void add(ContentCategory category) {
+        categoryDao.insertSelective(category);
+    }
 }

@@ -7,7 +7,10 @@ new Vue({
         maxPageIndex: 0,
         searchEntity: {},
         categoryList: [],
-        selectIds: [] //记录选择了哪些记录的id
+        selectIds: [], //记录选择了哪些记录的id
+        categoryEntity: {
+            name: ''
+        }
     },
     methods: {
         pageHandler: function (current) {
@@ -22,6 +25,21 @@ new Vue({
                 }).catch(function (reason) {
                 console.log(reason);
             })
+        },
+        saveCategory: function () {
+            let _this = this;
+            axios.post("/contentCategory/add.do", _this.categoryEntity)
+                .then((res) => {
+                    if (res.data.success) {
+                        alert(res.data.message)
+                        //刷新页面
+                        _this.categoryEntity = {};
+                        window.location.reload();
+                    } else {
+                        alert(res.data.message)
+                    }
+
+                });
         }
     },
     created: function () {

@@ -98,12 +98,13 @@
                     <table class="table table-bordered table-striped" width="800px">
                         <tr>
                             <td>分类名称</td>
-                            <td><input class="form-control" placeholder="分类名称"></td>
+                            <td><input class="form-control" placeholder="分类名称" v-model="categoryEntity.name"></td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
+                    <button @click="saveCategory()" aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存
+                    </button>
                     <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>
