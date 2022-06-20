@@ -31,4 +31,15 @@ public class CategoryController {
             return new ResultMessage(false, "保存失败!");
         }
     }
+
+    @RequestMapping("/update")
+    public ResultMessage update(@RequestBody ContentCategory category) {
+        try {
+            categoryService.update(category);
+            return new ResultMessage(true, "修改成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "修改失败!");
+        }
+    }
 }

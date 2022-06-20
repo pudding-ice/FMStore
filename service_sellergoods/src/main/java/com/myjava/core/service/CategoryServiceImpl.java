@@ -36,4 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
     public void add(ContentCategory category) {
         categoryDao.insertSelective(category);
     }
+
+    @Override
+    public void update(ContentCategory category) {
+        categoryDao.updateByPrimaryKeySelective(category);
+    }
+
 }

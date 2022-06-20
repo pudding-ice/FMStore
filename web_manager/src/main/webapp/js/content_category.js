@@ -28,7 +28,13 @@ new Vue({
         },
         saveCategory: function () {
             let _this = this;
-            axios.post("/contentCategory/add.do", _this.categoryEntity)
+            var url = "";
+            if (_this.categoryEntity.id != null) {
+                url = "/contentCategory/update.do";
+            } else {
+                url = "/contentCategory/add.do";
+            }
+            axios.post(url, _this.categoryEntity)
                 .then((res) => {
                     if (res.data.success) {
                         alert(res.data.message)
@@ -40,6 +46,13 @@ new Vue({
                     }
 
                 });
+        },
+        findOne: function (id) {
+            for (let i = 0; i < this.categoryList.length; i++) {
+                if (this.categoryList[i].id === id) {
+                    this.categoryEntity = JSON.parse(JSON.stringify(this.categoryList[i]));
+                }
+            }
         }
     },
     created: function () {

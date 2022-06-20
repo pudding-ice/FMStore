@@ -7,4 +7,6 @@ public interface CategoryService {
     PageResponse findPage(ContentCategory category, Integer current, Integer pageSize);
 
     void add(ContentCategory category);
+
+    void update(ContentCategory category);
 }
