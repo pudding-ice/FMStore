@@ -44,7 +44,7 @@ public class GoodsServiceImpl implements GoodsService {
     BrandDao brandDao;
 
     @Override
-    public void saveGoods(GoodsEntity entity) {
+    public void addGood(GoodsEntity entity) {
         //先插入商品对象
         Goods goods = entity.getGoods();
         goods.setAuditStatus("0");
@@ -56,6 +56,20 @@ public class GoodsServiceImpl implements GoodsService {
         goodsDesc.setGoodsId(goodsId);
         goodsDescDao.insertSelective(goodsDesc);
         //插入商品规格信息
+        insertItem(entity);
+    }
+
+    @Override
+    public void updateGoods(GoodsEntity entity) {
+        //1.更新商品
+        goodsDao.updateByPrimaryKeySelective(entity.getGoods());
+        //2.更新商品详情
+        goodsDescDao.updateByPrimaryKeySelective(entity.getGoodsDesc());
+        //3.删除商品,再添加商品
+        ItemQuery query = new ItemQuery();
+        ItemQuery.Criteria criteria = query.createCriteria();
+        criteria.andGoodsIdEqualTo(entity.getGoods().getId());
+        itemDao.deleteByExample(query);
         insertItem(entity);
     }
 
@@ -156,6 +170,8 @@ public class GoodsServiceImpl implements GoodsService {
             String url = String.valueOf(maps.get(0).get("url"));
             item.setImage(url);
         }
+        //价格转换
+
         return item;
     }
 }

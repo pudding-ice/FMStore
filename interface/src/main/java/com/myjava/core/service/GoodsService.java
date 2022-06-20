@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface GoodsService {
 
-    void saveGoods(GoodsEntity entity);
+    void addGood(GoodsEntity entity);
 
     PageResponse<Goods> getPage(PageRequest request);
 
     GoodsEntity getOneById(Long id);
+
+    void updateGoods(GoodsEntity entity);
 }

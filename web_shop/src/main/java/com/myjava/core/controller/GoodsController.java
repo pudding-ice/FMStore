@@ -9,7 +9,6 @@ import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.service.GoodsService;
 import com.myjava.core.service.ItemCateService;
-import org.apache.zookeeper.data.Id;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,16 +23,31 @@ public class GoodsController {
     @Reference
     ItemCateService itemCateService;
 
-    @PostMapping("/save")
-    public ResultMessage saveGoods(@RequestBody GoodsEntity entity) {
+    @PostMapping("/add")
+    public ResultMessage addGoods(@RequestBody GoodsEntity entity) {
         try {
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
             entity.getGoods().setSellerId(name);
-            goodsService.saveGoods(entity);
-            return new ResultMessage(true, "保存商品成功");
+            goodsService.addGood(entity);
+            return new ResultMessage(true, "添加商品成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultMessage(false, "保存商品失败");
+            return new ResultMessage(false, "添加商品失败");
+        }
+    }
+
+    @PostMapping("/update")
+    public ResultMessage updateGoods(@RequestBody GoodsEntity entity) {
+        try {
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            if (!entity.getGoods().getSellerId().equals(name)) {
+                return new ResultMessage(false, "没有权限");
+            }
+            goodsService.updateGoods(entity);
+            return new ResultMessage(true, "更新商品成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "更新商品失败");
         }
     }
 

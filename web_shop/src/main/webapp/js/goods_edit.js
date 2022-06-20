@@ -222,10 +222,20 @@ new Vue({
                     return;
                 }
             }
+            //判断是更新操作还是新增操作
+            let url = '';
+            if (this.getQueryString("id") != null) {
+                url = '/goods/update.do'
+            } else {
+                url = '/goods/add.do'
+            }
             //通过全部验证,发送数据给后端
-            console.log(this.goodsEntity);
-            axios.post("/goods/save.do", this.goodsEntity).then((res) => {
-
+            axios.post(url, this.goodsEntity).then((res) => {
+                if (res.data.success) {
+                    alert(res.data.message);
+                } else {
+                    alert(res.data.message);
+                }
             })
         },
         getQueryString: function (name) {
