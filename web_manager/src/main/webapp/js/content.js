@@ -101,7 +101,40 @@ new Vue({
                     return;
                 }
             })
-        }
+        },
+        updateSelection: function (event, id) {
+            // 复选框选中
+            if (event.target.checked) {
+                // 向数组中添加元素
+                this.selectIds.push(id);
+            } else {
+                // 从数组中移除
+                var idx = this.selectIds.indexOf(id);
+                this.selectIds.splice(idx, 1);
+            }
+        },
+        deleteContent: function () {
+            if (this.selectIds.length === 0) {
+                alert("请至少选中一行删除");
+                return;
+            }
+            var _this = this;
+            //使用qs插件 处理数组
+            axios.post('/content/delete.do', Qs.stringify({ids: _this.selectIds}, {indices: false}))
+                .then((res) => {
+                    let data = res.data;
+                    if (data.success) {
+                        _this.selectIds = [];
+                        alert(data.message)
+                        window.location.reload();
+                    } else {
+                        alert(data.message)
+                    }
+                }).catch(function (reason) {
+                alert(reason.message);
+            })
+        },
+
     },
     created: function () {
         this.pageHandler(1);

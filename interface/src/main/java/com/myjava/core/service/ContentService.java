@@ -10,5 +10,7 @@ public interface ContentService {
     void add(Content content);
 
     void update(Content content);
+
+    void delete(Long[] ids);
 }
 

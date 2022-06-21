@@ -41,4 +41,13 @@ public class ContentServiceImpl implements ContentService {
     public void update(Content content) {
         contentDao.updateByPrimaryKeySelective(content);
     }
+
+    @Override
+    public void delete(Long[] ids) {
+        if (ids != null) {
+            for (Long id : ids) {
+                contentDao.deleteByPrimaryKey(id);
+            }
+        }
+    }
 }

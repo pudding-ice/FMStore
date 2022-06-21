@@ -42,4 +42,15 @@ public class ContentController {
             return new ResultMessage(false, "更新失败!");
         }
     }
+
+    @RequestMapping("/delete")
+    public ResultMessage delete(Long[] ids) {
+        try {
+            contentService.delete(ids);
+            return new ResultMessage(true, "删除成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "删除失败!");
+        }
+    }
 }

@@ -34,7 +34,8 @@
                         <button class="btn btn-default" data-target="#editModal" data-toggle="modal" title="新建"
                                 type="button"><i class="fa fa-file-o"></i> 新建
                         </button>
-                        <button class="btn btn-default" title="删除" type="button"><i class="fa fa-trash-o"></i> 删除
+                        <button @click="deleteContent()" class="btn btn-default" title="删除" type="button"><i
+                                class="fa fa-trash-o"></i> 删除
                         </button>
                         <button class="btn btn-default" onclick='confirm("你确认要开启吗？")' title="开启" type="button"><i
                                 class="fa fa-check"></i> 开启
