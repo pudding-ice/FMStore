@@ -69,16 +69,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="entity in categoryList">
+                <tr v-for="entity in contentList">
                     <td><input @click="updateSelection($event,entity.id)" type="checkbox"></td>
                     <td>{{entity.id}}</td>
                     <td>{{entity.categoryId}}</td>
                     <td>{{entity.title}}</td>
                     <td>{{entity.url}}</td>
                     <td><img :src="entity.pic" height="50" width="100"></td>
-                    <td>{{entity.status}}</td>
                     <td>{{entity.sortOrder}}</td>
-
+                    <td>{{status[entity.status]}}</td>
                     <td class="text-center">
                         <button class="btn bg-olive btn-xs" data-target="#editModal" data-toggle="modal" type="button">
                             修改
@@ -107,21 +106,25 @@
                         <tr>
                             <td>广告分类</td>
                             <td>
-                                <select class="form-control">
+                                <select class="form-control" v-model="contentEntity.categoryId">
+                                    <option :value="-1">请选择广告分类</option>
+                                    <option :value="category.id" v-for="category in categoryList">
+                                        {{category.name}}
+                                    </option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <td>标题</td>
-                            <td><input class="form-control" placeholder="标题"></td>
+                            <td><input class="form-control" placeholder="标题" v-model="contentEntity.title"></td>
                         </tr>
                         <tr>
                             <td>URL</td>
-                            <td><input class="form-control" placeholder="URL"></td>
+                            <td><input class="form-control" placeholder="URL" v-model="contentEntity.url"></td>
                         </tr>
                         <tr>
                             <td>排序</td>
-                            <td><input class="form-control" placeholder="排序"></td>
+                            <td><input class="form-control" placeholder="排序" v-model="contentEntity.sortOrder"></td>
                         </tr>
                         <tr>
                             <td>广告图片</td>
@@ -130,12 +133,12 @@
                                     <tr>
                                         <td>
                                             <input id="file" type="file"/>
-                                            <button class="btn btn-primary" type="button">
+                                            <button @click="uploadFile()" class="btn btn-primary" type="button">
                                                 上传
                                             </button>
                                         </td>
                                         <td>
-                                            <img height="100px" src="" width="200px">
+                                            <img :src="contentEntity.pic" height="100px" width="200px">
                                         </td>
                                     </tr>
                                 </table>
@@ -144,13 +147,15 @@
                         <tr>
                             <td>是否有效</td>
                             <td>
-                                <input class="icheckbox_square-blue" type="checkbox">
+                                <input :false-value='0' :true-value='1' class="icheckbox_square-blue" type="checkbox"
+                                       v-model="contentEntity.status">
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
+                    <button @click="saveContent()" aria-hidden="true" class="btn btn-success" data-dismiss="modal ">保存
+                    </button>
                     <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>

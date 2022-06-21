@@ -6,5 +6,7 @@ import com.myjava.core.pojo.response.PageResponse;
 
 public interface ContentService {
     PageResponse<Content> findPage(PageRequest<Content> request);
+
+    void add(Content content);
 }
 

@@ -31,4 +31,9 @@ public class ContentServiceImpl implements ContentService {
         Page<Content> contentList = (Page<Content>) contentDao.selectByExample(query);
         return new PageResponse<>(contentList.getTotal(), contentList.getResult());
     }
+
+    @Override
+    public void add(Content content) {
+        contentDao.insertSelective(content);
+    }
 }

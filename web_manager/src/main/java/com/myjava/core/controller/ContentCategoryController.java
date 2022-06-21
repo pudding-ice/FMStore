@@ -9,12 +9,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
+import java.util.List;
+
 @RestController
 @RequestMapping("/contentCategory")
 public class ContentCategoryController {
 
     @Reference
     private CategoryService categoryService;
+
+    @RequestMapping("/getAll")
+    public List<ContentCategory> getAll() {
+        return categoryService.getAll();
+    }
 
     @RequestMapping("/search")
     public PageResponse search(@RequestBody ContentCategory category, Integer current, Integer pageSize) {

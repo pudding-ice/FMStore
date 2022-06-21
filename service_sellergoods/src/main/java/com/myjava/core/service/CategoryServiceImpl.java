@@ -11,6 +11,8 @@ import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
@@ -49,5 +51,10 @@ public class CategoryServiceImpl implements CategoryService {
                 categoryDao.deleteByPrimaryKey(id);
             }
         }
+    }
+
+    @Override
+    public List<ContentCategory> getAll() {
+        return categoryDao.selectByExample(null);
     }
 }
