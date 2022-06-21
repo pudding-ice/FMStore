@@ -31,4 +31,15 @@ public class ContentController {
             return new ResultMessage(false, "保存失败!");
         }
     }
+
+    @RequestMapping("/update")
+    public ResultMessage update(@RequestBody Content content) {
+        try {
+            contentService.update(content);
+            return new ResultMessage(true, "更新成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "更新失败!");
+        }
+    }
 }

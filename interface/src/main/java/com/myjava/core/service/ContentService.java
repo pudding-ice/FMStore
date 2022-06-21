@@ -8,5 +8,7 @@ public interface ContentService {
     PageResponse<Content> findPage(PageRequest<Content> request);
 
     void add(Content content);
+
+    void update(Content content);
 }
 

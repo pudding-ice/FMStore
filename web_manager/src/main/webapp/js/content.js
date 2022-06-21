@@ -73,8 +73,13 @@ new Vue({
         },
         saveContent: function () {
             let _this = this;
-            console.log(this.contentEntity)
-            axios.post("/content/add.do", _this.contentEntity)
+            var url = "";
+            if (_this.contentEntity.id != null) {
+                url = "/content/update.do";
+            } else {
+                url = "/content/add.do";
+            }
+            axios.post(url, _this.contentEntity)
                 .then((res) => {
                     //取服务端响应的结果
                     let data = res.data;

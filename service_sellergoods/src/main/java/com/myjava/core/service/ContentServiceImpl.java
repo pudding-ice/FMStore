@@ -36,4 +36,9 @@ public class ContentServiceImpl implements ContentService {
     public void add(Content content) {
         contentDao.insertSelective(content);
     }
+
+    @Override
+    public void update(Content content) {
+        contentDao.updateByPrimaryKeySelective(content);
+    }
 }
