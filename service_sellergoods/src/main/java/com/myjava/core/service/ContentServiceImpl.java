@@ -10,10 +10,12 @@ import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @Service
 public class ContentServiceImpl implements ContentService {
     @Autowired
-    private ContentDao contentDao;
+    private ContentDao dao;
 
     @Override
     public PageResponse<Content> findPage(PageRequest<Content> request) {
@@ -28,26 +30,35 @@ public class ContentServiceImpl implements ContentService {
                 criteria.andTitleLike("%" + queryContent.getTitle() + "%");
             }
         }
-        Page<Content> contentList = (Page<Content>) contentDao.selectByExample(query);
+        Page<Content> contentList = (Page<Content>) dao.selectByExample(query);
         return new PageResponse<>(contentList.getTotal(), contentList.getResult());
     }
 
     @Override
     public void add(Content content) {
-        contentDao.insertSelective(content);
+        dao.insertSelective(content);
     }
 
     @Override
     public void update(Content content) {
-        contentDao.updateByPrimaryKeySelective(content);
+        dao.updateByPrimaryKeySelective(content);
     }
 
     @Override
     public void delete(Long[] ids) {
         if (ids != null) {
             for (Long id : ids) {
-                contentDao.deleteByPrimaryKey(id);
+                dao.deleteByPrimaryKey(id);
             }
         }
+    }
+
+    @Override
+    public List<Content> findByCategoryId(Long id) {
+        ContentQuery query = new ContentQuery();
+        ContentQuery.Criteria criteria = query.createCriteria();
+        criteria.andCategoryIdNotEqualTo(id);
+        List<Content> contents = dao.selectByExample(query);
+        return contents;
     }
 }

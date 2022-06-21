@@ -4,6 +4,8 @@ import com.myjava.core.pojo.ad.Content;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
 
+import java.util.List;
+
 public interface ContentService {
     PageResponse<Content> findPage(PageRequest<Content> request);
 
@@ -12,5 +14,7 @@ public interface ContentService {
     void update(Content content);
 
     void delete(Long[] ids);
+
+    List<Content> findByCategoryId(Long id);
 }
 
