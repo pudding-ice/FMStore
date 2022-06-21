@@ -23,7 +23,7 @@ new Vue({
         status: {
             1: "有效",
             0: "无效"
-        }
+        },
     },
     methods: {
         pageHandler: function (current) {
@@ -86,6 +86,15 @@ new Vue({
                     }
                 }).catch(function (reason) {
                 console.log(reason);
+            })
+        },
+        findOne: function (id) {
+            let _this = this;
+            this.contentList.forEach((item) => {
+                if (item.id === id) {
+                    _this.contentEntity = item;
+                    return;
+                }
             })
         }
     },

@@ -77,9 +77,18 @@
                     <td>{{entity.url}}</td>
                     <td><img :src="entity.pic" height="50" width="100"></td>
                     <td>{{entity.sortOrder}}</td>
-                    <td>{{status[entity.status]}}</td>
+                    <td>
+                        <button class="btn bg-olive  btn-xs" type="button" v-if="entity.status==='1'">
+                            {{status[entity.status]}}
+                        </button>
+                        <button class="btn bg-maroon btn-xs" type="button" v-if="entity.status==='0'">
+                            {{status[entity.status]}}
+                        </button>
+                    </td>
+
                     <td class="text-center">
-                        <button class="btn bg-olive btn-xs" data-target="#editModal" data-toggle="modal" type="button">
+                        <button @click="findOne(entity.id)" class="btn bg-olive btn-xs" data-target="#editModal"
+                                data-toggle="modal" type="button">
                             修改
                         </button>
                     </td>
