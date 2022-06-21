@@ -62,7 +62,7 @@
     </authentication-manager>
 
     <!-- 给当前服务起个名 -->
-    <dubbo:application name="fmjava-manger-web"/>
+    <dubbo:application name="mystore-manager-web"/>
     <!-- 配置连接zookeeper地址  -->
     <dubbo:registry address="zookeeper://192.168.162.129:2181"/>
     <dubbo:reference id="adminService" interface="com.myjava.core.service.AdminService"></dubbo:reference>
