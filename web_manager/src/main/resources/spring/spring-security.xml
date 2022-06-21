@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans
+        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
         xmlns:beans="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://www.springframework.org/schema/security"
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                         http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!-- 配置放行的资源 -->
@@ -12,6 +14,7 @@
     <http pattern="/img/**" security="none"/>
     <http pattern="/js/**" security="none"/>
     <http pattern="/plugins/**" security="none"/>
+
 
     <!-- use-expressions:设置是否启动SpEL表达式，默认值是true。 -->
     <http use-expressions="false">
@@ -52,12 +55,26 @@
     <!-- 配置认证管理器 -->
     <authentication-manager>
         <!-- 认证的提供者 -->
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="{noop}1234" authorities="ROLE_ADMIN"/>
-                <user name="wc" password="{noop}1234" authorities="ROLE_ADMIN"/>
-            </user-service>
+        <authentication-provider user-service-ref="detailService">
+            <!--            在认证的时候加密功能提供者-->
+            <password-encoder ref="passwordEncoder"></password-encoder>
         </authentication-provider>
     </authentication-manager>
 
+    <!-- 给当前服务起个名 -->
+    <dubbo:application name="fmjava-manger-web"/>
+    <!-- 配置连接zookeeper地址  -->
+    <dubbo:registry address="zookeeper://192.168.162.129:2181"/>
+    <dubbo:reference id="adminService" interface="com.myjava.core.service.AdminService"></dubbo:reference>
+
+    <!--    自定义实现的获取用户信息的类-->
+    <beans:bean name="detailService" class="com.myjava.core.service.AdminDetailServiceImpl">
+        <beans:property name="service" ref="adminService"></beans:property>
+    </beans:bean>
+    <!--    引入spring自带的加密工具类-->
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    </beans:bean>
+    <beans:bean class="com.myjava.core.controller.AdminController">
+        <beans:property name="encoder" ref="passwordEncoder"></beans:property>
+    </beans:bean>
 </beans:beans>
