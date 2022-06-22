@@ -16,5 +16,7 @@ public interface ContentService {
     void delete(Long[] ids);
 
     List<Content> findByCategoryId(Long id);
+
+    List<Content> findByCategoryIdFromRedis(Long id);
 }
 

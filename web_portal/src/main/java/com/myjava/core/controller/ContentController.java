@@ -61,4 +61,9 @@ public class ContentController {
     public List<Content> findByCategoryId(@PathVariable Long id) {
         return service.findByCategoryId(id);
     }
+
+    @RequestMapping("/findByCategoryIdFromRedis/{id}")
+    public List<Content> findByCategoryIdFromRedis(@PathVariable Long id) {
+        return service.findByCategoryIdFromRedis(id);
+    }
 }

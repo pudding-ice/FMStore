@@ -8,7 +8,9 @@ import com.myjava.core.pojo.ad.Content;
 import com.myjava.core.pojo.ad.ContentQuery;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
+import com.myjava.core.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ import java.util.List;
 public class ContentServiceImpl implements ContentService {
     @Autowired
     private ContentDao dao;
+
+    @Autowired
+    private RedisTemplate template;
 
     @Override
     public PageResponse<Content> findPage(PageRequest<Content> request) {
@@ -60,5 +65,16 @@ public class ContentServiceImpl implements ContentService {
         criteria.andCategoryIdNotEqualTo(id);
         List<Content> contents = dao.selectByExample(query);
         return contents;
+    }
+
+    @Override
+    public List<Content> findByCategoryIdFromRedis(Long id) {
+        List<Content> redisContent = (List<Content>) template.boundHashOps(Constants.CONTENT_REDIS_KEY).get(id);
+        if (redisContent == null) {
+            //redis缓存中没有,从数据库查找一份,放到redis
+            redisContent = this.findByCategoryId(id);
+            template.boundHashOps(Constants.CONTENT_REDIS_KEY).put(id, redisContent);
+        }
+        return redisContent;
     }
 }

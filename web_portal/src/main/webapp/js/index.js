@@ -6,7 +6,7 @@ new Vue({
     methods: {
         loadCategoryDataById: function (categoryId) {
             let _this = this;
-            axios.post("/content/findByCategoryId/" + categoryId + ".do")
+            axios.post("/content/findByCategoryIdFromRedis/" + categoryId + ".do")
                 .then(function (response) {
                     console.log(response.data);
                     //取服务端响应的结果
