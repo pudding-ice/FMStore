@@ -46,8 +46,18 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public void update(Content content) {
+        Content oldContent = dao.selectByPrimaryKey(content.getId());
+        if (oldContent.getCategoryId().equals(content.getCategoryId())) {
+            //如果更新的广告没有改变它的类别的话,就只需要删除一个类别的缓存
+            template.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(oldContent.getCategoryId());
+        } else {
+            //如果类别改变了,就需要删除两个
+            template.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(oldContent.getCategoryId());
+            template.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(content.getCategoryId());
+        }
         dao.updateByPrimaryKeySelective(content);
     }
+
 
     @Override
     public void delete(Long[] ids) {
@@ -62,7 +72,7 @@ public class ContentServiceImpl implements ContentService {
     public List<Content> findByCategoryId(Long id) {
         ContentQuery query = new ContentQuery();
         ContentQuery.Criteria criteria = query.createCriteria();
-        criteria.andCategoryIdNotEqualTo(id);
+        criteria.andCategoryIdEqualTo(id);
         List<Content> contents = dao.selectByExample(query);
         return contents;
     }

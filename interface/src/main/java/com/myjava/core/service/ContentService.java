@@ -18,5 +18,6 @@ public interface ContentService {
     List<Content> findByCategoryId(Long id);
 
     List<Content> findByCategoryIdFromRedis(Long id);
+
 }
 

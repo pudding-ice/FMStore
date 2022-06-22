@@ -74,10 +74,10 @@ new Vue({
         saveContent: function () {
             let _this = this;
             var url = "";
-            if (_this.contentEntity.id != null) {
-                url = "/content/update.do";
-            } else {
+            if (_this.contentEntity.id == null || _this.contentEntity.id === '') {
                 url = "/content/add.do";
+            } else {
+                url = "/content/update.do";
             }
             axios.post(url, _this.contentEntity)
                 .then((res) => {
@@ -134,6 +134,17 @@ new Vue({
                 alert(reason.message);
             })
         },
+        reload: function () {
+            this.contentEntity = {
+                id: null,
+                categoryId: '',
+                title: '',
+                url: '',
+                pic: '',
+                status: '0',
+                sortOrder: ''
+            }
+        }
 
     },
     created: function () {
