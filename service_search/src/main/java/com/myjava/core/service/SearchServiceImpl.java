@@ -93,12 +93,16 @@ public class SearchServiceImpl implements SearchService {
         //创建一个数组保存新的item对象
         ArrayList<Item> items = new ArrayList<>();
         for (HighlightEntry<Item> highlightEntry : highlighted) {
-            //获取高亮文本
-            String highlightText = highlightEntry.getHighlights().get(0).getSnipplets().get(0);
-            //将item的标题替换成高亮文本
-            //获取item
+            List<HighlightEntry.Highlight> highlights = highlightEntry.getHighlights();
             Item item = highlightEntry.getEntity();
-            item.setTitle(highlightText);
+            //标题中没有高亮文本的话
+            if (highlights.size() != 0) {
+                //获取高亮文本
+                String highlightText = highlightEntry.getHighlights().get(0).getSnipplets().get(0);
+                //将item的标题替换成高亮文本
+                //获取item
+                item.setTitle(highlightText);
+            }
             items.add(item);
         }
         Map<String, Object> resultMap = new HashMap<>();
