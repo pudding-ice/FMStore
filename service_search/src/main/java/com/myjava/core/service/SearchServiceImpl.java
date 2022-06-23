@@ -5,11 +5,10 @@ import com.myjava.core.dao.item.ItemDao;
 import com.myjava.core.pojo.item.Item;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
-import org.springframework.data.solr.core.query.result.HighlightEntry;
-import org.springframework.data.solr.core.query.result.HighlightPage;
-import org.springframework.data.solr.core.query.result.ScoredPage;
+import org.springframework.data.solr.core.query.result.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +24,37 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public Map<String, Object> search(Map paramMap) {
+        //查询并且高亮
+        Map<String, Object> highlightQuery = this.getHighlightQuery(paramMap);
+        //根据关键字查询商品集对应的分类集
+        List itemCategory = this.getCategory(paramMap);
+        highlightQuery.put("categoryList", itemCategory);
+        return highlightQuery;
+    }
+
+    private List<String> getCategory(Map paramMap) {
+        ArrayList<String> result = new ArrayList<>();
+        String keywords = String.valueOf(paramMap.get("keywords"));
+        SimpleQuery query = new SimpleQuery();
+        Criteria criteria = new Criteria("item_keywords").is(keywords);
+        query.addCriteria(criteria);
+        GroupOptions groupOptions = new GroupOptions().addGroupByField("item_category");
+        query.setGroupOptions(groupOptions);
+        GroupPage<Item> groupPage = solrTemplate.queryForGroupPage(query, Item.class);
+        //获取结果集中的分类集合
+        GroupResult<Item> groupResult = groupPage.getGroupResult("item_category");
+        //获取分类域的实体集合
+        Page<GroupEntry<Item>> groupEntries = groupResult.getGroupEntries();
+        //遍历获取实体对象
+        for (GroupEntry<Item> entry : groupEntries) {
+            String groupValue = entry.getGroupValue();
+            result.add(groupValue);
+        }
+        return result;
+    }
+
+
+    private Map<String, Object> getHighlightQuery(Map paramMap) {
         //获取查询条件
         String keywords = String.valueOf(paramMap.get("keywords"));
         //当前页
