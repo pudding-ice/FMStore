@@ -3,14 +3,17 @@ package com.myjava.core.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.myjava.core.dao.item.ItemDao;
 import com.myjava.core.pojo.item.Item;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.solr.core.SolrTemplate;
-import org.springframework.data.solr.core.query.Criteria;
-import org.springframework.data.solr.core.query.Query;
-import org.springframework.data.solr.core.query.SimpleQuery;
+import org.springframework.data.solr.core.query.*;
+import org.springframework.data.solr.core.query.result.HighlightEntry;
+import org.springframework.data.solr.core.query.result.HighlightPage;
 import org.springframework.data.solr.core.query.result.ScoredPage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -29,7 +32,7 @@ public class SearchServiceImpl implements SearchService {
         //每页查询多少条数据
         Integer pageSize = Integer.parseInt(String.valueOf(paramMap.get("pageSize")));
         //创建查询对象
-        Query query = new SimpleQuery();
+        SimpleHighlightQuery query = new SimpleHighlightQuery();
         //创建查询条件对象
         Criteria criteria = new Criteria("item_keywords").is(keywords);
         //将查询条件放入到查询对象当中
@@ -43,15 +46,38 @@ public class SearchServiceImpl implements SearchService {
         query.setOffset(start);
         //设置每页查询多少条
         query.setRows(pageSize);
+        //创建高亮选项
+        HighlightOptions options = new HighlightOptions();
+        //设置哪一个域需要高亮
+        options.addField("item_title");
+        //设置高亮前缀
+        options.setSimplePrefix("<em style=\"color:red\">");
+        //设置高亮后缀
+        options.setSimplePostfix("</em>");
+        //把高亮选项加入到查询对象中
+        query.setHighlightOptions(options);
         //查询,并返回结果
-        ScoredPage<Item> items = solrTemplate.queryForPage(query, Item.class);
+        HighlightPage<Item> highlightPage = solrTemplate.queryForHighlightPage(query, Item.class);
+        //获取高亮集合
+        List<HighlightEntry<Item>> highlighted = highlightPage.getHighlighted();
+        //创建一个数组保存新的item对象
+        ArrayList<Item> items = new ArrayList<>();
+        for (HighlightEntry<Item> highlightEntry : highlighted) {
+            //获取高亮文本
+            String highlightText = highlightEntry.getHighlights().get(0).getSnipplets().get(0);
+            //将item的标题替换成高亮文本
+            //获取item
+            Item item = highlightEntry.getEntity();
+            item.setTitle(highlightText);
+            items.add(item);
+        }
         Map<String, Object> resultMap = new HashMap<>();
         //查询到的结果集
-        resultMap.put("rows", items.getContent());
+        resultMap.put("rows", items);
         //查询到的总页数
-        resultMap.put("totalPages", items.getTotalPages());
+        resultMap.put("totalPages", highlightPage.getTotalPages());
         //查询到的总条数
-        resultMap.put("total", items.getTotalElements());
+        resultMap.put("total", highlightPage.getTotalElements());
         return resultMap;
     }
 }
