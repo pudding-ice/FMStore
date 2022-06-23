@@ -8,8 +8,8 @@
         http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <dubbo:annotation package="com.myjava.core.service"/>
     <dubbo:protocol name="dubbo" port="20884"></dubbo:protocol>
     <dubbo:application name="myjava-search-service"/>
-    <dubbo:annotation package="com.myjava.service"/>
 
 </beans>
