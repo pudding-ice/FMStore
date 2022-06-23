@@ -13,6 +13,10 @@
     <script src="plugins/vue/axios-0.18.0.js" type="text/javascript"></script>
     <script src="plugins/vue/qs.js" type="text/javascript"></script>
 
+    <link href="plugins/pageination/zpageNav.css" rel="stylesheet" type="text/css"/>
+    <script src="plugins/pageination/zpageNav.js" type="text/javascript"></script>
+
+
 </head>
 
 <body>
@@ -323,41 +327,17 @@
                         </li>
                     </ul>
                 </div>
-                <!--分页-->
-                <div class="fr page">
-                    <div class="sui-pagination pagination-large">
-                        <ul>
-                            <li class="prev disabled">
-                                <a href="#">«上一页</a>
-                            </li>
-                            <li class="active">
-                                <a href="#">1</a>
-                            </li>
-                            <li>
-                                <a href="#">2</a>
-                            </li>
-                            <li>
-                                <a href="#">3</a>
-                            </li>
-                            <li>
-                                <a href="#">4</a>
-                            </li>
-                            <li>
-                                <a href="#">5</a>
-                            </li>
-                            <li class="dotted"><span>...</span></li>
-                            <li class="next">
-                                <a href="#">下一页»</a>
-                            </li>
-                        </ul>
-                        <div>
-                            <span>共10页&nbsp;</span><span>
-					到第<input class="page_input" type="text">页
-					<button class="page-confirm page_button" onclick="alert(1)">确定</button>
-					</span>
-                        </div>
-                    </div>
-                </div>
+
+                <!--                分页-->
+                <!--                <zpagenav v-bind:max-page="maxPageIndex" v-bind:page="searchMap.pageNo" v-bind:page-size="searchMap.pageSize"-->
+                <!--                          v-bind:total="resultMap.total" v-bind:go-Page="goPage" v-on:pagehandler="pageHandler" v-on:jumppage="jump" >-->
+                <!--                </zpagenav>-->
+
+                <zpagenav :jumpnum='goPage' @changepage='changeGoPage' @jumppage='jump'
+                          v-bind:max-page="maxPageIndex" v-bind:page="searchMap.pageNo"
+                          v-bind:page-size="searchMap.pageSize"
+                          v-bind:total="resultMap.total" v-on:pagehandler="pageHandler">
+                </zpagenav>
             </div>
             <!--热卖-->
             <div class="clearfix hot-sale">
@@ -594,3 +574,9 @@
 </body>
 
 </html>
+
+
+
+
+
+

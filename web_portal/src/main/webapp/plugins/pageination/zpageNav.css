@@ -1,0 +1,99 @@
+﻿.zpagenav {
+    text-align: center;
+    -webkit-user-select: none;
+}
+
+.zpagenav {
+    font-family: arial;
+    color: #48576a;
+}
+
+.zpagenav ul {
+    display: inline-block;
+    margin: 20px 20px;
+    padding: 0;
+}
+
+.zpagenav ul li {
+    display: inline-block;
+    margin: 0;
+    padding: 0 4px;
+    border: 1px solid #d1dbe5;
+    border-right: 0;
+    background: #fff;
+    font-size: 13px;
+    min-width: 40px;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.zpagenav ul li:last-child {
+    border-right: 1px solid #d1dbe5;
+}
+
+.zpagenav ul li:hover {
+    color: #48576a;
+}
+
+.zpagenav ul li.active {
+    border-color: #48576a;
+    background-color: #48576a;
+    color: #fff;
+    cursor: default;
+}
+
+.zpagenav ul li.active:hover {
+    color: #fff;
+}
+
+.zpagenav ul li.disabled {
+    cursor: not-allowed;
+    color: #e4e4e4;
+}
+
+.zpagenav ul li.dot {
+    cursor: default;
+}
+
+.zpagenav .input-txt {
+    display: inline-block;
+    width: 35px;
+    height: 37px;
+    line-height: 37px;
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid #d1dbe5;
+    margin: -2px 5px 0;
+}
+
+.zpagenav .btn {
+    /*height: 40px;*/
+    margin-left: 10px;
+    font-size: 15px;
+    line-height: 40px;
+}
+
+.zpagenav .btn-default:hover {
+    color: #666;
+}
+
+.zpagenav .btn:hover {
+    text-decoration: none;
+    box-shadow: 0 1px 1px rgba(0, 1, 1, .08);
+    cursor: pointer;
+}
+
+.zpagenav .btn-default {
+    border: 1px solid #DDD;
+    padding: 4px 13px 5px;
+    color: #666;
+    background-color: #f7f7f7;
+    background-repeat: repeat-x;
+}
+
+.zpagenav span {
+    font: 12px/150% tahoma, arial, Microsoft YaHei, Hiragino Sans GB, "\u5b8b\u4f53", sans-serif;
+}

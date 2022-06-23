@@ -1,6 +1,14 @@
 new Vue({
     el: "#app",
     data: {
+        goPage: 1,
+        total: 100,
+        maxPageIndex: 15,
+        resultMap: {
+            rows: [],
+            total: 0,
+            totalPages: 0
+        },
         searchMap: {
             'keywords': '',//搜索关键字
             'category': '',//分类
@@ -8,15 +16,10 @@ new Vue({
             'spec': {},//规格
             'price': '',//价格
             'pageNo': 1,//当前页
-            'pageSize': 40,//每页展示多少条数据
+            'pageSize': 5,//每页展示多少条数据
             'sort': '',//排序
-            'sortField': ''//排序的字段
+            'sortField': '',//排序的字段
         },
-        resultMap: {
-            rows: [],
-            total: 0,
-            totalPages: 0
-        }
     },
     methods: {
         getQueryString: function (name) {
@@ -28,8 +31,10 @@ new Vue({
             return null;
         },
         search: function () {
+            console.log(this.searchMap);
+            var _this = this;
+            console.log(this.searchMap);
             this.searchMap.pageNo = parseInt(this.searchMap.pageNo);//转换为数字
-            let _this = this;
             axios.post("/itemSearch/search.do", this.searchMap)
                 .then(function (response) {
                     _this.resultMap = response.data;
@@ -37,10 +42,21 @@ new Vue({
                 console.log(reason.data);
             });
         },
-    },
-    watch: { //监听属性的变化
+        pageHandler: function (current) {
+            this.searchMap.pageNo = current;
+            this.search();
+        },
+        changeGoPage(num) {
+            this.goPage = parseInt(num)
+        },
+        jump: function (num) {
+            console.log(num)
+            this.searchMap.pageNo = num;
+            this.search();
+        }
 
     },
+
     created: function () {//创建对象时调用
 
     },
