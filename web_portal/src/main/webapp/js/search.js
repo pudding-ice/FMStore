@@ -11,6 +11,11 @@ new Vue({
             'pageSize': 40,//每页展示多少条数据
             'sort': '',//排序
             'sortField': ''//排序的字段
+        },
+        resultMap: {
+            rows: [],
+            total: 0,
+            totalPages: 0
         }
     },
     methods: {
@@ -21,7 +26,17 @@ new Vue({
                 return (decodeURI(r[2]));
             }
             return null;
-        }
+        },
+        search: function () {
+            this.searchMap.pageNo = parseInt(this.searchMap.pageNo);//转换为数字
+            let _this = this;
+            axios.post("/itemSearch/search.do", this.searchMap)
+                .then(function (response) {
+                    _this.resultMap = response.data;
+                }).catch(function (reason) {
+                console.log(reason.data);
+            });
+        },
     },
     watch: { //监听属性的变化
 
@@ -31,6 +46,7 @@ new Vue({
     },
     mounted: function () {//页面加载完
         let sc = this.getQueryString("sc");
-        alert(sc);
+        this.searchMap.keywords = sc
+        this.search();
     }
 });
