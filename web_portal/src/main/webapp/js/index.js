@@ -1,7 +1,8 @@
 new Vue({
     el: "#app",
     data: {
-        contentList: []
+        contentList: [],
+        searchContent: ''
     },
     methods: {
         loadCategoryDataById: function (categoryId) {

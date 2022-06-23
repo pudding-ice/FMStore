@@ -63,8 +63,10 @@
                                 <form action="" class="sui-form form-inline">
                                     <div class="input-append">
                                         <input class="input-error input-xxlarge" id="autocomplete" type="text"
+                                               v-model="searchContent"
                                                type="text"/>
-                                        <a class="sui-btn btn-xlarge btn-danger" href="search.html">搜索</a>
+                                        <a :href="'search.html?sc='+searchContent"
+                                           class="sui-btn btn-xlarge btn-danger">搜索</a>>搜索</a>
                                     </div>
                                 </form>
                             </div>
