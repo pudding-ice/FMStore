@@ -1,10 +1,10 @@
 ﻿Vue.component('zpagenav', {
     template: `<nav class="zpagenav">` +
         `<ul class="page-ul">` +
-        '<li>首页</li>' +
+        '<li @click.stop="goHeadPage()">首页</li>' +
         `<li v-bind:key="index" v-for="(item,index) in pageList" v-bind:class ="item.class" @click.stop="setPage(item)" v-html="item.html">` +
         `</li>` +
-        '<li>尾页</li>' +
+        '<li @click.stop="goTailPage()">尾页</li>' +
         `</ul>` +
         `<span class="total">共 <strong>{{total}}</strong> 条   到 第</span>` +
         '<input type="text" v-model =\'number1\' @input =\'number1change\'  class="input-txt" /><span>页</span>' +
@@ -125,5 +125,12 @@
         jumppage: function (num) {
             this.$emit('jumppage', this.number1);
         },
+        goHeadPage: function () {
+            this.$emit('pagehandler', 1);
+        },
+        goTailPage: function () {
+            let totalPage = Math.ceil(this.total / this.pageSize);
+            this.$emit('pagehandler', totalPage);
+        }
     }
 });

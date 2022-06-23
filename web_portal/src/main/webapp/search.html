@@ -328,11 +328,6 @@
                     </ul>
                 </div>
 
-                <!--                分页-->
-                <!--                <zpagenav v-bind:max-page="maxPageIndex" v-bind:page="searchMap.pageNo" v-bind:page-size="searchMap.pageSize"-->
-                <!--                          v-bind:total="resultMap.total" v-bind:go-Page="goPage" v-on:pagehandler="pageHandler" v-on:jumppage="jump" >-->
-                <!--                </zpagenav>-->
-
                 <zpagenav :jumpnum='goPage' @changepage='changeGoPage' @jumppage='jump'
                           v-bind:max-page="maxPageIndex" v-bind:page="searchMap.pageNo"
                           v-bind:page-size="searchMap.pageSize"
