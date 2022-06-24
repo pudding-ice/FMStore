@@ -1,12 +1,12 @@
 package com.myjava.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.myjava.core.dao.item.ItemDao;
 import com.myjava.core.pojo.item.Item;
-import com.myjava.core.pojo.response.SpecificationResponse;
 import com.myjava.core.pojo.template.TypeTemplateSearch;
 import com.myjava.core.utils.Constants;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,11 +30,10 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public Map<String, Object> search(Map paramMap) {
-        //查询并且高亮
-
-        Map<String, Object> response = this.getHighlightQuery(paramMap);
         //根据关键字查询商品集对应的分类集
         List itemCategory = this.getCategory(paramMap);
+        //查询并且高亮关键词
+        Map<String, Object> response = this.getHighlightQuery(paramMap, itemCategory);
         response.put("categoryList", itemCategory);
         //根据商品分类名字查询对应的 品牌 规格 规格选项
         //先查询请求参数中是否有商品分类信息
@@ -81,8 +80,7 @@ public class SearchServiceImpl implements SearchService {
         return result;
     }
 
-
-    private Map<String, Object> getHighlightQuery(Map paramMap) {
+    private Map<String, Object> getHighlightQuery(Map paramMap, List itemCategory) {
         //获取查询条件
         String keywords = String.valueOf(paramMap.get("keywords"));
         //当前页
@@ -91,6 +89,37 @@ public class SearchServiceImpl implements SearchService {
         Integer pageSize = Integer.parseInt(String.valueOf(paramMap.get("pageSize")));
         //创建查询对象
         SimpleHighlightQuery query = new SimpleHighlightQuery();
+        //判断三个查询条件,添加对应的筛选过滤器
+        String category = (String) paramMap.get("category");
+        if (category == null || "".equals(category)) {
+            // 获取当前商品分类集中的第一个
+            category = (String) itemCategory.get(0);
+        }
+        //将分类关键词作为参数传入
+        SimpleFilterQuery filterQuery_cat = new SimpleFilterQuery();
+        Criteria criteria_cat = new Criteria("item_category").is(category);
+        filterQuery_cat.addCriteria(criteria_cat);
+        query.addFilterQuery(filterQuery_cat);
+        //判断品牌筛选条件
+        String brand = (String) paramMap.get("brand");
+        if (brand != null && !"".equals(brand)) {
+            SimpleFilterQuery filterQuery_brand = new SimpleFilterQuery();
+            Criteria criteria_brand = new Criteria("item_brand").is(brand);
+            filterQuery_brand.addCriteria(criteria_brand);
+            query.addFilterQuery(filterQuery_brand);
+        }
+        //判断规格筛选条件
+        JSONObject spec = (JSONObject) paramMap.get("spec");
+        if (spec != null && spec.size() > 0) {
+            for (Map.Entry<String, Object> entry : spec.entrySet()) {
+                String key = entry.getKey();
+                String value = (String) entry.getValue();
+                SimpleFilterQuery filterQuery_spec = new SimpleFilterQuery();
+                Criteria criteria_spec = new Criteria("item_spec_" + key).is(value);
+                filterQuery_spec.addCriteria(criteria_spec);
+                query.addFilterQuery(filterQuery_spec);
+            }
+        }
         //创建查询条件对象
         Criteria criteria = new Criteria("item_keywords").is(keywords);
         //将查询条件放入到查询对象当中
@@ -142,6 +171,5 @@ public class SearchServiceImpl implements SearchService {
         resultMap.put("total", highlightPage.getTotalElements());
         return resultMap;
     }
-
 
 }

@@ -64,7 +64,7 @@ new Vue({
             } else {
                 Vue.set(this.searchMap.spec, key, value);
             }
-            console.log(this.searchMap);
+            this.search();
         },
         //撤销搜索项
         removeSearchItem: function (key) {
@@ -74,6 +74,7 @@ new Vue({
             } else {//用户点击的是规格
                 Vue.delete(this.searchMap.spec, key);
             }
+            this.search();
         }
 
     },
