@@ -131,6 +131,9 @@
                     <li @click="removeSearchItem(key)" class="tag" v-for="(value,key) in searchMap.spec">
                         {{key}}：{{value}}<i class="sui-icon icon-tb-close"></i>
                     </li>
+                    <li @click="removeSearchItem('price')" class="tag" v-if="searchMap.price!=''">
+                        价格：{{searchMap.price}}<i class="sui-icon icon-tb-close"></i>
+                    </li>
                     搜索结果：{{resultMap.total}}条
                 </ul>
                 <form class="fl sui-form form-dark">
@@ -160,7 +163,6 @@
                             </li>
                         </ul>
                     </div>
-
                 </div>
                 <div class="type-wrap" v-for="specification in resultMap.specificationList"
                      v-if="searchMap.spec[specification.spec.specName]==null">
@@ -174,6 +176,34 @@
                     </div>
                     <div class="fl ext"></div>
                 </div>
+
+                <div class="type-wrap" v-if="searchMap.price==''">
+                    <div class="fl key">选择价格 :</div>
+                    <div class="fl value">
+                        <ul class="type-list">
+                            <li>
+                                <a @click="addSearchItem('price','0-500')" href="#">0-500元</a>
+                            </li>
+                            <li>
+                                <a @click="addSearchItem('price','500-1000')" href="#">500-1000元</a>
+                            </li>
+                            <li>
+                                <a @click="addSearchItem('price','1000-1500')" href="#">1000-1500元</a>
+                            </li>
+                            <li>
+                                <a @click="addSearchItem('price','1500-2000')" href="#">1500-2000元</a>
+                            </li>
+                            <li>
+                                <a @click="addSearchItem('price','2000-3000')" href="#">2000-3000元 </a>
+                            </li>
+                            <li>
+                                <a @click="addSearchItem('price','3000-*')" href="#">3000元以上</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="fl ext"></div>
+                </div>
+
             </div>
             <!--商品列表 -->
             <div class="details">
@@ -199,6 +229,7 @@
                         </ul>
                     </div>
                 </div>
+
                 <!--列表内容-->
                 <div class="goods-list">
                     <ul class="yui3-g">

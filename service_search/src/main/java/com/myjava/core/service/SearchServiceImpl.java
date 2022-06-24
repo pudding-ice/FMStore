@@ -120,6 +120,24 @@ public class SearchServiceImpl implements SearchService {
                 query.addFilterQuery(filterQuery_spec);
             }
         }
+        //判断价格筛选条件
+        String price = (String) paramMap.get("price");
+        if (price != null && !"".equals(price)) {
+            String[] split = price.split("-");
+            if (!"0".equals(split[0])) {
+                SimpleFilterQuery filter = new SimpleFilterQuery();
+                Criteria criteria = new Criteria("item_price").greaterThanEqual(split[0]);
+                filter.addCriteria(criteria);
+                query.addFilterQuery(filter);
+            }
+            if (!"*".equals(split[1])) {
+                SimpleFilterQuery filter = new SimpleFilterQuery();
+                Criteria criteria = new Criteria("item_price").lessThanEqual(split[1]);
+                filter.addCriteria(criteria);
+                query.addFilterQuery(filter);
+            }
+        }
+
         //创建查询条件对象
         Criteria criteria = new Criteria("item_keywords").is(keywords);
         //将查询条件放入到查询对象当中
