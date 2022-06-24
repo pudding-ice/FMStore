@@ -63,6 +63,7 @@
                     <th class="sorting_asc">品牌ID</th>
                     <th class="sorting">品牌名称</th>
                     <th class="sorting">品牌首字母</th>
+                    <th class="sorting">品牌logo</th>
                     <th class="text-center">操作</th>
                 </tr>
                 </thead>
@@ -72,8 +73,9 @@
                     <td>{{item.id}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.firstChar}}</td>
-                    <td class="text-center">
-                        <button @click="findOneById(item.id)" class="btn bg-olive btn-xs" data-target="#editModal"
+                    <td>{{item.logoUrl}}</td>
+                    <td @click="findOneById(item.id)" class="text-center">
+                        <button class="btn bg-olive btn-xs" data-target="#editModal"
                                 data-toggle="modal" type="button">
                             修改
                         </button>
@@ -106,10 +108,27 @@
                             <td>首字母</td>
                             <td><input class="form-control" placeholder="首字母" v-model="brand.firstChar"></td>
                         </tr>
+                        <tr>
+                            <td>品牌logo</td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <input @change.prevent.stop="upload" id="photoFile" type="file"/>
+                                        </td>
+                                        <td>
+                                            <img :src="brand.logoUrl" height="200px" width="200px">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button @click="save()" aria-hidden="true" class="btn btn-success" data-dismiss="modal">保存</button>
+                    <button @click="uploadLogoImg()" aria-hidden="true" class="btn btn-success" data-dismiss="modal">
+                        保存
+                    </button>
                     <button aria-hidden="true" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>

@@ -7,7 +7,7 @@ new Vue({
         resultMap: {
             rows: [],
             categoryList: [],
-            bandList: [],
+            brandList: [],
             specificationList: [],
             total: 0,
             totalPages: 0,

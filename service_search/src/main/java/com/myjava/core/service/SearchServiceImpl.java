@@ -31,6 +31,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public Map<String, Object> search(Map paramMap) {
         //查询并且高亮
+
         Map<String, Object> response = this.getHighlightQuery(paramMap);
         //根据关键字查询商品集对应的分类集
         List itemCategory = this.getCategory(paramMap);
@@ -43,7 +44,7 @@ public class SearchServiceImpl implements SearchService {
             name = (String) itemCategory.get(0);
         }
         TypeTemplateSearch brandAndSpec = this.getBrandAndSpecWithName(name);
-        response.put("bandList", brandAndSpec.getBrandList());
+        response.put("brandList", brandAndSpec.getBrandList());
         response.put("specificationList", brandAndSpec.getSpecificationList());
         return response;
     }
@@ -141,4 +142,6 @@ public class SearchServiceImpl implements SearchService {
         resultMap.put("total", highlightPage.getTotalElements());
         return resultMap;
     }
+
+
 }

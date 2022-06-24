@@ -10,13 +10,16 @@ new Vue({
         brand: {
             id: null,
             name: '',
-            firstChar: ''
+            firstChar: '',
+            logoUrl: ''
         },
         selectedId: [],
         searchBrand: {
             name: '',
             firstChar: ''
-        }
+        },
+        filePath: ''
+
     },
     methods: {
         getAllBrands: function () {
@@ -42,12 +45,27 @@ new Vue({
                 console.log(reason)
             })
         },
+        uploadLogoImg: function () {
+            let formData = new FormData();
+            formData.append('file', photoFile.files[0])
+            const instance = axios.create({
+                withCredentials: true
+            });
+            let _this = this;
+            instance.post("/fdfs/upload.do", formData).then(function (response) {
+                _this.brand.logoUrl = response.data.message;
+                _this.save();
+            }).catch(function (reason) {
+                console.log(reason);
+            });
+        },
         save: function () {
             var _this = this;
             axios.post("/brand/save.do", _this.brand).then((res) => {
                 var data = res.data;
                 if (data.success) {
                     _this.pageHandler(1);
+                    alert("保存品牌成功");
                 } else {
                     console.log(data.message)
                 }
@@ -61,11 +79,13 @@ new Vue({
         },
         findOneById: function (id) {
             console.log("来到find方法")
+            let _this = this;
             this.brandList.forEach((e) => {
                 if (id === e.id) {
-                    this.brand.id = e.id;
-                    this.brand.name = e.name;
-                    this.brand.firstChar = e.firstChar;
+                    _this.brand.id = e.id;
+                    _this.brand.name = e.name;
+                    _this.brand.firstChar = e.firstChar;
+                    _this.brand.logoUrl = e.logoUrl;
                 }
             })
         },
@@ -95,6 +115,24 @@ new Vue({
                     alert(data.message);
                 }
             })
+        },
+        upload(event) {
+            let files = event.target.files[0];
+            this.brand.logoUrl = this.getObjectUrl(files);
+        },
+        getObjectUrl(file) {
+            let url = null;
+            if (window.createObjectURL != undefined) {
+                // basic
+                url = window.createObjectURL(file);
+            } else if (window.webkitURL != undefined) {
+                // webkit or chrome
+                url = window.webkitURL.createObjectURL(file);
+            } else if (window.URL != undefined) {
+                // mozilla(firefox)
+                url = window.URL.createObjectURL(file);
+            }
+            return url;
         }
     },
     created: function () {

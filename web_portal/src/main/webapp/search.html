@@ -133,34 +133,18 @@
             </div>
             <!--规格-->
             <div class="clearfix selector">
-                <div class="fl key">商品分类</div>
-                <div class="fl value">
-                <span style="margin-left: 10px" v-for="category in resultMap.categoryList">
-                   <a href="#">{{category}}</a>
-                </span>
+                <div class="type-wrap">
+                    <div class="fl key">商品分类</div>
+                    <div class="fl value" v-for="category in resultMap.categoryList">
+                        <a href="#" style="margin-left: 8px">{{category}}</a>
+                    </div>
+                    <div class="fl ext"></div>
                 </div>
                 <div class="type-wrap logo">
                     <div class="fl key brand">品牌</div>
                     <div class="value logos">
                         <ul class="logo-list">
-                            <li><img src="img/b1.jpg"/></li>
-                            <li><img src="img/b2.jpg"/></li>
-                            <li><img src="img/b3.jpg"/></li>
-                            <li><img src="img/b4.jpg"/></li>
-                            <li><img src="img/b5.jpg"/></li>
-                            <li><img src="img/b6.jpg"/></li>
-                            <li><img src="img/b7.jpg"/></li>
-                            <li><img src="img/b8.jpg"/></li>
-                            <li><img src="img/b9.jpg"/></li>
-                            <li><img src="img/b10.jpg"/></li>
-                            <li><img src="img/b11.jpg"/></li>
-                            <li><img src="img/b12.jpg"/></li>
-                            <li><img src="img/b14.jpg"/></li>
-                            <li><img src="img/b13.jpg"/></li>
-                            <li><img src="img/b19.jpg"/></li>
-                            <li><img src="img/b16.jpg"/></li>
-                            <li><img src="img/b17.jpg"/></li>
-                            <li><img src="img/b18.jpg"/></li>
+                            <li v-for="brand in resultMap.brandList"><img :src="brand.logoUrl"/></li>
                         </ul>
                     </div>
 
