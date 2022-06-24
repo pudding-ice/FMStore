@@ -5,6 +5,7 @@
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="first_char" property="firstChar" jdbcType="VARCHAR"/>
+    <result column="logo_url" property="logoUrl" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -68,7 +69,7 @@
     </sql>
     <sql id="Base_Column_List">
         <if test="fields == null">
-            id, name, first_char
+            id, name, first_char, logo_url
         </if>
         <if test="fields != null">
             ${fields}
@@ -91,7 +92,8 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select id,
                name,
-               first_char
+               first_char,
+               logo_url
         from tb_brand
         where id = #{id,jdbcType=BIGINT}
     </select>
@@ -107,8 +109,10 @@
         </if>
     </delete>
     <insert id="insert" parameterType="com.myjava.core.pojo.good.Brand">
-        insert into tb_brand (id, name, first_char)
-        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{firstChar,jdbcType=VARCHAR})
+        insert into tb_brand (id, name, first_char,
+                              logo_url)
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{firstChar,jdbcType=VARCHAR},
+                #{logoUrl,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.myjava.core.pojo.good.Brand">
         insert into tb_brand
@@ -122,6 +126,9 @@
             <if test="firstChar != null">
                 first_char,
             </if>
+            <if test="logoUrl != null">
+                logo_url,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -132,6 +139,9 @@
             </if>
             <if test="firstChar != null">
                 #{firstChar,jdbcType=VARCHAR},
+            </if>
+            <if test="logoUrl != null">
+                #{logoUrl,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -153,6 +163,9 @@
             <if test="record.firstChar != null">
                 first_char = #{record.firstChar,jdbcType=VARCHAR},
             </if>
+            <if test="record.logoUrl != null">
+                logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -162,7 +175,8 @@
         update tb_brand
         set id = #{record.id,jdbcType=BIGINT},
         name = #{record.name,jdbcType=VARCHAR},
-        first_char = #{record.firstChar,jdbcType=VARCHAR}
+        first_char = #{record.firstChar,jdbcType=VARCHAR},
+        logo_url = #{record.logoUrl,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -176,13 +190,17 @@
             <if test="firstChar != null">
                 first_char = #{firstChar,jdbcType=VARCHAR},
             </if>
+            <if test="logoUrl != null">
+                logo_url = #{logoUrl,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.myjava.core.pojo.good.Brand">
         update tb_brand
         set name       = #{name,jdbcType=VARCHAR},
-            first_char = #{firstChar,jdbcType=VARCHAR}
+            first_char = #{firstChar,jdbcType=VARCHAR},
+            logo_url   = #{logoUrl,jdbcType=VARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

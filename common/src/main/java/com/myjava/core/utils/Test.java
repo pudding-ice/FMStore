@@ -25,4 +25,10 @@ public class Test {
         String o = (String) template.boundHashOps("testKey").get("name");
         System.out.println(o);
     }
+
+    @org.junit.Test
+    public void delete() {
+        template.delete(Constants.TEMPLATE_LIST_REDIS_KEY);
+
+    }
 }
