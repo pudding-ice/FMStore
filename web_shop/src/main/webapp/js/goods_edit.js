@@ -33,28 +33,6 @@ new Vue({
     },
 
     methods: {
-        loadCateData(id) {
-            let _this = this;
-            axios.get("/itemCate/findByParentId/" + id + ".do")
-                .then(function (response) {
-                    console.log("grade =" + _this.grade);
-                    console.log(response.data)
-                    if (_this.grade == 1) {
-                        //取服务端响应的结果
-                        _this.categoryList1 = response.data;
-                    }
-                    if (_this.grade == 2) {
-                        //取服务端响应的结果
-                        _this.categoryList2 = response.data;
-                    }
-                    if (_this.grade == 3) {
-                        //取服务端响应的结果
-                        _this.categoryList3 = response.data;
-                    }
-                }).catch(function (reason) {
-                console.log(reason);
-            })
-        },
         getCateSelected: function (grade) {//选项改变时调用
             //重置模板
             this.typeId = 0;
@@ -256,6 +234,28 @@ new Vue({
             }
             return false;
         },
+        loadCateData(id, grade) {
+            let _this = this;
+            axios.get("/itemCate/findByParentId/" + id + ".do")
+                .then(function (response) {
+                    console.log("grade =" + _this.grade);
+                    console.log(response.data)
+                    if (grade == 1) {
+                        //取服务端响应的结果
+                        _this.categoryList1 = response.data;
+                    }
+                    if (grade == 2) {
+                        //取服务端响应的结果
+                        _this.categoryList2 = response.data;
+                    }
+                    if (grade == 3) {
+                        //取服务端响应的结果
+                        _this.categoryList3 = response.data;
+                    }
+                }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
     },
     watch: {
         typeId: function (newValue, oldValue) {
@@ -308,7 +308,7 @@ new Vue({
 
     },
     created: function () {
-        this.loadCateData(0);
+        this.loadCateData(0, 1);
     },
     mounted() {
         let id = this.getQueryString("id");
@@ -341,13 +341,13 @@ new Vue({
                 if (data.goods.category2Id > -1) {
                     _this.grade = 2;
                     _this.cateSelected2 = data.goods.category2Id;
-                    _this.loadCateData(_this.cateSelected1);
+                    _this.loadCateData(_this.cateSelected1, 2);
                     // console.log(_this.cateSelected2);
                 }
                 if (data.goods.category3Id > -1) {
                     _this.grade = 3;
                     _this.cateSelected3 = data.goods.category3Id;
-                    _this.loadCateData(_this.cateSelected2);
+                    _this.loadCateData(_this.cateSelected2, 3);
                     // console.log(_this.cateSelected3);
                 }
             })
