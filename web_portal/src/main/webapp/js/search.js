@@ -23,6 +23,7 @@ new Vue({
             'sort': '',//排序
             'sortField': '',//排序的字段
         },
+
     },
     methods: {
         getQueryString: function (name) {

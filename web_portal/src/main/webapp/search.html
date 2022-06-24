@@ -143,7 +143,7 @@
             </div>
             <!--规格-->
             <div class="clearfix selector">
-                <div class="type-wrap">
+                <div class="type-wrap" v-if="searchMap.category=='' && resultMap.categoryList.length>0">
                     <div class="fl key">商品分类</div>
                     <div class="fl value" v-for="category in resultMap.categoryList">
                         <a @click="addSearchItem('category',category)" href="#"
@@ -151,7 +151,7 @@
                     </div>
                     <div class="fl ext"></div>
                 </div>
-                <div class="type-wrap logo">
+                <div class="type-wrap logo" v-if="searchMap.brand=='' && resultMap.brandList.length>0">
                     <div class="fl key brand">品牌</div>
                     <div class="value logos">
                         <ul class="logo-list">
@@ -162,7 +162,8 @@
                     </div>
 
                 </div>
-                <div class="type-wrap" v-for="specification in resultMap.specificationList">
+                <div class="type-wrap" v-for="specification in resultMap.specificationList"
+                     v-if="searchMap.spec[specification.spec.specName]==null">
                     <div class="fl key">{{specification.spec.specName}} :</div>
                     <div class="fl value">
                         <ul class="type-list">
