@@ -3,9 +3,13 @@ package com.myjava.core.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.myjava.core.dao.item.ItemDao;
 import com.myjava.core.pojo.item.Item;
+import com.myjava.core.pojo.response.SpecificationResponse;
+import com.myjava.core.pojo.template.TypeTemplateSearch;
+import com.myjava.core.utils.Constants;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
 import org.springframework.data.solr.core.query.result.*;
@@ -18,18 +22,41 @@ import java.util.Map;
 @Service
 public class SearchServiceImpl implements SearchService {
     @Autowired
-    SolrTemplate solrTemplate;
+    private SolrTemplate solrTemplate;
     @Autowired
-    ItemDao dao;
+    private ItemDao dao;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public Map<String, Object> search(Map paramMap) {
         //查询并且高亮
-        Map<String, Object> highlightQuery = this.getHighlightQuery(paramMap);
+        Map<String, Object> response = this.getHighlightQuery(paramMap);
         //根据关键字查询商品集对应的分类集
         List itemCategory = this.getCategory(paramMap);
-        highlightQuery.put("categoryList", itemCategory);
-        return highlightQuery;
+        response.put("categoryList", itemCategory);
+        //根据商品分类名字查询对应的 品牌 规格 规格选项
+        //先查询请求参数中是否有商品分类信息
+        String name = (String) paramMap.get("category");
+        if (name == null || "".equals(name)) {
+            // 获取当前商品分类集中的第一个
+            name = (String) itemCategory.get(0);
+        }
+        TypeTemplateSearch brandAndSpec = this.getBrandAndSpecWithName(name);
+        response.put("bandList", brandAndSpec.getBrandList());
+        response.put("specificationList", brandAndSpec.getSpecificationList());
+        return response;
+    }
+
+    private TypeTemplateSearch getBrandAndSpecWithName(String name) {
+        // 声明对象保存根据模板id查询出来的 品牌和规格
+        TypeTemplateSearch typeTemplateSearch = null;
+        // 根据商品的分类名称来获取模板id
+        Long tempId = (Long) redisTemplate.boundHashOps(Constants.ITEM_CATEGORY_LIST_REDIS_KEY).get(name);
+        // 查询对应的品牌和规格
+        typeTemplateSearch = (TypeTemplateSearch) redisTemplate.
+                boundHashOps(Constants.TEMPLATE_LIST_REDIS_KEY).get(tempId);
+        return typeTemplateSearch;
     }
 
     private List<String> getCategory(Map paramMap) {
