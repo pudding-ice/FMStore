@@ -120,8 +120,18 @@
                     <li class="active">智能手机</li>
                 </ul>
                 <ul class="tags-choose">
-                    <li class="tag">全网通<i class="sui-icon icon-tb-close"></i></li>
-                    <li class="tag">63G<i class="sui-icon icon-tb-close"></i></li>
+                    <li @click="removeSearchItem('category')" class="tag" v-if="searchMap.category!=''">
+                        商品分类：{{searchMap.category}}
+                        <i class="sui-icon icon-tb-close"></i>
+                    </li>
+                    <li @click="removeSearchItem('brand')" class="tag" v-if="searchMap.brand!=''">
+                        品牌：{{searchMap.brand}}
+                        <i class="sui-icon icon-tb-close"></i>
+                    </li>
+                    <li @click="removeSearchItem(key)" class="tag" v-for="(value,key) in searchMap.spec">
+                        {{key}}：{{value}}<i class="sui-icon icon-tb-close"></i>
+                    </li>
+                    搜索结果：{{resultMap.total}}条
                 </ul>
                 <form class="fl sui-form form-dark">
                     <div class="input-control control-right">
@@ -136,7 +146,8 @@
                 <div class="type-wrap">
                     <div class="fl key">商品分类</div>
                     <div class="fl value" v-for="category in resultMap.categoryList">
-                        <a href="#" style="margin-left: 8px">{{category}}</a>
+                        <a @click="addSearchItem('category',category)" href="#"
+                           style="margin-left: 8px">{{category}}</a>
                     </div>
                     <div class="fl ext"></div>
                 </div>
@@ -144,7 +155,9 @@
                     <div class="fl key brand">品牌</div>
                     <div class="value logos">
                         <ul class="logo-list">
-                            <li v-for="brand in resultMap.brandList"><img :src="brand.logoUrl"/></li>
+                            <li v-for="brand in resultMap.brandList"><img :src="brand.logoUrl"
+                                                                          @click="addSearchItem('brand',brand.name)"/>
+                            </li>
                         </ul>
                     </div>
 
@@ -154,37 +167,12 @@
                     <div class="fl value">
                         <ul class="type-list">
                             <li v-for="options in specification.specOpts">
-                                <a href="#">{{options.optionName}}</a>
+                                <a @click="addSearchItem(specification.spec.specName,options.optionName)" href="#">{{options.optionName}}</a>
                             </li>
                         </ul>
                     </div>
                     <div class="fl ext"></div>
                 </div>
-
-                <!--                <div class="type-wrap">-->
-                <!--                    <div class="fl key">更多筛选项</div>-->
-                <!--                    <div class="fl value">-->
-                <!--                        <ul class="type-list">-->
-                <!--                            <li>-->
-                <!--                                <a>特点</a>-->
-                <!--                            </li>-->
-                <!--                            <li>-->
-                <!--                                <a>系统</a>-->
-                <!--                            </li>-->
-                <!--                            <li>-->
-                <!--                                <a>手机内存 </a>-->
-                <!--                            </li>-->
-                <!--                            <li>-->
-                <!--                                <a>单卡双卡</a>-->
-                <!--                            </li>-->
-                <!--                            <li>-->
-                <!--                                <a>其他</a>-->
-                <!--                            </li>-->
-                <!--                        </ul>-->
-                <!--                    </div>-->
-                <!--                    <div class="fl ext">-->
-                <!--                    </div>-->
-                <!--                </div>-->
             </div>
             <!--商品列表 -->
             <div class="details">

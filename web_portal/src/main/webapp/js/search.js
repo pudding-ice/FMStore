@@ -16,8 +16,8 @@ new Vue({
             'keywords': '',//搜索关键字
             'category': '',//分类
             'brand': '',//品牌
-            'spec': {},//规格
             'price': '',//价格
+            'spec': {},//规格
             'pageNo': 1,//当前页
             'pageSize': 5,//每页展示多少条数据
             'sort': '',//排序
@@ -56,6 +56,23 @@ new Vue({
             console.log(num)
             this.searchMap.pageNo = num;
             this.search();
+        },
+        addSearchItem: function (key, value) {
+            if (key == 'price' || key == 'brand' || key == 'category') {
+                this.searchMap[key] = value;
+            } else {
+                Vue.set(this.searchMap.spec, key, value);
+            }
+            console.log(this.searchMap);
+        },
+        //撤销搜索项
+        removeSearchItem: function (key) {
+            //如果用户点击的是分类或品牌
+            if (key == 'category' || key == 'brand' || key == 'price') {
+                this.searchMap[key] = "";
+            } else {//用户点击的是规格
+                Vue.delete(this.searchMap.spec, key);
+            }
         }
 
     },
