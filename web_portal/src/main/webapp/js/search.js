@@ -6,8 +6,11 @@ new Vue({
         maxPageIndex: 15,
         resultMap: {
             rows: [],
+            categoryList: [],
+            bandList: [],
+            specificationList: [],
             total: 0,
-            totalPages: 0
+            totalPages: 0,
         },
         searchMap: {
             'keywords': '',//搜索关键字
