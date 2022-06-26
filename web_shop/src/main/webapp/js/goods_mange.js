@@ -7,7 +7,7 @@ new Vue({
         maxPageIndex: 15,
         searchContent: '',
         goodsList: [],
-        categoryList: {},
+        categoryList: [],
         selectedId: [],
 
     },
@@ -26,19 +26,22 @@ new Vue({
                     _this.goodsList = response.data.rows;
                     _this.total = response.data.total;
                     console.log(response.data.rows);
+                    // console.log(_this.categoryList[_this.goodsList[0].category1Id])
                 }).catch(function (reason) {
                 console.log(reason);
             })
         },
-        getCategoryList() {
+        async getCategoryList() {
             let _this = this;
-            axios.get("/goods/getCategory.do").then((res) => {
+            await axios.get("/goods/getCategory.do").then((res) => {
                 let data = res.data;
-                data.forEach((item) => {
-                    _this.categoryList[item.id] = item.name;
-                })
+                for (let i = 0; i < data.length; i++) {
+                    _this.categoryList[data[i].id] = data[i].name;
+                }
             })
-            // console.log(this.categoryList);
+            this.pageHandler(1);
+
+            console.log(this.categoryList);
         },
         deleteGoods: function () {
             if (this.selectedId.length == 0) {
@@ -105,10 +108,13 @@ new Vue({
             })
             return flag;
         }
-
+        ,
+        initDataMethod: function () {
+            this.getCategoryList();
+        }
     },
     created() {
-        this.getCategoryList();
-        this.pageHandler(1);
+        this.initDataMethod();
+        console.log(this.categoryList.length);
     }
 });
