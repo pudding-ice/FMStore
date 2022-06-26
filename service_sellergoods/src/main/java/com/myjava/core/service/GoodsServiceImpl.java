@@ -86,6 +86,13 @@ public class GoodsServiceImpl implements GoodsService {
                 goods.setIsDelete(GoodsDelete.DELETE.getCode());
                 goods.setId(id);
                 goodsDao.updateByPrimaryKeySelective(goods);
+                // 根据商品id修改库存集合对象状态码
+                Item item = new Item();
+                item.setStatus(ItemStatus.DELETE.getCode());
+                ItemQuery query = new ItemQuery();
+                ItemQuery.Criteria criteria = query.createCriteria();
+                criteria.andGoodsIdEqualTo(id);
+                itemDao.updateByExampleSelective(item, query);
             }
         }
 
@@ -132,6 +139,26 @@ public class GoodsServiceImpl implements GoodsService {
                 //2. 根据商品id修改库存集合对象状态码
                 Item item = new Item();
                 item.setStatus(ItemStatus.NORMAL.getCode());
+                ItemQuery query = new ItemQuery();
+                ItemQuery.Criteria criteria = query.createCriteria();
+                criteria.andGoodsIdEqualTo(id);
+                itemDao.updateByExampleSelective(item, query);
+            }
+        }
+    }
+
+    @Override
+    public void rejectApply(Long[] ids) {
+        if (ids != null) {
+            for (Long id : ids) {
+                //1. 根据商品id修改商品对象状态码
+                Goods goods = new Goods();
+                goods.setId(id);
+                goods.setAuditStatus(GoodsAuditStatus.REJECT.getCode());
+                goodsDao.updateByPrimaryKeySelective(goods);
+                //2. 根据商品id修改库存集合对象状态码
+                Item item = new Item();
+                item.setStatus(ItemStatus.SOLD_OUT.getCode());
                 ItemQuery query = new ItemQuery();
                 ItemQuery.Criteria criteria = query.createCriteria();
                 criteria.andGoodsIdEqualTo(id);

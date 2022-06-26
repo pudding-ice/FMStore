@@ -99,14 +99,23 @@ new Vue({
                 alert("至少选中一行驳回!");
                 return;
             }
+            if (this.hasReject(this.selectedId)) {
+                alert("选中存在已回驳的商品,请重新选中!");
+                return;
+            }
             var ids = Qs.stringify({ids: this.selectedId}, {indices: false})
             var _this = this;
-            axios.get("/goods/updateStatus.do?" + ids + "&status=" + status)
-                .then(function (response) {
-                    window.location.reload();
+            axios.post("/goods/rejectApply.do", ids).then(function (response) {
+                let res = response.data;
+                if (res.success) {
                     _this.selectedId = [];
                     $("input[type='checkbox']").prop("checked", false);
-                }).catch(function (reason) {
+                    window.location.reload();
+                    alert(res.message)
+                } else {
+                    alert(res.message)
+                }
+            }).catch(function (reason) {
                 console.log(reason);
             })
         },
@@ -115,6 +124,16 @@ new Vue({
                 let id = ids[i];
                 let oneGoods = this.findOneGoodsById(id);
                 if (oneGoods.auditStatus != "1") {
+                    return true
+                }
+            }
+            return false;
+        },
+        hasReject: function (ids) {
+            for (let i = 0; i < ids.length; i++) {
+                let id = ids[i];
+                let oneGoods = this.findOneGoodsById(id);
+                if (oneGoods.auditStatus === "3") {
                     return true
                 }
             }

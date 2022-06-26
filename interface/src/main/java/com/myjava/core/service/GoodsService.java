@@ -26,4 +26,6 @@ public interface GoodsService {
     void sellerSubmitAudit(Long[] ids);
 
     void auditAccept(Long[] ids);
+
+    void rejectApply(Long[] ids);
 }

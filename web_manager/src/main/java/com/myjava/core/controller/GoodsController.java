@@ -71,4 +71,15 @@ public class GoodsController {
             return new ResultMessage(false, "审核失败!");
         }
     }
+
+    @PostMapping("/rejectApply")
+    public ResultMessage rejectApply(Long[] ids) {
+        try {
+            goodsService.rejectApply(ids);
+            return new ResultMessage(true, "驳回成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "驳回失败!");
+        }
+    }
 }
