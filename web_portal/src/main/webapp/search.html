@@ -233,7 +233,7 @@
                 <!--列表内容-->
                 <div class="goods-list">
                     <ul class="yui3-g">
-                        <li class="yui3-u-1-5" v-for="item in resultMap.rows">
+                        <li @click="goDetailPage(item.goodsId)" class="yui3-u-1-5" v-for="item in resultMap.rows">
                             <div class="list-wrap">
                                 <div class="p-img">
                                     <a href="#"><img :src="item.image"/></a>

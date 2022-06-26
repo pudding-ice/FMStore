@@ -75,6 +75,9 @@ new Vue({
                 Vue.delete(this.searchMap.spec, key);
             }
             this.search();
+        },
+        goDetailPage: function (id) {
+            window.open("http://localhost:8086/" + id + ".html");
         }
 
     },
