@@ -42,10 +42,10 @@
                         <button @click="deleteGoods()" class="btn btn-default" title="删除" type="button"><i
                                 class="fa fa-trash-o"></i> 删除
                         </button>
-                        <button @click="updateStatus(2)" class="btn btn-default" title="提交审核" type="button"><i
-                                class="fa fa-check "></i> 提交审核
+                        <button @click="auditAccept()" class="btn btn-default" title="审核通过" type="button"><i
+                                class="fa fa-check "></i> 审核通过
                         </button>
-                        <button @click="updateStatus(3)" class="btn btn-default" title="驳回" type="button"><i
+                        <button @click="rejectApply()" class="btn btn-default" title="驳回" type="button"><i
                                 class="fa fa-ban"></i> 驳回
                         </button>
                         <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button">

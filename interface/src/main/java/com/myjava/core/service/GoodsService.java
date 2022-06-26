@@ -24,4 +24,6 @@ public interface GoodsService {
     void updateStatus(Long[] ids, String status);
 
     void sellerSubmitAudit(Long[] ids);
+
+    void auditAccept(Long[] ids);
 }

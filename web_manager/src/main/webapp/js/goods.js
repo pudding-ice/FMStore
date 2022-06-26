@@ -67,7 +67,38 @@ new Vue({
             }
             console.log(this.selectedId);
         },
-        updateStatus: function (status) {
+        auditAccept: function () {
+            let _this = this;
+            if (this.selectedId.length === 0) {
+                alert("至少选中一行审核通过!");
+                return;
+            }
+            if (this.hasAcceptOrReject(this.selectedId)) {
+                alert("选中存在已通过或者已回驳的商品,请重新选中");
+                return;
+            }
+            var ids = Qs.stringify({ids: this.selectedId}, {indices: false})
+            axios.post("/goods/auditAccept.do", ids).then(function (response) {
+                let res = response.data;
+                if (res.success) {
+                    _this.selectedId = [];
+                    $("input[type='checkbox']").prop("checked", false);
+                    window.location.reload();
+                    alert(res.message)
+                } else {
+                    alert(res.message)
+                }
+
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+
+        },
+        rejectApply: function () {
+            if (this.selectedId.length === 0) {
+                alert("至少选中一行驳回!");
+                return;
+            }
             var ids = Qs.stringify({ids: this.selectedId}, {indices: false})
             var _this = this;
             axios.get("/goods/updateStatus.do?" + ids + "&status=" + status)
@@ -78,6 +109,24 @@ new Vue({
                 }).catch(function (reason) {
                 console.log(reason);
             })
+        },
+        hasAcceptOrReject: function (ids) {
+            for (let i = 0; i < ids.length; i++) {
+                let id = ids[i];
+                let oneGoods = this.findOneGoodsById(id);
+                if (oneGoods.auditStatus != "1") {
+                    return true
+                }
+            }
+            return false;
+        },
+        findOneGoodsById(id) {
+            for (let i = 0; i < this.goodsList.length; i++) {
+                if (this.goodsList[i].id === id) {
+                    return this.goodsList[i];
+                }
+            }
+            return null;
         }
     },
     async created() {

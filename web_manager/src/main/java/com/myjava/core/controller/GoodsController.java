@@ -60,4 +60,15 @@ public class GoodsController {
             return new ResultMessage(false, "状态修改失败!");
         }
     }
+
+    @PostMapping("/auditAccept")
+    public ResultMessage auditAccept(Long[] ids) {
+        try {
+            goodsService.auditAccept(ids);
+            return new ResultMessage(true, "审核通过!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "审核失败!");
+        }
+    }
 }
