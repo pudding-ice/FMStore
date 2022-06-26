@@ -18,6 +18,7 @@
         <module>web_shop</module>
         <module>web_portal</module>
         <module>service_search</module>
+        <module>service_page</module>
     </modules>
     <!-- 集中定义依赖版本号 -->
     <properties>
