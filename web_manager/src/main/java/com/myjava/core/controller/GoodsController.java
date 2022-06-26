@@ -9,7 +9,6 @@ import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.service.GoodsService;
 import com.myjava.core.service.ItemCateService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class GoodsController {
 
     @PostMapping("/getPage")
     public PageResponse<Goods> getPage(@RequestBody PageRequest request) {
-        return goodsService.getPage(request);
+        return goodsService.mangerGetPage(request);
     }
 
     @GetMapping("/getCategory")

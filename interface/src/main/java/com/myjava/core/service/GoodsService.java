@@ -11,7 +11,9 @@ public interface GoodsService {
 
     void addGood(GoodsEntity entity);
 
-    PageResponse<Goods> getPage(PageRequest request);
+    PageResponse<Goods> mangerGetPage(PageRequest request);
+
+    PageResponse<Goods> sellerGetPage(PageRequest request, String sellerId);
 
     GoodsEntity getOneById(Long id);
 

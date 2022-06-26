@@ -4,6 +4,10 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.myjava.core.dao.Enum.GoodsAuditStatus;
+import com.myjava.core.dao.Enum.GoodsDelete;
+import com.myjava.core.dao.Enum.GoodsEnableSpec;
+import com.myjava.core.dao.Enum.ItemStatus;
 import com.myjava.core.dao.good.BrandDao;
 import com.myjava.core.dao.good.GoodsDao;
 import com.myjava.core.dao.good.GoodsDescDao;
@@ -19,7 +23,6 @@ import com.myjava.core.pojo.item.ItemQuery;
 import com.myjava.core.pojo.request.GoodsEntity;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
-import com.myjava.core.pojo.response.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +50,8 @@ public class GoodsServiceImpl implements GoodsService {
     public void addGood(GoodsEntity entity) {
         //先插入商品对象
         Goods goods = entity.getGoods();
-        goods.setAuditStatus("0");
+        goods.setAuditStatus(GoodsAuditStatus.NOT_APPLY.getCode());
+        goods.setIsDelete(GoodsDelete.NORMAL.getCode());
         goodsDao.insertSelective(goods);
         //修改dao层xml配置文件,返回生成的id,设置商品描述信息的商品id
         Long goodsId = goods.getId();
@@ -58,6 +62,7 @@ public class GoodsServiceImpl implements GoodsService {
         //插入商品规格信息
         insertItem(entity);
     }
+
 
     @Override
     public void updateGoods(GoodsEntity entity) {
@@ -78,7 +83,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (ids != null) {
             for (Long id : ids) {
                 Goods goods = new Goods();
-                goods.setIsDelete("1");
+                goods.setIsDelete(GoodsDelete.DELETE.getCode());
                 goods.setId(id);
                 goodsDao.updateByPrimaryKeySelective(goods);
             }
@@ -107,11 +112,30 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public PageResponse<Goods> getPage(PageRequest request) {
+    public PageResponse<Goods> mangerGetPage(PageRequest request) {
         GoodsQuery query = new GoodsQuery();
         PageHelper.startPage(request.getCurrent(), request.getPageSize());
         GoodsQuery.Criteria criteria = query.createCriteria();
-        criteria.andIsDeleteIsNull();
+        // 运营商管理商品,如果商品没有提交审核,就不需要显示在审核页面,审核页面只需要其他三种状态
+        criteria.andAuditStatusNotEqualTo(GoodsAuditStatus.NOT_APPLY.getCode());
+        // 被"假删除"的商品也不需要显示在审核页面
+        criteria.andIsDeleteNotEqualTo(GoodsDelete.DELETE.getCode());
+        List<Goods> goods = goodsDao.selectByExample(query);
+        PageInfo<Goods> info = new PageInfo<>(goods, request.getCurrent());
+        PageResponse<Goods> response = new PageResponse<>();
+        response.setTotal(info.getTotal());
+        response.setRows(goods);
+        return response;
+    }
+
+
+    @Override
+    public PageResponse<Goods> sellerGetPage(PageRequest request, String sellerId) {
+        GoodsQuery query = new GoodsQuery();
+        PageHelper.startPage(request.getCurrent(), request.getPageSize());
+        GoodsQuery.Criteria criteria = query.createCriteria();
+        //商家只能查看自己的商品
+        criteria.andSellerIdEqualTo(sellerId);
         List<Goods> goods = goodsDao.selectByExample(query);
         PageInfo<Goods> info = new PageInfo<>(goods, request.getCurrent());
         PageResponse<Goods> response = new PageResponse<>();
@@ -137,7 +161,8 @@ public class GoodsServiceImpl implements GoodsService {
 
 
     public void insertItem(GoodsEntity goodsEntity) {
-        if ("1".equals(goodsEntity.getGoods().getIsEnableSpec())) {
+        boolean enable = GoodsEnableSpec.ENABLE.getCode().equals(goodsEntity.getGoods().getIsEnableSpec());
+        if (enable) {
             //判断是否有库存规格
             //有勾选规格复选框
             if (goodsEntity.getItemList() != null) {
@@ -185,8 +210,8 @@ public class GoodsServiceImpl implements GoodsService {
         item.setCreateTime(new Date());
         //更新时间
         item.setUpdateTime(new Date());
-        //库存状态, 默认为0, 未审核
-        item.setStatus("0");
+        //库存状态, 默认为1, 正常
+        item.setStatus(ItemStatus.NORMAL.getStatus());
         //分类id, 库存使用商品的第三级分类最为库存分类
         item.setCategoryid(goodsEntity.getGoods().getCategory3Id());
         //分类名称
