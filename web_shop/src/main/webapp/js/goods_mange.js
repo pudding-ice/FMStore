@@ -30,9 +30,9 @@ new Vue({
                 console.log(reason);
             })
         },
-        async getCategoryList() {
+        getCategoryList() {
             let _this = this;
-            await axios.get("/goods/getCategory.do").then((res) => {
+            axios.get("/goods/getCategory.do").then((res) => {
                 let data = res.data;
                 data.forEach((item) => {
                     _this.categoryList[item.id] = item.name;
@@ -68,9 +68,47 @@ new Vue({
             }
             console.log(this.selectedId);
         },
+        submitAudit: function () {
+            let _this = this;
+            if (this.selectedId.length === 0) {
+                alert("至少选中一行提交!");
+                return;
+            }
+            for (let i = 0; i < this.selectedId.length; i++) {
+                if (_this.findHaveAuditingOrAccept(this.selectedId[i])) {
+                    //包含正在审核的商品或者已经通过审核的商品
+                    alert("选择的商品中包含正在审核或者已经通过审核的商品,请重新选择");
+                    return;
+                }
+            }
+            let param = Qs.stringify({ids: _this.selectedId}, {indices: false});
+            axios.post("/goods/sellerSubmitAudit.do", param).then((res) => {
+                let data = res.data;
+                if (data.success) {
+                    alert(data.message);
+                    _this.pageHandler(1);
+                } else {
+                    alert(data.message);
+                }
+            })
+        },
+        findHaveAuditingOrAccept: function (id) {
+            let flag = false;
+            this.goodsList.forEach((goods) => {
+                if (goods.id === id) {
+                    if (goods.auditStatus === '1') {
+                        flag = true;
+                    } else if (goods.auditStatus === '2') {
+                        flag = true;
+                    }
+                }
+            })
+            return flag;
+        }
+
     },
-    async created() {
-        await this.getCategoryList();
+    created() {
+        this.getCategoryList();
         this.pageHandler(1);
     }
 });

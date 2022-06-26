@@ -22,4 +22,6 @@ public interface GoodsService {
     void delete(Long[] ids);
 
     void updateStatus(Long[] ids, String status);
+
+    void sellerSubmitAudit(Long[] ids);
 }

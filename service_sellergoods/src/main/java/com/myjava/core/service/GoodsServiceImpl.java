@@ -112,6 +112,15 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public void sellerSubmitAudit(Long[] ids) {
+        for (Long id : ids) {
+            Goods goods = goodsDao.selectByPrimaryKey(id);
+            goods.setAuditStatus(GoodsAuditStatus.AUDITING.getCode());
+            goodsDao.updateByPrimaryKeySelective(goods);
+        }
+    }
+
+    @Override
     public PageResponse<Goods> mangerGetPage(PageRequest request) {
         GoodsQuery query = new GoodsQuery();
         PageHelper.startPage(request.getCurrent(), request.getPageSize());

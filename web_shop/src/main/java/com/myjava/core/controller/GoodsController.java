@@ -78,4 +78,16 @@ public class GoodsController {
             return new ResultMessage(false, "删除失败!");
         }
     }
+
+    @PostMapping("/sellerSubmitAudit")
+    public ResultMessage sellerSubmitAudit(Long[] ids) {
+        try {
+            goodsService.sellerSubmitAudit(ids);
+            return new ResultMessage(true, "提交审核成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "提交审核失败!");
+
+        }
+    }
 }
