@@ -76,7 +76,7 @@
                 </div>
                 <div class="fr itemInfo-wrap">
                     <div class="sku-name">
-                        <h4>{{sku.title}}
+                        <h4>{{sku.title}}</h4>
                     </div>
                     <div class="news"><span>${goods.caption}</span></div>
                     <div class="summary">
@@ -138,10 +138,10 @@
                                     <#list spec.specOptions as item>
                                         <dd>
                                             <a href="javascript:;"
-                                               :class="isSelected('${spec.specName}','${item}')?'selected':''"
-                                               @click="selectSpecification('${spec.specName}','${item}')"
+                                               :class="isSelected('${spec.specName}','${item.optionName}')?'selected':''"
+                                               @click="selectSpecification('${spec.specName}','${item.optionName}')"
                                             >
-                                                ${item}<span title="点击取消选择">&nbsp;</span>
+                                                ${item.optionName}<span title="点击取消选择">&nbsp;</span>
                                             </a>
                                         </dd>
                                     </#list>
@@ -343,7 +343,7 @@
         </div>
     </div>
 </script>
-<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $("#service").hover(function () {
@@ -359,19 +359,19 @@
 
     })
 </script>
-<script type="text/javascript" src="js/model/cartModel.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
-<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.jqzoom/jquery.jqzoom.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.jqzoom/zoom.js"></script>
-<script type="text/javascript" src="index/index.js"></script>
+<script type="text/javascript" src="/js/model/cartModel.js"></script>
+<script type="text/javascript" src="/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="/js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="/js/plugins/jquery.jqzoom/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="/js/plugins/jquery.jqzoom/zoom.js"></script>
+<script type="text/javascript" src="/js/pages/index.js"></script>
 
 <!--页面底部  结束 -->
 </body>
 
-<script type="text/javascript" src="plugins/vue/vuejs-2.5.16.js"></script>
-<script type="text/javascript" src="plugins/vue/axios-0.18.0.js"></script>
-<script type="text/javascript" src="plugins/vue/qs.js"></script>
+<script type="text/javascript" src="/plugins/vue/vuejs-2.5.16.js"></script>
+<script type="text/javascript" src="/plugins/vue/axios-0.18.0.js"></script>
+<script type="text/javascript" src="/plugins/vue/qs.js"></script>
 
 <script>
     Vue.prototype.$axios = axios

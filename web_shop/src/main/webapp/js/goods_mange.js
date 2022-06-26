@@ -25,7 +25,7 @@ new Vue({
                     //取服务端响应的结果
                     _this.goodsList = response.data.rows;
                     _this.total = response.data.total;
-                    console.log(response.data.rows);
+                    // console.log(response.data.rows);
                     // console.log(_this.categoryList[_this.goodsList[0].category1Id])
                 }).catch(function (reason) {
                 console.log(reason);
@@ -41,7 +41,7 @@ new Vue({
             })
             this.pageHandler(1);
 
-            console.log(this.categoryList);
+            // console.log(this.categoryList);
         },
         deleteGoods: function () {
             if (this.selectedId.length == 0) {
@@ -116,6 +116,5 @@ new Vue({
     },
     created() {
         this.initDataMethod();
-        console.log(this.categoryList.length);
     }
 });

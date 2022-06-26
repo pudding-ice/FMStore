@@ -8,7 +8,6 @@ import com.myjava.core.dao.item.ItemDao;
 import com.myjava.core.pojo.good.Goods;
 import com.myjava.core.pojo.good.GoodsDesc;
 import com.myjava.core.pojo.item.Item;
-import com.myjava.core.pojo.item.ItemCat;
 import com.myjava.core.pojo.item.ItemQuery;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -22,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service(timeout = 50000)
 public class CmsServiceImpl implements CmsService, ServletContextAware {
     @Autowired
     private GoodsDao goodsDao;

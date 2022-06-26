@@ -1,5 +1,6 @@
 package com.myjava.core.service;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -45,6 +46,9 @@ public class GoodsServiceImpl implements GoodsService {
     ItemCatDao catDao;
     @Autowired
     BrandDao brandDao;
+
+    @Reference
+    CmsService cmsService;
 
     @Override
     public void addGood(GoodsEntity entity) {
@@ -143,6 +147,7 @@ public class GoodsServiceImpl implements GoodsService {
                 ItemQuery.Criteria criteria = query.createCriteria();
                 criteria.andGoodsIdEqualTo(id);
                 itemDao.updateByExampleSelective(item, query);
+                this.generateStaticGoodsPage(id);
             }
         }
     }
@@ -267,7 +272,7 @@ public class GoodsServiceImpl implements GoodsService {
         //更新时间
         item.setUpdateTime(new Date());
         //库存状态, 默认为1, 正常
-        item.setStatus(ItemStatus.NORMAL.getStatus());
+        item.setStatus(ItemStatus.NORMAL.getCode());
         //分类id, 库存使用商品的第三级分类最为库存分类
         item.setCategoryid(goodsEntity.getGoods().getCategory3Id());
         //分类名称
@@ -289,5 +294,14 @@ public class GoodsServiceImpl implements GoodsService {
         //价格转换
 
         return item;
+    }
+
+    private void generateStaticGoodsPage(Long goodsId) {
+        Map<String, Object> goodsData = cmsService.findGoodsData(goodsId);
+        try {
+            cmsService.createStaticPage(goodsId, goodsData);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

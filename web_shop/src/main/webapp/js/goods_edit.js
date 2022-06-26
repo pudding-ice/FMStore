@@ -25,7 +25,9 @@ new Vue({
                 caption: ''
             },
             goodsDesc: {
-                specificationItems: []
+                introduction: '',
+                specificationItems: [],
+                itemImages: []
             },
             itemList: {}
         },
@@ -157,6 +159,7 @@ new Vue({
         },
         saveGoods: function () {
             let entity = this.goodsEntity;
+            console.log(entity);
             //商品基本信息
             entity.goods.brandId = this.selectBrand;
             entity.goods.category1Id = this.cateSelected1;
@@ -314,6 +317,7 @@ new Vue({
     mounted() {
         let id = this.getQueryString("id");
         let _this = this;
+        console.log(this.goodsEntity)
         if (id != null) {
             //根据id查询当前商品
             // console.log(id);
@@ -351,6 +355,8 @@ new Vue({
                     _this.loadCateData(_this.cateSelected2, 3);
                     // console.log(_this.cateSelected3);
                 }
+                console.log("回显数据挂载")
+                console.log(_this.goodsEntity)
             })
         }
 
