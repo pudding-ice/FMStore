@@ -108,7 +108,7 @@ public class GoodsServiceImpl implements GoodsService {
                 ItemQuery.Criteria criteria = query.createCriteria();
                 criteria.andGoodsIdEqualTo(id);
                 itemDao.updateByExampleSelective(item, query);
-                jmsTemplate.send(topicPageAndSolrDestination, new MessageCreator() {
+                jmsTemplate.send(queueSolrDeleteDestination, new MessageCreator() {
                     @Override
                     public Message createMessage(Session session) throws JMSException {
                         TextMessage textMessage = session.createTextMessage(String.valueOf(id));
@@ -166,13 +166,12 @@ public class GoodsServiceImpl implements GoodsService {
                 ItemQuery.Criteria criteria = query.createCriteria();
                 criteria.andGoodsIdEqualTo(id);
                 itemDao.updateByExampleSelective(item, query);
-                //审核通过后,创建商品的详情页
+                //审核通过后,创建商品的详情页,将商品的索引加入到solr中
                 jmsTemplate.send(topicPageAndSolrDestination, (Session session) -> {
                             TextMessage textMessage = session.createTextMessage(String.valueOf(id));
                             return textMessage;
                         }
                 );
-                //添加item到solr索引库
             }
 
 
@@ -223,6 +222,8 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsQuery.Criteria criteria = query.createCriteria();
         //商家只能查看自己的商品
         criteria.andSellerIdEqualTo(sellerId);
+        //商家只能查看没有删除的商品
+//        criteria.andIsDeleteEqualTo(GoodsDelete.NORMAL.getCode());
         List<Goods> goods = goodsDao.selectByExample(query);
         PageInfo<Goods> info = new PageInfo<>(goods, request.getCurrent());
         PageResponse<Goods> response = new PageResponse<>();
@@ -321,12 +322,4 @@ public class GoodsServiceImpl implements GoodsService {
         return item;
     }
 
-    private void generateStaticGoodsPage(Long goodsId) {
-        Map<String, Object> goodsData = cmsService.findGoodsData(goodsId);
-        try {
-            cmsService.createStaticPage(goodsId, goodsData);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
