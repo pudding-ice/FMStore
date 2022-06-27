@@ -223,7 +223,7 @@ public class GoodsServiceImpl implements GoodsService {
         //商家只能查看自己的商品
         criteria.andSellerIdEqualTo(sellerId);
         //商家只能查看没有删除的商品
-//        criteria.andIsDeleteEqualTo(GoodsDelete.NORMAL.getCode());
+        criteria.andIsDeleteEqualTo(GoodsDelete.NORMAL.getCode());
         List<Goods> goods = goodsDao.selectByExample(query);
         PageInfo<Goods> info = new PageInfo<>(goods, request.getCurrent());
         PageResponse<Goods> response = new PageResponse<>();
