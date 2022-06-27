@@ -1,6 +1,8 @@
 package com.myjava.core.listener;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.myjava.core.service.CmsService;
+import com.myjava.core.service.CmsServiceImpl;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,7 +12,7 @@ import java.util.Map;
 
 public class PageListener implements MessageListener {
     @Autowired
-    private CmsService cmsService;
+    private CmsServiceImpl cmsService;
 
     @Override
     public void onMessage(Message message) {

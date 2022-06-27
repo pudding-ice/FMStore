@@ -12,6 +12,7 @@ import com.myjava.core.pojo.item.ItemQuery;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
@@ -20,6 +21,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Service(timeout = 50000)
 public class CmsServiceImpl implements CmsService, ServletContextAware {

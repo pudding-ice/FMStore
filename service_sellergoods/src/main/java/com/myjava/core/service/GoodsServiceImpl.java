@@ -24,9 +24,14 @@ import com.myjava.core.pojo.item.ItemQuery;
 import com.myjava.core.pojo.request.GoodsEntity;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jms.*;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
@@ -46,6 +51,12 @@ public class GoodsServiceImpl implements GoodsService {
     ItemCatDao catDao;
     @Autowired
     BrandDao brandDao;
+    @Autowired
+    JmsTemplate jmsTemplate;
+    @Autowired
+    ActiveMQTopic topicPageAndSolrDestination;
+    @Autowired
+    ActiveMQQueue queueSolrDeleteDestination;
 
     @Reference
     CmsService cmsService;
@@ -97,7 +108,15 @@ public class GoodsServiceImpl implements GoodsService {
                 ItemQuery.Criteria criteria = query.createCriteria();
                 criteria.andGoodsIdEqualTo(id);
                 itemDao.updateByExampleSelective(item, query);
+                jmsTemplate.send(topicPageAndSolrDestination, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        TextMessage textMessage = session.createTextMessage(String.valueOf(id));
+                        return textMessage;
+                    }
+                });
             }
+
         }
 
     }
@@ -132,9 +151,9 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public void auditAccept(Long[] ids) {
+    public void auditAccept(final Long[] ids) {
         if (ids != null) {
-            for (Long id : ids) {
+            for (final Long id : ids) {
                 //1. 根据商品id修改商品对象状态码
                 Goods goods = new Goods();
                 goods.setId(id);
@@ -147,8 +166,16 @@ public class GoodsServiceImpl implements GoodsService {
                 ItemQuery.Criteria criteria = query.createCriteria();
                 criteria.andGoodsIdEqualTo(id);
                 itemDao.updateByExampleSelective(item, query);
-                this.generateStaticGoodsPage(id);
+                //审核通过后,创建商品的详情页
+                jmsTemplate.send(topicPageAndSolrDestination, (Session session) -> {
+                            TextMessage textMessage = session.createTextMessage(String.valueOf(id));
+                            return textMessage;
+                        }
+                );
+                //添加item到solr索引库
             }
+
+
         }
     }
 
@@ -189,7 +216,6 @@ public class GoodsServiceImpl implements GoodsService {
         return response;
     }
 
-
     @Override
     public PageResponse<Goods> sellerGetPage(PageRequest request, String sellerId) {
         GoodsQuery query = new GoodsQuery();
@@ -219,7 +245,6 @@ public class GoodsServiceImpl implements GoodsService {
         res.setItemList(items);
         return res;
     }
-
 
     public void insertItem(GoodsEntity goodsEntity) {
         boolean enable = GoodsEnableSpec.ENABLE.getCode().equals(goodsEntity.getGoods().getIsEnableSpec());
