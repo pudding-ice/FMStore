@@ -123,7 +123,7 @@
                     alert("请填写手机号码");
                     return;
                 }
-                axios.get('/users/sendCode.do?phone=' + this.userEntity.phone)
+                axios.get('/user/sendCode/' + this.userEntity.phone + '.do')
                     .then(function (response) {
                         //获取服务端响应的结果
                         console.log(response.data);

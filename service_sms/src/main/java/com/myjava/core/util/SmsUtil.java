@@ -24,33 +24,27 @@ public class SmsUtil {
      */
 
     public static void sendSms(String mobile, String template_code, String sign_name, String param) {
-        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "<your-access-key-id>", "<your-access-key-secret>");
-        /** use STS Token
-         DefaultProfile profile = DefaultProfile.getProfile(
-         "<your-region-id>",           // The region ID
-         "<your-access-key-id>",       // The AccessKey ID of the RAM account
-         "<your-access-key-secret>",   // The AccessKey Secret of the RAM account
-         "<your-sts-token>");          // STS Token
-         **/
-
+        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI5tHWD8NqYF3FmvwNHK3u", "FnxtfgwQk65eOYcvNyurzBvhKoI8rL");
         IAcsClient client = new DefaultAcsClient(profile);
-
-        SendSmsRequest request = new SendSmsRequest();
-        request.setSignName("阿里云短信测试");
-        request.setTemplateCode("SMS_154950909");
-        request.setPhoneNumbers("17539529616");
-        request.setTemplateParam("{\"code\":\"1234\"}");
-
+        CommonRequest request = new CommonRequest();
+        request.setMethod(MethodType.POST);//注意这四行，与官网所展示的方法不同
+        request.setDomain("dysmsapi.aliyuncs.com");
+        request.setVersion("2017-05-25");
+        request.setAction("SendSms");
+        request.putQueryParameter("RegionId", "cn-hangzhou");
+        request.putQueryParameter("PhoneNumbers", mobile);
+        request.putQueryParameter("SignName", "阿里云短信测试");
+        request.putQueryParameter("TemplateCode", "SMS_154950909");
+        request.putQueryParameter("TemplateParam", param);
         try {
-            SendSmsResponse response = client.getAcsResponse(request);
-            System.out.println(new Gson().toJson(response));
+            CommonResponse response = client.getCommonResponse(request);
+            System.out.println(response.getData());
         } catch (ServerException e) {
             e.printStackTrace();
         } catch (ClientException e) {
-            System.out.println("ErrCode:" + e.getErrCode());
-            System.out.println("ErrMsg:" + e.getErrMsg());
-            System.out.println("RequestId:" + e.getRequestId());
+            e.printStackTrace();
         }
+
     }
 
 }

@@ -31,6 +31,6 @@
         <property name="destination" ref="queueSMSDestination"/>
         <property name="messageListener" ref="smsListener"/>
     </bean>
-    <bean id="smsListener" class="com.myjava.core.listener.SMSListener"></bean>
+    <bean id="smsListener" class="com.myjava.core.listener.SMSListener"/>
 
 </beans>
