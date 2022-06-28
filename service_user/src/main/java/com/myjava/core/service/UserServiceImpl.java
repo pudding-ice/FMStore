@@ -2,8 +2,10 @@ package com.myjava.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
+import com.myjava.core.dao.user.UserDao;
+import com.myjava.core.pojo.response.ResultMessage;
+import com.myjava.core.pojo.user.User;
 import org.apache.activemq.command.ActiveMQQueue;
-import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
@@ -13,6 +15,7 @@ import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -26,6 +29,8 @@ public class UserServiceImpl implements UserService {
     JmsTemplate jmsTemplate;
     @Autowired
     ActiveMQQueue smsDestination;
+    @Autowired
+    UserDao userDao;
 
     @Override
     public void sendCode(final String phone) {
@@ -54,5 +59,21 @@ public class UserServiceImpl implements UserService {
                 return (Message) message;
             }
         });
+    }
+
+    @Override
+    public ResultMessage addUser(String smscode, User user) {
+        String phone = user.getPhone();
+        String redisSmsCode = (String) redisTemplate.boundValueOps(phone).get();
+        if (redisSmsCode == null) {
+            return new ResultMessage(false, "请先发送验证码或者验证码已失效");
+        }
+        if (!redisSmsCode.equals(smscode)) {
+            return new ResultMessage(false, "验证码错误");
+        }
+        user.setCreated(new Date());
+        user.setUpdated(new Date());
+        userDao.insert(user);
+        return new ResultMessage(true, "注册成功");
     }
 }

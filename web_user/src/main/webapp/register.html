@@ -9,6 +9,13 @@
     <link href="img/favicon.ico" rel="icon">
     <link href="css/webbase.css" rel="stylesheet" type="text/css"/>
     <link href="css/pages-register.css" rel="stylesheet" type="text/css"/>
+
+
+    <script src="plugins/jQuery/jquery-2.2.3.min.js" type="text/javascript"></script>
+    <script src="plugins/vue/vuejs-2.5.16.js" type="text/javascript"></script>
+    <script src="plugins/vue/axios-0.18.0.js" type="text/javascript"></script>
+    <script src="plugins/vue/qs.js" type="text/javascript"></script>
+
 </head>
 
 
@@ -58,7 +65,7 @@
                         <label class="control-label">短信验证码：</label>
                         <div class="controls">
                             <input class="input-xfat input-xlarge" placeholder="短信验证码" type="text"
-                                   v-model="userEntity.smscode">
+                                   v-model="smscode">
                             <a @click="sendCode()" href="#">获取短信验证码</a>
                         </div>
                     </div>
@@ -66,10 +73,8 @@
 
                     <div class="control-group">
                         <label class="control-label"></label>
-                        <div class="controls btn-reg">
-                            <a @click="regist()"
-                               class="sui-btn btn-block btn-xlarge btn-danger"
-                               href="#"
+                        <div @click="register()" class="controls btn-reg">
+                            <a class="sui-btn btn-block btn-xlarge btn-danger"
                                target="_blank"
                             >完成注册</a>
                         </div>
@@ -97,72 +102,10 @@
         </div>
     </div>
 </div>
-
-<script src="plugins/jQuery/jquery-2.2.3.min.js" type="text/javascript"></script>
-<script src="plugins/vue/vuejs-2.5.16.js" type="text/javascript"></script>
-<script src="plugins/vue/axios-0.18.0.js" type="text/javascript"></script>
-<script src="plugins/vue/qs.js" type="text/javascript"></script>
+<script src="./js/register.js" type="text/javascript"></script>
 
 </body>
 
-<script>
-    new Vue({
-        el: "#app",
-        data: {
-            userEntity: {
-                username: '',
-                password: '',
-                phone: '',
-                smscode: ''
-            },
-            password2: ''
-        },
-        methods: {
-            sendCode: function () {
-                if (this.userEntity.phone == null || this.userEntity.phone === "") {
-                    alert("请填写手机号码");
-                    return;
-                }
-                axios.get('/user/sendCode/' + this.userEntity.phone + '.do')
-                    .then(function (response) {
-                        //获取服务端响应的结果
-                        console.log(response.data);
-                        alert(response.data.message);
-                    }).catch(function (reason) {
-                    console.log(reason);
-                });
-            },
-            regist: function () {
-                if (this.userEntity.phone == null || this.userEntity.phone == "") {
-                    alert("请填写手机号码");
-                    return;
-                }
-                //比较两次输入的密码是否一致
-                if (this.userEntity.password != this.password2) {
-                    alert("两次输入密码不一致，请重新输入");
-                    this.userEntity.password = "";
-                    this.password2 = "";
-                    return;
-                }
-
-                axios.post('/user/add.do?smscode=' + this.userEntity.smscode, this.userEntity)
-                    .then(function (response) {
-                        //获取服务端响应的结果
-                        console.log(response.data);
-                        if (response.data.success) {
-                            location.href = "login.html";
-                        } else {
-                            alert(response.data.message);
-                        }
-                    }).catch(function (reason) {
-                    console.log(reason);
-                });
-            }
-        },
-        created: function () {
-
-        }
-    });
-</script>
 
 </html>
+
