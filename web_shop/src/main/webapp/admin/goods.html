@@ -39,16 +39,15 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
-                        <button class="btn btn-default" title="新建" type="button"><i class="fa fa-file-o"></i> 新建
+
+                        <button class="btn btn-default" title="新建" type="button"><i class="fa fa-file-o"></i>
+                            <a :href="'goods_edit.html'" type="button">新建</a>
                         </button>
                         <button @click="deleteGoods()" class="btn btn-default" title="删除" type="button"><i
-                                class="fa fa-trash-o"></i> 删除
+                                class="fa fa-trash-o"></i> <span style="color:#da3131;">删除</span>
                         </button>
                         <button @click="submitAudit()" class="btn btn-default" title="提交审核" type="button"><i
-                                class="fa fa-check"></i> 提交审核
-                        </button>
-                        <button class="btn btn-default" onclick='confirm("你确认要屏蔽吗？")' title="屏蔽" type="button"><i
-                                class="fa fa-ban"></i> 屏蔽
+                                class="fa fa-check"></i> <span style="color:#129812;">提交审核</span>
                         </button>
                         <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button"><i
                                 class="fa fa-refresh"></i> 刷新
