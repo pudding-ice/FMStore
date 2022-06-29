@@ -152,3 +152,20 @@ span.loginname {
 .copyright ul li:last-child {
     border-right: 0
 }
+
+.register ul {
+    display: block;
+    line-height: 50px;
+    list-style: none;
+}
+
+.register ul li {
+    float: right;
+    list-style: none;
+}
+
+.register .register_text {
+    line-height: 50px;
+    color: red;
+    font-size: 14px;
+}

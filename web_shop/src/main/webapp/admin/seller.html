@@ -13,7 +13,9 @@
     <link href="../plugins/adminLTE/css/AdminLTE.css" rel="stylesheet">
     <link href="../plugins/adminLTE/css/skins/_all-skins.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
-    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/vue/vuejs-2.5.16.js" type="text/javascript"></script>
+    <script src="../plugins/vue/axios-0.18.0.js" type="text/javascript"></script>
+    <script src="../plugins/jquery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
 
@@ -149,4 +151,18 @@
 
 </body>
 
+<script>
+    new Vue({
+        el: "#app",
+        data: {},
+        methods: {
+            loadSellerData: function () {
+
+            }
+        },
+        created: function () {
+            this.loadSellerData();
+        }
+    })
+</script>
 </html>
