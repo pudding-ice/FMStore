@@ -59,4 +59,9 @@ public class SellerController {
         }
     }
 
+    @GetMapping("/getSellerData")
+    public Seller getSellerDataByName() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getOneByName(name);
+    }
 }
