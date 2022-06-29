@@ -91,4 +91,9 @@ public class SellerServiceImpl implements SellerService {
         dao.updateByPrimaryKey(seller);
         return new ResultMessage(true, "修改密码成功!");
     }
+
+    @Override
+    public void updateSeller(Seller seller) {
+        dao.updateByPrimaryKeySelective(seller);
+    }
 }

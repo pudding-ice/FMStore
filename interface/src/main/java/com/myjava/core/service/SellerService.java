@@ -16,4 +16,6 @@ public interface SellerService {
     Seller getOneByName(String username);
 
     ResultMessage changePassword(String name, String oldPass, String newPass);
+
+    void updateSeller(Seller seller);
 }

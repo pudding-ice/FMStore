@@ -64,4 +64,15 @@ public class SellerController {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         return service.getOneByName(name);
     }
+
+    @PostMapping("/updateSellerData")
+    public ResultMessage updateSellerData(@RequestBody Seller seller) {
+        try {
+            service.updateSeller(seller);
+            return new ResultMessage(true, "修改信息成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "修改信息失败.");
+        }
+    }
 }

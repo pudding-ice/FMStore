@@ -150,8 +150,7 @@
 
         </div>
         <div class="btn-toolbar list-toolbar">
-            <button class="btn btn-primary"><i class="fa fa-save"></i>保存</button>
-            <a class="btn btn-danger" data-toggle="modal">提交</a>
+            <button @click="updateSellerData()" class="btn btn-primary"><i class="fa fa-save"></i>保存</button>
         </div>
 
     </section>
@@ -174,6 +173,18 @@
                     _this.enterprise = data;
                     console.log("卖家信息")
                     console.log(data)
+                })
+            },
+            updateSellerData: function () {
+                let _this = this;
+                axios.post("/seller/updateSellerData.do", _this.enterprise).then((res) => {
+                    let data = res.data;
+                    if (data.success) {
+                        alert(data.message);
+                        this.loadSellerData();
+                    } else {
+                        alert(data.message);
+                    }
                 })
             }
         },
