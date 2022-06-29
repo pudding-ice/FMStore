@@ -52,8 +52,9 @@
         </headers>
 
         <!-- 注销的配置 -->
-        <logout logout-url="/logout" logout-success-url="/shoplogin.html"/>
+        <logout logout-url="/logout.do" logout-success-url="/shoplogin.html"/>
     </http>
+    <!--    配置登出的页面-->
 
     <!-- 配置认证管理器 -->
     <authentication-manager>
