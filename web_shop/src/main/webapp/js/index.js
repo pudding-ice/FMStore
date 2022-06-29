@@ -1,7 +1,8 @@
 new Vue({
     el: "#app",
     data: {
-        seller: ''
+        seller: '',
+
     },
     methods: {
         getLoginDetail: function () {
@@ -13,6 +14,7 @@ new Vue({
                 console.log(reason);
             })
         },
+
     },
     created: function () {
         this.getLoginDetail();

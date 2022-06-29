@@ -11,6 +11,7 @@ import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.seller.Seller;
 import com.myjava.core.pojo.seller.SellerQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
@@ -21,9 +22,7 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public int add(Seller seller) {
-
         return dao.insertSelective(seller);
-
     }
 
     @Override
@@ -76,5 +75,20 @@ public class SellerServiceImpl implements SellerService {
     public Seller getOneByName(String username) {
         Seller seller = dao.selectByPrimaryKey(username);
         return seller;
+    }
+
+    @Override
+    public ResultMessage changePassword(String name, String oldPass, String newPass) {
+        //1.先去数据库中查找用户,看用户输入的旧密码是否正确
+        Seller seller = dao.selectByPrimaryKey(name);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        boolean matches = passwordEncoder.matches(oldPass, seller.getPassword());
+        if (!matches) {
+            return new ResultMessage(false, "输入旧密码不正确请重新输入!");
+        }
+        //2.用户输入的旧密码没问题,调用加密工具类加密密码,更新数据库
+        seller.setPassword(passwordEncoder.encode(newPass));
+        dao.updateByPrimaryKey(seller);
+        return new ResultMessage(true, "修改密码成功!");
     }
 }

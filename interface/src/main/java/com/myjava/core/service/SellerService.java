@@ -3,6 +3,7 @@ package com.myjava.core.service;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.request.SellerQueryContent;
 import com.myjava.core.pojo.response.PageResponse;
+import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.seller.Seller;
 
 public interface SellerService {
@@ -14,4 +15,5 @@ public interface SellerService {
 
     Seller getOneByName(String username);
 
+    ResultMessage changePassword(String name, String oldPass, String newPass);
 }

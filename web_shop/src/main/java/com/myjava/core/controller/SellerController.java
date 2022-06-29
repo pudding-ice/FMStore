@@ -9,21 +9,28 @@ import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.seller.Seller;
 import com.myjava.core.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
+import org.springframework.web.context.ServletConfigAware;
 
+import javax.servlet.ServletConfig;
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
 @RequestMapping("/seller")
 public class SellerController {
+    private
     @Reference
     SellerService service;
     @Autowired
     BCryptPasswordEncoder encoder;
+
 
     public void setEncoder(BCryptPasswordEncoder encoder) {
         this.encoder = encoder;
@@ -41,5 +48,15 @@ public class SellerController {
         }
     }
 
+    @GetMapping("/changePassword/{oldPassword}/{newPassword}")
+    public ResultMessage changePassword(@PathVariable String oldPassword, @PathVariable String newPassword) {
+        try {
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            return service.changePassword(name, oldPassword, newPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "修改密码失败!");
+        }
+    }
 
 }
