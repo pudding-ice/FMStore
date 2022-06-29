@@ -5,10 +5,13 @@ new Vue({
         pageSize: 10, //每一页显示的数据条数
         total: 0, //记录总数
         maxPageIndex: 15,
-        searchContent: '',
         goodsList: [],
         categoryList: [],
         selectedId: [],
+        queryParam: {
+            status: -1,
+            goodsName: ''
+        },
 
     },
     methods: {
@@ -18,7 +21,7 @@ new Vue({
             let pageRequest = {
                 current: current,
                 pageSize: this.pageSize,
-                queryContent: this.searchContent
+                queryContent: this.queryParam.status + "," + this.queryParam.goodsName
             }
             axios.post("/goods/getPage.do?", pageRequest)
                 .then(function (response) {
@@ -108,11 +111,19 @@ new Vue({
                 }
             })
             return flag;
-        }
-        ,
+        },
         initDataMethod: function () {
             this.getCategoryList();
+        },
+        queryGoods: function () {
+            console.log("查询")
+            console.log(this.queryParam)
+            let _this = this;
+            axios.get("/seller/queryGoods/" + _this.queryParam.status + "/" + _this.queryParam.goodsName + ".do").then((res) => {
+
+            })
         }
+
     },
     created() {
         this.initDataMethod();

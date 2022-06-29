@@ -13,7 +13,7 @@ public interface GoodsService {
 
     PageResponse<Goods> mangerGetPage(PageRequest request);
 
-    PageResponse<Goods> sellerGetPage(PageRequest request, String sellerId);
+    PageResponse<Goods> sellerGetPage(PageRequest<String> request, String sellerId);
 
     GoodsEntity getOneById(Long id);
 

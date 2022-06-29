@@ -1,6 +1,6 @@
-package com.myjava.core.dao.Enum;
+package com.myjava.core.pojo.Enum;
 
-import com.myjava.core.dao.Enum.Base.BaseEnum;
+import com.myjava.core.pojo.Enum.Base.BaseEnum;
 
 public enum GoodsEnableSpec implements BaseEnum {
     /**

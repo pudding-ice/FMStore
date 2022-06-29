@@ -1,4 +1,4 @@
-package com.myjava.core.dao.Enum.Base;
+package com.myjava.core.pojo.Enum.Base;
 
 
 public interface BaseEnum {

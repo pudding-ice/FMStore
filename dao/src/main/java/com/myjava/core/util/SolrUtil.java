@@ -1,7 +1,7 @@
 package com.myjava.core.util;
 
 import com.alibaba.fastjson.JSON;
-import com.myjava.core.dao.Enum.ItemStatus;
+import com.myjava.core.pojo.Enum.ItemStatus;
 import com.myjava.core.dao.item.ItemDao;
 import com.myjava.core.pojo.item.Item;
 import com.myjava.core.pojo.item.ItemQuery;

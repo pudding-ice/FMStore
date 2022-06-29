@@ -52,7 +52,7 @@ public class GoodsController {
     }
 
     @PostMapping("/getPage")
-    public PageResponse<Goods> sellerGetPage(@RequestBody PageRequest request) {
+    public PageResponse<Goods> sellerGetPage(@RequestBody PageRequest<String> request) {
         String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
         return goodsService.sellerGetPage(request, sellerId);
     }

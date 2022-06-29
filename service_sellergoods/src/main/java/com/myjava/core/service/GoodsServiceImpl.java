@@ -5,10 +5,10 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.myjava.core.dao.Enum.GoodsAuditStatus;
-import com.myjava.core.dao.Enum.GoodsDelete;
-import com.myjava.core.dao.Enum.GoodsEnableSpec;
-import com.myjava.core.dao.Enum.ItemStatus;
+import com.myjava.core.pojo.Enum.GoodsAuditStatus;
+import com.myjava.core.pojo.Enum.GoodsDelete;
+import com.myjava.core.pojo.Enum.GoodsEnableSpec;
+import com.myjava.core.pojo.Enum.ItemStatus;
 import com.myjava.core.dao.good.BrandDao;
 import com.myjava.core.dao.good.GoodsDao;
 import com.myjava.core.dao.good.GoodsDescDao;
@@ -216,14 +216,28 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public PageResponse<Goods> sellerGetPage(PageRequest request, String sellerId) {
+    public PageResponse<Goods> sellerGetPage(PageRequest<String> request, String sellerId) {
         GoodsQuery query = new GoodsQuery();
-        PageHelper.startPage(request.getCurrent(), request.getPageSize());
         GoodsQuery.Criteria criteria = query.createCriteria();
+        String queryContent = request.getQueryContent();
+        String[] parma = queryContent.split(",");
+        String status = parma[0];
+        if (!GoodsAuditStatus.ALL_STATUS.getCode().equals(status)) {
+            //如果选择了一个状态,就添加查询条件
+            criteria.andAuditStatusEqualTo(status);
+        }
+        if (parma.length >= 2) {
+            String goodsName = parma[1];
+            if (goodsName != null && !"".equals(goodsName)) {
+                //如果输入查询商品名称不为空
+                criteria.andGoodsNameLike("%" + goodsName + "%");
+            }
+        }
         //商家只能查看自己的商品
         criteria.andSellerIdEqualTo(sellerId);
         //商家只能查看没有删除的商品
         criteria.andIsDeleteEqualTo(GoodsDelete.NORMAL.getCode());
+        PageHelper.startPage(request.getCurrent(), request.getPageSize());
         List<Goods> goods = goodsDao.selectByExample(query);
         PageInfo<Goods> info = new PageInfo<>(goods, request.getCurrent());
         PageResponse<Goods> response = new PageResponse<>();
