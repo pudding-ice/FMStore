@@ -112,6 +112,7 @@ new Vue({
                 var idx = this.selectedId.indexOf(id);
                 this.selectedId.splice(idx, 1);
             }
+            console.log(this.selectedId)
         },
         deleteContent: function () {
             if (this.selectedId.length === 0) {
@@ -140,11 +141,22 @@ new Vue({
                 alert("请至少选中一行开启!")
                 return;
             }
+            if (this.hasOpenContent()) {
+                alert("选中的广告中存在开启的,请重新选中");
+                return;
+            }
             let confirm = window.confirm("你确认要开启吗？");
             if (confirm) {
-
+                axios.post("/content/open.do", Qs.stringify({ids: _this.selectedId}, {indices: false}))
+                    .then((res) => {
+                        let data = res.data;
+                        if (data.success) {
+                            alert(data.message)
+                        } else {
+                            alert(data.message)
+                        }
+                    })
             }
-            console.log(b);
         },
         reload: function () {
             this.contentEntity = {
@@ -185,6 +197,20 @@ new Vue({
                 }
             }
         },
+        hasOpenContent: function () {
+            let list = this.contentList;
+            let selectedIds = this.selectedId;
+            for (let i = 0; i < list.length; i++) {
+                for (let key in selectedIds) {
+                    if (selectedIds[key] === list[i].id) {
+                        if (list[i].status === "1") {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 
 
     },

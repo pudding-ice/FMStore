@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.myjava.core.dao.ad.ContentDao;
+import com.myjava.core.pojo.Enum.ContentStatus;
 import com.myjava.core.pojo.ad.Content;
 import com.myjava.core.pojo.ad.ContentQuery;
 import com.myjava.core.pojo.request.PageRequest;
@@ -86,5 +87,17 @@ public class ContentServiceImpl implements ContentService {
             template.boundHashOps(Constants.CONTENT_REDIS_KEY).put(id, redisContent);
         }
         return redisContent;
+    }
+
+    @Override
+    public void open(Long[] ids) {
+        if (ids != null) {
+            for (Long id : ids) {
+                Content content = new Content();
+                content.setId(id);
+                content.setStatus(ContentStatus.AVAILABLE.getCode());
+                dao.updateByPrimaryKeySelective(content);
+            }
+        }
     }
 }

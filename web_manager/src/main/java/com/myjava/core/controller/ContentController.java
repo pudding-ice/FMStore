@@ -6,6 +6,7 @@ import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.service.ContentService;
+import org.apache.logging.log4j.message.ReusableMessage;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +52,17 @@ public class ContentController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultMessage(false, "删除失败!");
+        }
+    }
+
+    @RequestMapping("/open")
+    public ResultMessage openContent(Long[] ids) {
+        try {
+            contentService.open(ids);
+            return new ResultMessage(true, "开启成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "开启失败!");
         }
     }
 }

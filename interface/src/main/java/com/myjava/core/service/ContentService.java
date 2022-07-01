@@ -19,5 +19,6 @@ public interface ContentService {
 
     List<Content> findByCategoryIdFromRedis(Long id);
 
+    void open(Long[] ids);
 }
 
