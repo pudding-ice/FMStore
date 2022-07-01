@@ -19,7 +19,6 @@ new Vue({
         selectSpecs: [],
         sel_spec_obj: [],
         otherExtends: [],
-
         selectedId: []
     },
     methods: {
@@ -53,8 +52,6 @@ new Vue({
             }
             return value;
         },
-
-
         getSelectionData: function () {
             var _this = this;
             axios.get("/brand/selectOptionList.do")
@@ -69,7 +66,6 @@ new Vue({
                 return obj.id
             });
         },
-
         getSpecOptionData: function () {
             var _this = this;
             axios.get("/spec/selectOptionList.do")
@@ -131,8 +127,6 @@ new Vue({
                 }
             })
         },
-
-
     },
     created: function () {
         this.pageHandler(1);
