@@ -99,7 +99,7 @@ new Vue({
                     alert(data.message);
                 }
             })
-        }
+        },
     },
     created: function () {
         this.pageHandler(1);
