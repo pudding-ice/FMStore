@@ -57,4 +57,28 @@ public class SellerController {
             return new ResultMessage(false, "驳回失败!");
         }
     }
+
+    @PostMapping("/closeSeller")
+    public ResultMessage closeSeller(String[] ids) {
+        try {
+            service.closeSeller(ids);
+            return new ResultMessage(true, "关闭商家成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "关闭商家失败!");
+        }
+    }
+
+
+    @PostMapping("/openSeller")
+    public ResultMessage openSeller(String[] ids) {
+        try {
+            service.openSeller(ids);
+            return new ResultMessage(true, "开启成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "开启失败!");
+        }
+    }
+
 }

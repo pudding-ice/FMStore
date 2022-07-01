@@ -58,7 +58,18 @@ new Vue({
                 }
             })
         },
-        handleSelected: function (event) {
+        handleSelected: function (event, id) {
+            if (event.target.checked) {
+                //选中
+                this.selectedId.push(id);
+            } else {
+                //取消选中
+                let idx = this.selectedId.indexOf(id);
+                this.selectedId.splice(idx, 1)
+            }
+            console.log(this.selectedId);
+        },
+        handleSelectedStatus: function (event) {
             if (event.target.checked) {
                 //选中
                 this.searchSeller.sellerStatus.push(event.target.value);
@@ -115,18 +126,22 @@ new Vue({
                 console.log(reason);
             })
         },
-        rejectApply: function () {
+        closeSeller: function () {
             if (this.selectedId.length === 0) {
-                alert("至少选中一行驳回!");
+                alert("至少选中一个商家关闭!");
+                return;
+            }
+            if (this.hasClosedSeller(this.selectedId)) {
+                alert("不能选择关闭的商家!");
                 return;
             }
             var ids = Qs.stringify({ids: this.selectedId}, {indices: false})
             var _this = this;
-            axios.post("/seller/rejectApply.do", ids).then(function (response) {
+            axios.post("/seller/closeSeller.do", ids).then(function (response) {
                 let res = response.data;
                 if (res.success) {
                     _this.selectedId = [];
-                    $("input[type='checkbox']").prop("checked", false);
+                    $("input[name='sellerCheck']").prop("checked", false);
                     window.location.reload();
                     alert(res.message)
                 } else {
@@ -136,6 +151,60 @@ new Vue({
                 console.log(reason);
             })
         },
+        openSeller: function () {
+            let _this = this;
+            if (this.selectedId.length === 0) {
+                alert("至少选中一行开启商家!");
+                return;
+            }
+            if (this.hasNotClosedStatus(this.selectedId)) {
+                alert("只能选择关闭状态的商家开启!");
+                return;
+            }
+            var ids = Qs.stringify({ids: this.selectedId}, {indices: false})
+            axios.post("/seller/openSeller.do", ids).then(function (response) {
+                let res = response.data;
+                if (res.success) {
+                    _this.selectedId = [];
+                    $("input[name='sellerCheck']").prop("checked", false);
+                    window.location.reload();
+                    alert(res.message)
+                } else {
+                    alert(res.message)
+                }
+
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
+        hasNotClosedStatus: function (ids) {
+            for (let i = 0; i < ids.length; i++) {
+                let id = ids[i];
+                let oneSeller = this.findOneSellerById(id);
+                if (oneSeller.status !== "3") {
+                    return true
+                }
+            }
+            return false;
+        },
+        hasClosedSeller: function (ids) {
+            for (let i = 0; i < ids.length; i++) {
+                let id = ids[i];
+                let oneSeller = this.findOneSellerById(id);
+                if (oneSeller.status === "3") {
+                    return true
+                }
+            }
+            return false;
+        },
+        findOneSellerById(id) {
+            for (let i = 0; i < this.sellerList.length; i++) {
+                if (this.sellerList[i].sellerId === id) {
+                    return this.sellerList[i];
+                }
+            }
+            return null;
+        }
 
     },
     created: function () {

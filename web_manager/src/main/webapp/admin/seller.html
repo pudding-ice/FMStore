@@ -37,7 +37,7 @@
                         <button @click="openSeller()" class="btn btn-default" title="开启商家" type="button"><i
                                 class="fa fa-trash-o"></i> 开启商家
                         </button>
-                        <button @click="rejectApply()" class="btn btn-default" title="关闭商家" type="button"><i
+                        <button @click="closeSeller()" class="btn btn-default" title="关闭商家" type="button"><i
                                 class="fa fa-check "></i> 关闭商家
                         </button>
                         <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button">
@@ -53,10 +53,10 @@
                     店铺名称： <input v-model="searchSeller.nickName">
                     状态：
                     <input @click="chooseAll($event)" id="allStatus" type="checkbox" value=""/>全部
-                    <input @click="handleSelected($event)" name="sellerStatus" type="checkbox" value="0"/>待审核
-                    <input @click="handleSelected($event)" name="sellerStatus" type="checkbox" value="1"/>已审核
-                    <input @click="handleSelected($event)" name="sellerStatus" type="checkbox" value="2"/>审核未通过
-                    <input @click="handleSelected($event)" name="sellerStatus" type="checkbox" value="3"/>关闭
+                    <input @click="handleSelectedStatus($event)" name="sellerStatus" type="checkbox" value="0"/>待审核
+                    <input @click="handleSelectedStatus($event)" name="sellerStatus" type="checkbox" value="1"/>已审核
+                    <input @click="handleSelectedStatus($event)" name="sellerStatus" type="checkbox" value="2"/>审核未通过
+                    <input @click="handleSelectedStatus($event)" name="sellerStatus" type="checkbox" value="3"/>关闭
                     <button @click="pageHandler(1)" class="btn btn-default">查询</button>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="seller in sellerList">
-                    <td><input @click="handleSelected($event,seller.sellerId)" type="checkbox"></td>
+                    <td><input @click="handleSelected($event,seller.sellerId)" name="sellerCheck" type="checkbox"></td>
                     <td>{{seller.sellerId}}</td>
                     <td>{{seller.name}}</td>
                     <td>{{seller.nickName}}</td>

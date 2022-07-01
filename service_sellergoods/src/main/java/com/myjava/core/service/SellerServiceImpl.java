@@ -105,6 +105,32 @@ public class SellerServiceImpl implements SellerService {
         }
     }
 
+    @Override
+    public void openSeller(String[] ids) {
+        if (ids != null) {
+            for (String id : ids) {
+                //1. 根据商家id修改状态码
+                Seller seller = new Seller();
+                seller.setSellerId(id);
+                seller.setStatus(SellerStatus.NOT_APPLY.getCode());
+                dao.updateByPrimaryKeySelective(seller);
+            }
+        }
+    }
+
+    @Override
+    public void closeSeller(String[] ids) {
+        if (ids != null) {
+            for (String id : ids) {
+                //1. 根据商家id修改状态码
+                Seller seller = new Seller();
+                seller.setSellerId(id);
+                seller.setStatus(SellerStatus.CLOSE.getCode());
+                dao.updateByPrimaryKeySelective(seller);
+            }
+        }
+    }
+
 
     @Override
     public int updateStatus(String id, String status) {

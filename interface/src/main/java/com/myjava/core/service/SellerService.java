@@ -24,4 +24,8 @@ public interface SellerService {
     void rejectApply(String[] ids);
 
     PageResponse<Seller> getAllPage(PageRequest<SellerQueryContent> request);
+
+    void openSeller(String[] ids);
+
+    void closeSeller(String[] ids);
 }
