@@ -10,7 +10,7 @@ new Vue({
         },
         categoryList: [],
         contentList: [],
-        selectIds: [], //记录选择了哪些记录的id,
+        selectedId: [], //记录选择了哪些记录的id,
         contentEntity: {
             id: '',
             categoryId: '',
@@ -106,25 +106,25 @@ new Vue({
             // 复选框选中
             if (event.target.checked) {
                 // 向数组中添加元素
-                this.selectIds.push(id);
+                this.selectedId.push(id);
             } else {
                 // 从数组中移除
-                var idx = this.selectIds.indexOf(id);
-                this.selectIds.splice(idx, 1);
+                var idx = this.selectedId.indexOf(id);
+                this.selectedId.splice(idx, 1);
             }
         },
         deleteContent: function () {
-            if (this.selectIds.length === 0) {
+            if (this.selectedId.length === 0) {
                 alert("请至少选中一行删除");
                 return;
             }
             var _this = this;
             //使用qs插件 处理数组
-            axios.post('/content/delete.do', Qs.stringify({ids: _this.selectIds}, {indices: false}))
+            axios.post('/content/delete.do', Qs.stringify({ids: _this.selectedId}, {indices: false}))
                 .then((res) => {
                     let data = res.data;
                     if (data.success) {
-                        _this.selectIds = [];
+                        _this.selectedId = [];
                         alert(data.message)
                         window.location.reload();
                     } else {
@@ -135,7 +135,7 @@ new Vue({
             })
         },
         openContent: function () {
-            var _this = this;
+            let _this = this;
             if (this.selectedId === null || this.selectedId.length === 0) {
                 alert("请至少选中一行开启!")
                 return;
@@ -156,7 +156,36 @@ new Vue({
                 status: '0',
                 sortOrder: ''
             }
-        }
+        },
+        getCategoryName: function (id) {
+            for (let i = 0; i < this.categoryList.length; i++) {
+                if (this.categoryList[i].id === id) {
+                    return this.categoryList[i].name
+                }
+            }
+        },
+        chooseAll: function (event) {
+            let inp = document.getElementsByTagName('input');
+            if (event.target.checked) {
+                //全选
+                for (let i = 0; i < inp.length; i++) {
+                    inp[i].checked = true;
+                }
+                for (let i = 0; i < this.contentList.length; i++) {
+                    this.selectedId.push(this.contentList[i].id);
+                }
+            } else {
+                //取消选中
+                for (let i = 0; i < inp.length; i++) {
+                    inp[i].checked = false;
+                }
+                for (let i = 0; i < this.contentList.length; i++) {
+                    let idx = this.selectedId.indexOf(this.contentList[i].id);
+                    this.selectedId.splice(idx, 1);
+                }
+            }
+        },
+
 
     },
     created: function () {

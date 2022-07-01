@@ -57,7 +57,7 @@
                 <thead>
                 <tr>
                     <th class="" style="padding-right:0px">
-                        <input class="icheckbox_square-blue" id="selall" type="checkbox">
+                        <input @click="chooseAll($event)" class="icheckbox_square-blue" id="selall" type="checkbox">
                     </th>
                     <th class="sorting_asc">广告ID</th>
                     <th class="sorting">分类ID</th>
@@ -73,7 +73,7 @@
                 <tr v-for="entity in contentList">
                     <td><input @click="updateSelection($event,entity.id)" type="checkbox"></td>
                     <td>{{entity.id}}</td>
-                    <td>{{entity.categoryId}}</td>
+                    <td>{{getCategoryName(entity.categoryId)}}</td>
                     <td>{{entity.title}}</td>
                     <td>{{entity.url}}</td>
                     <td><img :src="entity.pic" height="50" width="100"></td>
