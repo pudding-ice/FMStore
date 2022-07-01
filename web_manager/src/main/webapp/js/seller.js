@@ -80,6 +80,28 @@ new Vue({
             }
             // console.log(this.searchSeller.sellerStatus)
         },
+        chooseAllSeller: function (event) {
+            let inp = document.getElementsByName('sellerCheck');
+            if (event.target.checked) {
+                //全选
+                for (let i = 0; i < inp.length; i++) {
+                    inp[i].checked = true;
+                }
+                for (let i = 0; i < this.sellerList.length; i++) {
+                    this.selectedId.push(this.sellerList[i].sellerId);
+                }
+            } else {
+                //取消选中
+                for (let i = 0; i < inp.length; i++) {
+                    inp[i].checked = false;
+                }
+                for (let i = 0; i < this.sellerList.length; i++) {
+                    let idx = this.selectedId.indexOf(this.sellerList[i].sellerId);
+                    this.selectedId.splice(idx, 1);
+                }
+            }
+            // console.log(this.selectedId)
+        },
         chooseAll: function (event) {
             let inp = document.getElementsByName('sellerStatus');
             if (event.target.checked) {
