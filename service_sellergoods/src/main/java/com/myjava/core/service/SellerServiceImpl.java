@@ -1,6 +1,7 @@
 package com.myjava.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myjava.core.dao.seller.SellerDao;
@@ -37,7 +38,6 @@ public class SellerServiceImpl implements SellerService {
     public PageResponse<Seller> getPage(PageRequest<SellerQueryContent> request) {
         SellerQuery query = new SellerQuery();
         SellerQuery.Criteria criteria = query.createCriteria();
-        ;
         //只有没有通过审核的才需要展示
         criteria.andStatusEqualTo(SellerStatus.NOT_APPLY.getCode());
         SellerQueryContent queryContent = request.getQueryContent();
@@ -67,6 +67,44 @@ public class SellerServiceImpl implements SellerService {
             throw new RuntimeException(e);
         }
     }
+
+
+    @Override
+    public PageResponse<Seller> getAllPage(PageRequest<SellerQueryContent> request) {
+        SellerQuery query = new SellerQuery();
+        SellerQuery.Criteria criteria = query.createCriteria();
+        SellerQueryContent queryContent = request.getQueryContent();
+        if (queryContent != null) {
+            String name = queryContent.getName();
+            if (name != null && !"".equals(name)) {
+                criteria.andNameLike("%" + name + "%");
+            }
+            String nickName = queryContent.getNickName();
+            if (nickName != null && !"".equals(nickName)) {
+                criteria.andNickNameLike("%" + nickName + "%");
+            }
+            String status = queryContent.getStatus();
+            if (status != null && !"".equals(status) && !"[]".equals(status)) {
+                List<String> statusList = JSON.parseObject(status, List.class);
+                criteria.andStatusIn(statusList);
+            }
+        }
+        try {
+            Integer current = request.getCurrent();
+            Integer pageSize = request.getPageSize();
+            PageHelper.startPage(current, pageSize);
+            List<Seller> sellers = dao.selectByExample(query);
+            PageInfo<Seller> info = new PageInfo<>(sellers, current);
+            long total = info.getTotal();
+            PageResponse response = new PageResponse();
+            response.setRows(sellers);
+            response.setTotal(total);
+            return response;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Override
     public int updateStatus(String id, String status) {
@@ -129,4 +167,6 @@ public class SellerServiceImpl implements SellerService {
             }
         }
     }
+
+
 }

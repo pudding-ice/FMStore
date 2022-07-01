@@ -22,4 +22,6 @@ public interface SellerService {
     void auditAccept(String[] ids);
 
     void rejectApply(String[] ids);
+
+    PageResponse<Seller> getAllPage(PageRequest<SellerQueryContent> request);
 }

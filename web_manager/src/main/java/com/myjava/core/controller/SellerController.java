@@ -21,6 +21,11 @@ public class SellerController {
         return service.getPage(request);
     }
 
+    @PostMapping("/getAllPage")
+    public PageResponse<Seller> getAllPage(@RequestBody PageRequest<SellerQueryContent> request) {
+        return service.getAllPage(request);
+    }
+
     @GetMapping("/updateStatus/{id}/{status}")
     public ResultMessage updateStatus(@PathVariable String id, @PathVariable String status) {
         try {
