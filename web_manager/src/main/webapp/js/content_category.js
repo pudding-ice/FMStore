@@ -7,7 +7,7 @@ new Vue({
         maxPageIndex: 0,
         searchEntity: {},
         categoryList: [],
-        selectIds: [], //记录选择了哪些记录的id
+        selectedId: [], //记录选择了哪些记录的id
         categoryEntity: {
             name: ''
         }
@@ -16,7 +16,12 @@ new Vue({
         pageHandler: function (current) {
             let _this = this;
             this.page = current;
-            axios.post("/contentCategory/search.do?current=" + current + "&pageSize=" + this.pageSize, this.searchEntity)
+            let parma = {
+                current: current,
+                pageSize: this.pageSize,
+                queryContent: this.searchEntity.name
+            }
+            axios.post("/contentCategory/search.do?", parma)
                 .then(function (response) {
                     //取服务端响应的结果
                     _this.categoryList = response.data.rows;
@@ -58,27 +63,53 @@ new Vue({
             // 复选框选中
             if (event.target.checked) {
                 // 向数组中添加元素
-                this.selectIds.push(id);
+                this.selectedId.push(id);
             } else {
                 // 从数组中移除
-                var idx = this.selectIds.indexOf(id);
-                this.selectIds.splice(idx, 1);
+                var idx = this.selectedId.indexOf(id);
+                this.selectedId.splice(idx, 1);
             }
         },
+
         deleteCategory: function () {
             var _this = this;
+            if (this.selectedId === null || this.selectedId.length === 0) {
+                alert("请至少选中一行删除!")
+                return;
+            }
             //使用qs插件 处理数组
-            axios.post('/contentCategory/delete.do', Qs.stringify({ids: _this.selectIds}, {indices: false}))
+            axios.post('/contentCategory/delete.do', Qs.stringify({ids: _this.selectedId}, {indices: false}))
                 .then((response) => {
                     if (response.data.success) {
-                        _this.selectIds = [];
+                        _this.selectedId = [];
                         alert(response.data.message)
                         window.location.reload();
                     }
                 }).catch(function (reason) {
                 alert(reason.message);
             })
-        }
+        },
+        chooseAll: function (event) {
+            let inp = document.getElementsByTagName('input');
+            if (event.target.checked) {
+                //全选
+                for (let i = 0; i < inp.length; i++) {
+                    inp[i].checked = true;
+                }
+                for (let i = 0; i < this.categoryList.length; i++) {
+                    this.selectedId.push(this.categoryList[i].id);
+                }
+            } else {
+                //取消选中
+                for (let i = 0; i < inp.length; i++) {
+                    inp[i].checked = false;
+                }
+                for (let i = 0; i < this.categoryList.length; i++) {
+                    let idx = this.selectedId.indexOf(this.categoryList[i].id);
+                    this.selectedId.splice(idx, 1);
+                }
+            }
+        },
     },
     created: function () {
         this.pageHandler(1);

@@ -36,12 +36,6 @@
                         <button @click="deleteCategory()" class="btn btn-default" title="删除" type="button"><i
                                 class="fa fa-trash-o"></i> 删除
                         </button>
-                        <button class="btn btn-default" onclick='confirm("你确认要开启吗？")' title="开启" type="button"><i
-                                class="fa fa-check"></i> 开启
-                        </button>
-                        <button class="btn btn-default" onclick='confirm("你确认要屏蔽吗？")' title="屏蔽" type="button"><i
-                                class="fa fa-ban"></i> 屏蔽
-                        </button>
                         <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button"><i
                                 class="fa fa-refresh"></i> 刷新
                         </button>
@@ -50,8 +44,8 @@
             </div>
             <div class="box-tools pull-right">
                 <div class="has-feedback">
-                    名称：<input>
-                    <button class="btn btn-default">查询</button>
+                    名称：<input v-model="searchEntity.name">
+                    <button @click="pageHandler(1)" class="btn btn-default">查询</button>
                 </div>
             </div>
             <!--数据列表-->
@@ -59,7 +53,7 @@
                 <thead>
                 <tr>
                     <th class="" style="padding-right:0px">
-                        <input class="icheckbox_square-blue" id="selall" type="checkbox">
+                        <input @click="chooseAll($event)" class="icheckbox_square-blue" id="selall" type="checkbox">
                     </th>
                     <th class="sorting">类目ID</th>
                     <th class="sorting">分类名称</th>

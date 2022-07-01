@@ -37,7 +37,7 @@
                         <button @click="deleteContent()" class="btn btn-default" title="删除" type="button"><i
                                 class="fa fa-trash-o"></i> 删除
                         </button>
-                        <button class="btn btn-default" onclick='confirm("你确认要开启吗？")' title="开启" type="button"><i
+                        <button @click="openContent()" class="btn btn-default" title="开启" type="button"><i
                                 class="fa fa-check"></i> 开启
                         </button>
                         <button class="btn btn-default" onclick='confirm("你确认要屏蔽吗？")' title="屏蔽" type="button"><i

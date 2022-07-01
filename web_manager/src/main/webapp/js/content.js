@@ -134,6 +134,18 @@ new Vue({
                 alert(reason.message);
             })
         },
+        openContent: function () {
+            var _this = this;
+            if (this.selectedId === null || this.selectedId.length === 0) {
+                alert("请至少选中一行开启!")
+                return;
+            }
+            let confirm = window.confirm("你确认要开启吗？");
+            if (confirm) {
+
+            }
+            console.log(b);
+        },
         reload: function () {
             this.contentEntity = {
                 id: null,

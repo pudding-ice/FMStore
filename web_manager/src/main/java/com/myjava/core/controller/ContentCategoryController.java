@@ -2,6 +2,7 @@ package com.myjava.core.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.myjava.core.pojo.ad.ContentCategory;
+import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.response.PageResponse;
 import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.service.CategoryService;
@@ -25,8 +26,8 @@ public class ContentCategoryController {
     }
 
     @RequestMapping("/search")
-    public PageResponse search(@RequestBody ContentCategory category, Integer current, Integer pageSize) {
-        return categoryService.findPage(category, current, pageSize);
+    public PageResponse search(@RequestBody PageRequest<String> request) {
+        return categoryService.findPage(request);
     }
 
     @RequestMapping("/add")
