@@ -4,6 +4,12 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.myjava.core.dao.seller.SellerDao;
+import com.myjava.core.pojo.Enum.GoodsAuditStatus;
+import com.myjava.core.pojo.Enum.ItemStatus;
+import com.myjava.core.pojo.Enum.SellerStatus;
+import com.myjava.core.pojo.good.Goods;
+import com.myjava.core.pojo.item.Item;
+import com.myjava.core.pojo.item.ItemQuery;
 import com.myjava.core.pojo.request.PageRequest;
 import com.myjava.core.pojo.request.SellerQueryContent;
 import com.myjava.core.pojo.response.PageResponse;
@@ -13,6 +19,8 @@ import com.myjava.core.pojo.seller.SellerQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import java.util.List;
 
 @Service
@@ -31,7 +39,7 @@ public class SellerServiceImpl implements SellerService {
         SellerQuery.Criteria criteria = query.createCriteria();
         ;
         //只有没有通过审核的才需要展示
-        criteria.andStatusEqualTo("0");
+        criteria.andStatusEqualTo(SellerStatus.NOT_APPLY.getCode());
         SellerQueryContent queryContent = request.getQueryContent();
         if (queryContent != null) {
             String name = queryContent.getName();
@@ -95,5 +103,30 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public void updateSeller(Seller seller) {
         dao.updateByPrimaryKeySelective(seller);
+    }
+
+    @Override
+    public void auditAccept(String[] ids) {
+        if (ids != null) {
+            for (String id : ids) {
+                //1. 根据商家id修改状态码
+                Seller seller = new Seller();
+                seller.setSellerId(id);
+                seller.setStatus(SellerStatus.ACCEPT.getCode());
+                dao.updateByPrimaryKeySelective(seller);
+            }
+        }
+    }
+
+    @Override
+    public void rejectApply(String[] ids) {
+        if (ids != null) {
+            for (String id : ids) {
+                Seller seller = new Seller();
+                seller.setSellerId(id);
+                seller.setStatus(SellerStatus.REJECT.getCode());
+                dao.updateByPrimaryKeySelective(seller);
+            }
+        }
     }
 }

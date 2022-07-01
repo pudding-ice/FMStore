@@ -30,4 +30,26 @@ public class SellerController {
             return new ResultMessage(false, "更新状态失败");
         }
     }
+
+    @PostMapping("/auditAccept")
+    public ResultMessage auditAccept(String[] ids) {
+        try {
+            service.auditAccept(ids);
+            return new ResultMessage(true, "审核通过!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "审核失败!");
+        }
+    }
+
+    @PostMapping("/rejectApply")
+    public ResultMessage rejectApply(String[] ids) {
+        try {
+            service.rejectApply(ids);
+            return new ResultMessage(true, "驳回成功!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultMessage(false, "驳回失败!");
+        }
+    }
 }

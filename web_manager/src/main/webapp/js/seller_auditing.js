@@ -8,6 +8,8 @@ new Vue({
         sellerList: [],//保存所有待审核商家列表
         searchSeller: {},//搜索审核关键字
         sellerDetail: {},//回显的商家详细数据
+        selectedId: [],
+
     },
     methods: {
         pageHandler: function (current) {
@@ -47,7 +49,84 @@ new Vue({
                     alert(data.message);
                 }
             })
-        }
+        },
+        handleSelected: function (event, id) {
+            if (event.target.checked) {
+                //选中
+                this.selectedId.push(id);
+            } else {
+                //取消选中
+                let idx = this.selectedId.indexOf(id);
+                this.selectedId.splice(idx, 1)
+            }
+            console.log(this.selectedId);
+        },
+        chooseAll: function (event) {
+            let inp = document.getElementsByTagName('input');
+            if (event.target.checked) {
+                //全选
+                for (let i = 0; i < inp.length; i++) {
+                    inp[i].checked = true;
+                }
+                for (let i = 0; i < this.sellerList.length; i++) {
+                    this.selectedId.push(this.sellerList[i].sellerId);
+                }
+            } else {
+                //取消选中
+                for (let i = 0; i < inp.length; i++) {
+                    inp[i].checked = false;
+                }
+                for (let i = 0; i < this.sellerList.length; i++) {
+                    let idx = this.selectedId.indexOf(this.sellerList[i].sellerId);
+                    this.selectedId.splice(idx, 1);
+                }
+            }
+            // console.log(this.selectedId)
+        },
+        auditAccept: function () {
+            let _this = this;
+            if (this.selectedId.length === 0) {
+                alert("至少选中一行审核通过!");
+                return;
+            }
+            var ids = Qs.stringify({ids: this.selectedId}, {indices: false})
+            axios.post("/seller/auditAccept.do", ids).then(function (response) {
+                let res = response.data;
+                if (res.success) {
+                    _this.selectedId = [];
+                    $("input[type='checkbox']").prop("checked", false);
+                    window.location.reload();
+                    alert(res.message)
+                } else {
+                    alert(res.message)
+                }
+
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
+        rejectApply: function () {
+            if (this.selectedId.length === 0) {
+                alert("至少选中一行驳回!");
+                return;
+            }
+            var ids = Qs.stringify({ids: this.selectedId}, {indices: false})
+            var _this = this;
+            axios.post("/seller/rejectApply.do", ids).then(function (response) {
+                let res = response.data;
+                if (res.success) {
+                    _this.selectedId = [];
+                    $("input[type='checkbox']").prop("checked", false);
+                    window.location.reload();
+                    alert(res.message)
+                } else {
+                    alert(res.message)
+                }
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
+
     },
     created: function () {
         this.pageHandler(1)

@@ -18,4 +18,8 @@ public interface SellerService {
     ResultMessage changePassword(String name, String oldPass, String newPass);
 
     void updateSeller(Seller seller);
+
+    void auditAccept(String[] ids);
+
+    void rejectApply(String[] ids);
 }

@@ -28,6 +28,21 @@
         <!-- 数据表格 -->
         <div class="table-box">
             <!--工具栏-->
+            <div class="pull-left">
+                <div class="form-group form-inline">
+                    <div class="btn-group">
+                        <button @click="auditAccept()" class="btn btn-default" title="删除" type="button"><i
+                                class="fa fa-trash-o"></i> 审核通过
+                        </button>
+                        <button @click="rejectApply()" class="btn btn-default" title="审核通过" type="button"><i
+                                class="fa fa-check "></i> 审核未通过
+                        </button>
+                        <button class="btn btn-default" onclick="window.location.reload();" title="刷新" type="button">
+                            <i class="fa fa-refresh"></i> 刷新
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="box-tools pull-right">
                 <div class="has-feedback">
                     公司名称：<input v-model="searchSeller.name">
@@ -40,7 +55,7 @@
                 <thead>
                 <tr>
                     <th class="" style="padding-right:0px">
-                        <input class="icheckbox_square-blue" id="selall" type="checkbox">
+                        <input @click="chooseAll($event)" class="icheckbox_square-blue" id="selall" type="checkbox">
                     </th>
                     <th class="sorting_asc">商家ID</th>
                     <th class="sorting">公司名称</th>
@@ -52,7 +67,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="seller in sellerList">
-                    <td><input type="checkbox"></td>
+                    <td><input @click="handleSelected($event,seller.sellerId)" type="checkbox"></td>
                     <td>{{seller.sellerId}}</td>
                     <td>{{seller.name}}</td>
                     <td>{{seller.nickName}}</td>
