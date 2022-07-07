@@ -24,4 +24,8 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
+    <bean id="redisBloomUtil" class="com.myjava.core.util.RedisBloomUtil">
+        <property name="REDIS_SERVICE_URL" value="redis://192.168.162.129:6379"/>
+    </bean>
+
 </beans>
