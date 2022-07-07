@@ -1,6 +1,7 @@
 package com.myjava.core.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.myjava.core.pojo.Enum.SellerStatus;
 import com.myjava.core.pojo.seller.Seller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,8 +29,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (username != null) {
             Seller seller = service.getOneByName(username);
-            //如果没有这个商家或者商家没有通过审核
-            if (seller != null && "1".equals(seller.getStatus())) {
+            //如果存在这个商家并且通过审核
+            if (seller != null && SellerStatus.ACCEPT.getCode().equals(seller.getStatus())) {
                 ArrayList<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_SELLER"));
                 return new User(username, seller.getPassword(), authorities);
