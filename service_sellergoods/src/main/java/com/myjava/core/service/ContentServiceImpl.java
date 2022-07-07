@@ -21,7 +21,7 @@ public class ContentServiceImpl implements ContentService {
     private ContentDao dao;
 
     @Autowired
-    private RedisTemplate template;
+    private RedisTemplate redisTemplate;
 
     @Override
     public PageResponse<Content> findPage(PageRequest<Content> request) {
@@ -50,11 +50,11 @@ public class ContentServiceImpl implements ContentService {
         Content oldContent = dao.selectByPrimaryKey(content.getId());
         if (oldContent.getCategoryId().equals(content.getCategoryId())) {
             //如果更新的广告没有改变它的类别的话,就只需要删除一个类别的缓存
-            template.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(oldContent.getCategoryId());
+            redisTemplate.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(oldContent.getCategoryId());
         } else {
             //如果类别改变了,就需要删除两个
-            template.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(oldContent.getCategoryId());
-            template.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(content.getCategoryId());
+            redisTemplate.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(oldContent.getCategoryId());
+            redisTemplate.boundHashOps(Constants.CONTENT_REDIS_KEY).delete(content.getCategoryId());
         }
         dao.updateByPrimaryKeySelective(content);
     }
@@ -80,11 +80,27 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<Content> findByCategoryIdFromRedis(Long id) {
-        List<Content> redisContent = (List<Content>) template.boundHashOps(Constants.CONTENT_REDIS_KEY).get(id);
-        if (redisContent == null) {
-            //redis缓存中没有,从数据库查找一份,放到redis
-            redisContent = this.findByCategoryId(id);
-            template.boundHashOps(Constants.CONTENT_REDIS_KEY).put(id, redisContent);
+        List<Content> redisContent = null;
+        //不存在这个key,就设置一个值,返回true,如果存在,返回false
+        Boolean lock = redisTemplate.opsForValue().setIfAbsent("LOCK", "111");
+        if (lock) {
+            //获取到锁后查询缓存中的值
+            redisContent = (List<Content>) redisTemplate.boundHashOps(Constants.CONTENT_REDIS_KEY).get(id);
+            if (redisContent == null) {
+                //redis缓存中没有,从数据库查找一份,放到redis
+                redisContent = this.findByCategoryId(id);
+                redisTemplate.boundHashOps(Constants.CONTENT_REDIS_KEY).put(id, redisContent);
+            }
+            //释放锁 delete方法
+            redisTemplate.delete("LOCK");
+        } else {
+            //获取锁失败、每隔1秒再获取
+            try {
+                Thread.sleep(1000);
+                findByCategoryIdFromRedis(id);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return redisContent;
     }
