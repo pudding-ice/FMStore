@@ -35,7 +35,6 @@ new Vue({
             return null;
         },
         search: function () {
-            console.log(this.searchMap);
             var _this = this;
             console.log(this.searchMap);
             this.searchMap.pageNo = parseInt(this.searchMap.pageNo);//转换为数字
@@ -77,7 +76,15 @@ new Vue({
             this.search();
         },
         goDetailPage: function (id) {
-            window.open("http://localhost:8086/" + id + ".html");
+            // window.open("http://localhost:8086/" + id + ".html");
+            axios.get("/detail/getDetailPage/" + id + ".do").then((res) => {
+                let data = res.data;
+                if (data.success) {
+                    window.open("http://localhost:8086/" + id + ".html");
+                } else {
+                    alert(data.message);
+                }
+            })
         }
 
     },
