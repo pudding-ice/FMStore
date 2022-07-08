@@ -3444,8 +3444,8 @@ pre code, .sui-pre code, pre .sui-code, .sui-pre .sui-code {
 
 @font-face {
     font-family: icon-touch;
-    src: url(../fonts//icon-touch.eot?-t7qwrr);
-    src: url(../fonts//icon-touch.eot?#iefix-t7qwrr) format('embedded-opentype'), url(../fonts//icon-touch.woff?-t7qwrr) format('woff'), url(../fonts//icon-touch.ttf?-t7qwrr) format('truetype'), url(../fonts//icon-touch.svg?-t7qwrr#icon-touch) format('svg');
+    src: url(../fonts/icon-touch.eot?-t7qwrr);
+    src: url(../fonts/icon-touch.eot?#iefix-t7qwrr) format('embedded-opentype'), url(../fonts/icon-touch.woff?-t7qwrr) format('woff'), url(../fonts/icon-touch.ttf?-t7qwrr) format('truetype'), url(../fonts/icon-touch.svg?-t7qwrr#icon-touch) format('svg');
     font-weight: 400;
     font-style: normal
 }

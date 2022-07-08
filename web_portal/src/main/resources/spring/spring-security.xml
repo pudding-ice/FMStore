@@ -18,6 +18,9 @@
 
     <!--   entry-point-ref  入口点引用 -->
     <http use-expressions="false" entry-point-ref="casProcessingFilterEntryPoint">
+        <!-- 匿名角色 IS_AUTHENTICATED_ANONYMOUSLY -->
+        <intercept-url pattern="/cart/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/itemsearch/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
         <!--配置拦截器, 拦截所有请求, 应该具有ROLE_USER的权限才可以访问我们系统-->
         <intercept-url pattern="/**" access="ROLE_USER"/>
         <csrf disabled="true"/>

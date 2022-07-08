@@ -154,17 +154,20 @@
                             <div class="fl title">
                                 <div class="control-group">
                                     <div class="controls">
-                                        <input autocomplete="off" type="text" value="1" minnum="1" class="itxt"/>
-                                        <a href="javascript:void(0)" class="increment plus">+</a>
-                                        <a href="javascript:void(0)" class="increment mins">-</a>
+                                        <input autocomplete="off" type="text" value="1" v-model="num" minnum="1"
+                                               class="itxt"/>
+                                        <a @click="addNum(1)" class="increment plus">+</a>
+                                        <a @click="addNum(-1)" class="increment mins">-</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="fl">
                                 <ul class="btn-choose unstyled">
                                     <li>
-                                        <a href="cart.html" target="_blank"
-                                           class="sui-btn  btn-danger addshopcar">加入购物车</a>
+                                        <a target="_blank"
+                                           class="sui-btn  btn-danger addshopcar"
+                                           @click="addToCart()"
+                                        >加入购物车</a>
                                     </li>
                                 </ul>
                             </div>
@@ -374,7 +377,7 @@
 <script type="text/javascript" src="/plugins/vue/qs.js"></script>
 
 <script>
-    Vue.prototype.$axios = axios
+    Vue.prototype.$axios = axios;
     axios.defaults.withCredentials = true;
     new Vue({
         el: "#app",
@@ -430,12 +433,12 @@
                 }
             },
             addToCart: function () {//加入购物车
-                axios.get("http://localhost:8083/cart/addGoodsToCartList.do",
+                axios.get("http://localhost:8082/cart/addGoodsToCartList.do",
                     {params: {itemId: this.sku.id, num: this.num}})
                     .then(function (response) {
                         alert(response);
                         if (response.data.success) {
-                            location.href = "http://localhost:8083/cart.html";
+                            location.href = "http://localhost:8082/cart.html";
                         } else {
                             alert(response.data.message);
                         }
