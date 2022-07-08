@@ -436,9 +436,10 @@
                 axios.get("http://localhost:8082/cart/addGoodsToCartList.do",
                     {params: {itemId: this.sku.id, num: this.num}})
                     .then(function (response) {
-                        alert(response);
+
                         if (response.data.success) {
-                            location.href = "http://localhost:8082/cart.html";
+                            alert(response.data.message);
+                            // location.href = "http://localhost:8082/cart.html";
                         } else {
                             alert(response.data.message);
                         }
