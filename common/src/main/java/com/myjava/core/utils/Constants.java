@@ -7,4 +7,9 @@ public class Constants {
 
     public static final String TEMPLATE_LIST_REDIS_KEY = "templateList";
 
+    public static final String CART_LIST_REDIS_KEY = "cartList";
+
+    public static final String ANONYMOUS_USER = "anonymousUser";
+
+    public static final String CART_LIST_COOKIE = "cartListCookie";
 }
