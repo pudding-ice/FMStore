@@ -7,4 +7,6 @@ public interface UserService {
     void sendCode(String phone);
 
     ResultMessage addUser(String smscode, User user);
+
+    User getUserByName(String username);
 }

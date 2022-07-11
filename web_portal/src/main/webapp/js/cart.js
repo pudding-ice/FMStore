@@ -160,10 +160,18 @@ new Vue({
                 }
             }
             this.sum()
-        }
+        },
+        getUserInfo: function () {
+            let _this = this;
+            axios.get("/user/getUserInfo.do").then((res) => {
+                let data = res.data;
+                _this.user = data;
+            })
+        },
     },
     created: function () {//创建对象时调用
-        this.loadCartData()
+        this.loadCartData();
+        this.getUserInfo();
     },
     watch: {
         'selectedId.length': {

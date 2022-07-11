@@ -5,10 +5,13 @@ import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.user.User;
 import com.myjava.core.service.UserService;
 import com.myjava.core.utils.PhoneFormatCheckUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/user")
@@ -43,5 +46,11 @@ public class UserController {
             e.printStackTrace();
             return new ResultMessage(false, "注册失败");
         }
+    }
+
+    @RequestMapping("/getUserInfo")
+    public User getUserInfo() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.getUserByName(username);
     }
 }

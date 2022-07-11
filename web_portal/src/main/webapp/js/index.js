@@ -2,7 +2,8 @@ new Vue({
     el: "#app",
     data: {
         contentList: [],
-        searchContent: ''
+        searchContent: '',
+        user: ''
     },
     methods: {
         loadCategoryDataById: function (categoryId) {
@@ -17,10 +18,17 @@ new Vue({
                 }).catch(function (reason) {
                 console.log(reason.data);
             });
-
-        }
+        },
+        getUserInfo: function () {
+            let _this = this;
+            axios.get("/user/getUserInfo.do").then((res) => {
+                let data = res.data;
+                _this.user = data;
+            })
+        },
     },
     created: function () {
         this.loadCategoryDataById(1);
+        this.getUserInfo();
     },
 });

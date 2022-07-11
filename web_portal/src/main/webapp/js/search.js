@@ -23,6 +23,8 @@ new Vue({
             'sort': '',//排序
             'sortField': '',//排序的字段
         },
+        user: '',
+
 
     },
     methods: {
@@ -85,12 +87,19 @@ new Vue({
                     alert(data.message);
                 }
             })
-        }
+        },
+        getUserInfo: function () {
+            let _this = this;
+            axios.get("/user/getUserInfo.do").then((res) => {
+                let data = res.data;
+                _this.user = data;
+            })
+        },
 
     },
 
     created: function () {//创建对象时调用
-
+        this.getUserInfo();
     },
     mounted: function () {//页面加载完
         let sc = this.getQueryString("sc");

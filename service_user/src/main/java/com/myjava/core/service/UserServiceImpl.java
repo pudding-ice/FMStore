@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.myjava.core.dao.user.UserDao;
 import com.myjava.core.pojo.response.ResultMessage;
 import com.myjava.core.pojo.user.User;
+import com.myjava.core.pojo.user.UserQuery;
+import com.myjava.core.utils.Constants;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,10 +17,7 @@ import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -75,5 +74,23 @@ public class UserServiceImpl implements UserService {
         user.setUpdated(new Date());
         userDao.insert(user);
         return new ResultMessage(true, "注册成功");
+    }
+
+    @Override
+    public User getUserByName(String username) {
+        if (Constants.ANONYMOUS_USER.equals(username)) {
+            User user = new User();
+            user.setUsername("游客");
+            return user;
+        }
+        UserQuery query = new UserQuery();
+        UserQuery.Criteria criteria = query.createCriteria();
+        criteria.andUsernameEqualTo(username);
+        List<User> users = userDao.selectByExample(query);
+        if (users == null || users.isEmpty()) {
+            return null;
+        } else {
+            return users.get(0);
+        }
     }
 }
