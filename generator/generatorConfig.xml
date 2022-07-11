@@ -89,7 +89,7 @@
         <!--		<table schema="" tableName="tb_pay_log" domainObjectName="log.PayLog"/>-->
         <!--		<table schema="" tableName="tb_seller" domainObjectName="seller.Seller"/>-->
         <!--		<table schema="" tableName="tb_user" domainObjectName="user.User"/>-->
-        <table schema="" tableName="tb_brand" domainObjectName="good.Brand"/>
+		<!--        <table schema="" tableName="tb_brand" domainObjectName="good.Brand"/>-->
         <!--		<table schema="" tableName="tb_goods" domainObjectName="good.Goods"/>-->
         <!--		<table schema="" tableName="tb_goods_desc" domainObjectName="good.GoodsDesc"/>-->
         <!--		<table schema="" tableName="tb_specification" domainObjectName="specification.Specification"/>-->
@@ -97,6 +97,7 @@
         <!--		<table schema="" tableName="tb_type_template" domainObjectName="template.TypeTemplate"/>-->
         <!--		<table schema="" tableName="tb_item_cat" domainObjectName="item.ItemCat"/>-->
         <!--		<table schema="" tableName="tb_item" domainObjectName="item.Item"/>-->
+		<table schema="" tableName="tb_address" domainObjectName="address.Address"/>
 
     </context>
 </generatorConfiguration>
