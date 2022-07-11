@@ -20,17 +20,30 @@
             <div class="top">
                 <div class="py-container">
                     <div class="shortcut">
-                        <ul class="fl">
+                        <ul class="fl" v-if="user==''">
                             <li class="f-item">您好！</li>
-                            <li class="f-item"> 请<a href="login.html" style="padding-left: 10px;"
-                                                    target="_blank">登录</a>　<span><a href="register.html"
-                                                                                    target="_blank">免费注册</a></span>
+                            <li class="f-item"> 请<a href="/cas/login" style="padding-left: 10px;"
+                                                    target="_blank">登录</a>　<span><a href="/cas/login" target="_blank">免费注册</a></span>
+                            </li>
+                        </ul>
+
+                        <ul class="fl" v-if="user!='' && user.username =='游客'">
+                            <li class="f-item">您好！{{user.username}}</li>
+                            <li class="f-item"> 请<a href="/cas/login" style="padding-left: 10px;"
+                                                    target="_blank">登录</a>　<span><a href="/cas/login" target="_blank">免费注册</a></span>
+                            </li>
+                        </ul>
+
+                        <ul class="fl" v-if="user!='' && user.username !='游客'">
+                            <li class="f-item">您好！{{user.username}}</li>
+                            </li>
+                            <li class="f-item"><a href="/logout/cas">&nbsp;&nbsp;注销</a></li>
                             </li>
                         </ul>
                         <ul class="fr">
-                            <li class="f-item"><a href="http://localhost:8082/getOrderInfo.html">我的订单</a></li>
+                            <li class="f-item"><a href="/orderInfo.html">我的订单</a></li>
                             <li class="f-item space"></li>
-                            <li class="f-item"><a href="http://localhost:8082/cart.html">我的购物车</a></li>
+                            <li class="f-item"><a href="/cart.html">我的购物车</a></li>
                             <li class="f-item space"></li>
                             <li class="f-item">FM会员</li>
                             <li class="f-item space"></li>

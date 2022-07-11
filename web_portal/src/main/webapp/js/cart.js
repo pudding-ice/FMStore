@@ -5,6 +5,8 @@ new Vue({
         totalItem: 0,
         totalMoney: 0,
         selectedId: [],
+        user: '',
+
     },
     methods: {
         loadCartData: function () {

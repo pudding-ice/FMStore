@@ -20,17 +20,30 @@
             <div class="top">
                 <div class="py-container">
                     <div class="shortcut">
-                        <ul class="fl">
+                        <ul class="fl" v-if="user==''">
                             <li class="f-item">您好！</li>
-                            <li class="f-item"> 请<a href="login.html" style="padding-left: 10px;"
-                                                    target="_blank">登录</a>　<span><a href="register.html"
-                                                                                    target="_blank">免费注册</a></span>
+                            <li class="f-item"> 请<a href="/cas/login" style="padding-left: 10px;"
+                                                    target="_blank">登录</a>　<span><a href="/cas/login" target="_blank">免费注册</a></span>
+                            </li>
+                        </ul>
+
+                        <ul class="fl" v-if="user!='' && user.username =='游客'">
+                            <li class="f-item">您好！{{user.username}}</li>
+                            <li class="f-item"> 请<a href="/cas/login" style="padding-left: 10px;"
+                                                    target="_blank">登录</a>　<span><a href="/cas/login" target="_blank">免费注册</a></span>
+                            </li>
+                        </ul>
+
+                        <ul class="fl" v-if="user!='' && user.username !='游客'">
+                            <li class="f-item">您好！{{user.username}}</li>
+                            </li>
+                            <li class="f-item"><a href="/logout/cas">&nbsp;&nbsp;注销</a></li>
                             </li>
                         </ul>
                         <ul class="fr">
-                            <li class="f-item">我的订单</li>
+                            <li class="f-item"><a href="/orderInfo.html">我的订单</a></li>
                             <li class="f-item space"></li>
-                            <li class="f-item">我的FM</li>
+                            <li class="f-item"><a href="/cart.html">我的购物车</a></li>
                             <li class="f-item space"></li>
                             <li class="f-item">FM会员</li>
                             <li class="f-item space"></li>
@@ -86,34 +99,21 @@
                     <div class="addressInfo">
                         <ul class="addr-detail">
                             <li class="addr-item">
-                                <div>
-                                    <div class="con name selected"><a href="javascript:;">FMJava<span title="点击取消选择"/>&nbsp;</a>
+                                <div v-for="addressItem in addressList">
+                                    <div :class="['con' ,'name',isSeletedAddress(addressItem)?'selected':'']">
+                                        <a @click="selectAddress(addressItem)" href="#">
+                                            {{addressItem.contact}}
+                                            <span title="点击取消选择"/>&nbsp;
+                                        </a>
                                     </div>
-                                    <div class="con address">FMJava 江苏省南京市*****102街道 新街口 <span>185****8754</span>
-                                        <span class="base">默认地址</span>
-                                        <span class="edittext"><a data-keyboard="false" data-target=".edit"
-                                                                  data-toggle="modal">编辑</a>&nbsp;&nbsp;<a
-                                                href="javascript:;">删除</a></span>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div>
-                                    <div class="con name"><a href="javascript:;">鲁班<span title="点击取消选择"/>&nbsp;</a>
-                                    </div>
-                                    <div class="con address">鲁** 王************* ***** <span>185****8754</span>
-                                        <span class="edittext"><a data-keyboard="false" data-target=".edit"
-                                                                  data-toggle="modal">编辑</a>&nbsp;&nbsp;<a
-                                                href="javascript:;">删除</a></span>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div>
-                                    <div class="con name"><a href="javascript:;">后**<span title="点击取消选择"/>&nbsp</a>
-                                    </div>
-                                    <div class="con address">后** 王*****************8号楼 <span>185****8754</span>
-                                        <span class="edittext"><a data-keyboard="false" data-target=".edit"
-                                                                  data-toggle="modal">编辑</a>&nbsp;&nbsp;<a
-                                                href="javascript:;">删除</a></span>
+                                    <div class="con address">
+                                        {{addressItem.address}}
+                                        <span>{{addressItem.mobile}}</span>
+                                        <span class="base" v-if="addressItem.isDefault=='1'">默认地址</span>
+                                        <span class="edittext">
+											<a data-keyboard="false" data-target=".edit" data-toggle="modal">编辑</a>&nbsp;&nbsp;
+											<a href="javascript:;">删除</a>
+										</span>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -164,20 +164,20 @@
                     <div class="step-cont">
                         <ul class="send-detail">
                             <li>
-                                <div class="sendGoods">
-                                    <ul class="yui3-g">
+                                <div class="sendGoods" v-for="cart in cartList">
+                                    <ul class="yui3-g" v-for="item in cart.orderItemList">
                                         <li class="yui3-u-1-6">
-                                            <span><img src="img/cart1.jpg"/></span>
+                                            <span><img :src="item.picPath" height="100px" width="100px"/></span>
                                         </li>
                                         <li class="yui3-u-7-12">
-                                            <div class="desc"> 华为 HUAWEI nova 5 Pro 前置3200万人像超级夜景4800万AI四摄麒麟980</div>
-                                            <div class="seven">7天无理由退款</div>
+                                            <div class="desc">{{item.title}}</div>
+                                            <div class="seven">7天无理由退货</div>
                                         </li>
                                         <li class="yui3-u-1-12">
-                                            <div class="price">￥2999.00</div>
+                                            <div class="price">￥{{item.price}}</div>
                                         </li>
                                         <li class="yui3-u-1-12">
-                                            <div class="num">X1</div>
+                                            <div class="num">X{{item.num}}</div>
                                         </li>
                                         <li class="yui3-u-1-12">
                                             <div class="exit">有货</div>
@@ -365,9 +365,11 @@
     </div>
 </div>
 </body>
-</html>
 <script src="/plugins/jquery/jquery.min.js" type="text/javascript"></script>
 <script src="js/pages/getOrderInfo.js" type="text/javascript"></script>
 <script src="plugins/vue/vuejs-2.5.16.js" type="text/javascript"></script>
 <script src="plugins/vue/axios-0.18.0.js" type="text/javascript"></script>
 <script src="plugins/vue/qs.js" type="text/javascript"></script>
+<script src="js/orderInfo.js" type="text/javascript"></script>
+
+</html>
