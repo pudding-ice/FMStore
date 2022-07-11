@@ -26,7 +26,6 @@
         <intercept-url pattern="/index.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/search.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/cart.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/orderInfo.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <!--配置拦截器, 拦截所有请求, 应该具有ROLE_USER的权限才可以访问我们系统-->
         <intercept-url pattern="/**" access="ROLE_USER"/>
         <csrf disabled="true"/>
