@@ -20,10 +20,6 @@ public class ContentCategoryController {
     @Reference
     private CategoryService categoryService;
 
-    @RequestMapping("/getAll")
-    public List<ContentCategory> getAll() {
-        return categoryService.getAll();
-    }
 
     @RequestMapping("/search")
     public PageResponse search(@RequestBody PageRequest<String> request) {

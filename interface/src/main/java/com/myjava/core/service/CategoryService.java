@@ -15,5 +15,4 @@ public interface CategoryService {
 
     void delete(Long[] ids);
 
-    List<ContentCategory> getAll();
 }

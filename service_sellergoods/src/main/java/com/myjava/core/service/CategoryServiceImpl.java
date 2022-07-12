@@ -54,8 +54,4 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-    @Override
-    public List<ContentCategory> getAll() {
-        return categoryDao.selectByExample(null);
-    }
 }
