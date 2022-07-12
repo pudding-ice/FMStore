@@ -4,6 +4,7 @@
     <settings>
         <!-- 打印查询语句 -->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <setting name="cacheEnabled" value="true"/>
     </settings>
     <plugins>
         <!-- com.github.pagehelper 为 PageHelper 类所在包名 -->
@@ -13,3 +14,4 @@
         </plugin>
     </plugins>
 </configuration>
+
