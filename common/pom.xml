@@ -220,6 +220,7 @@
             <artifactId>jackson-core</artifactId>
             <version>2.9.4</version>
         </dependency>
+<!--        spring整合redis-->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>

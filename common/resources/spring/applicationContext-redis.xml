@@ -22,4 +22,8 @@
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
         <property name="connectionFactory" ref="JedisConnectionFactory"/>
     </bean>
+    <!-- 5.使用中间类解决RedisCache.RedisTemplate的静态注入，从而使MyBatis实现第三方缓存 -->
+    <bean id="redisCacheTransfer" class="com.myjava.core.utils.RedisCacheTransfer">
+        <property name="redisTemplate" ref="redisTemplate"/>
+    </bean>
 </beans>
