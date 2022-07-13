@@ -18,12 +18,13 @@
         <module>web_shop</module>
         <module>web_portal</module>
         <module>service_search</module>
-        <module>service_page</module>
+        <module>service_itempage</module>
         <module>web_user</module>
         <module>service_user</module>
         <module>service_sms</module>
         <module>service_buyer</module>
         <module>service_buyer</module>
+        <module>web_itempage</module>
     </modules>
     <!-- 集中定义依赖版本号 -->
     <properties>
