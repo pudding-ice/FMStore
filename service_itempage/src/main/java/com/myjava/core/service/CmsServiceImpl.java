@@ -18,6 +18,8 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import javax.servlet.ServletContext;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,20 +46,19 @@ public class CmsServiceImpl implements CmsService, ServletContextAware {
     }
 
 
+
     @Override
     public void createStaticPage(Long goodsId, Map<String, Object> rootMap) throws Exception {
         Configuration configuration = freeMarkerConfig.getConfiguration();
         Template template = configuration.getTemplate("item.ftl");
-        String path = goodsId + ".html";
-        String realPath = getRealPath(path);
-        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(new File(realPath)), "utf-8");
-        template.process(rootMap, out);
-        out.close();
+        //在web_itempage 的target目录中生成一份静态页面
+        String thisPath = this.servletContext.getRealPath("/");
+        String targetPath = thisPath.replace("service_itempage", "web_itempage") + goodsId + ".html";
+        OutputStreamWriter targetOut = new OutputStreamWriter(Files.newOutputStream(new File(targetPath).toPath()), StandardCharsets.UTF_8);
+        template.process(rootMap, targetOut);
+        targetOut.close();
     }
 
-    public String getRealPath(String path) {
-        return servletContext.getRealPath(path);
-    }
 
     @Override
     public Map<String, Object> findGoodsData(Long goodsId) {

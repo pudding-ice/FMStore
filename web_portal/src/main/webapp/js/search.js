@@ -78,11 +78,10 @@ new Vue({
             this.search();
         },
         goDetailPage: function (id) {
-            // window.open("http://localhost:8086/" + id + ".html");
             axios.get("/detail/getDetailPage/" + id + ".do").then((res) => {
                 let data = res.data;
                 if (data.success) {
-                    window.open("http://localhost:8086/" + id + ".html");
+                    window.open("http://localhost:8091/" + id + ".html");
                 } else {
                     alert(data.message);
                 }

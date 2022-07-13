@@ -23,6 +23,7 @@
         <intercept-url pattern="/itemSearch/**.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/content/findByCategoryIdFromRedis/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/user/**.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/detail/getDetailPage/*.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/index.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/search.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/cart.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
