@@ -34,7 +34,7 @@ public class BuyerCartController {
      * 也即是service_page项目地址
      */
     @GetMapping("/addGoodsToCartList")
-    @CrossOrigin(origins = "http://localhost:8086", allowCredentials = "true")
+    @CrossOrigin(origins = "http://localhost:8091", allowCredentials = "true")
     public ResultMessage addGoodsToCartList(Long itemId, Integer num, HttpServletRequest request, HttpServletResponse response) {
         try {
             //获取用户名
