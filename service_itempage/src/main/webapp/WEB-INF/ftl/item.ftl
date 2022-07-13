@@ -384,7 +384,8 @@
         data: {
             sku: {}, //当前选择的SKU
             specificationItems: {},//当前选择的规格
-            num: 1 //商品数量
+            num: 1, //商品数量
+            user: ''
         },
         methods: {
             loadSku: function () {
@@ -445,10 +446,18 @@
                     }).catch(function (reason) {
                     console.log(reason);
                 })
-            }
+            },
+            getUserInfo: function () {
+                let _this = this;
+                axios.get("/user/getUserInfo.do").then((res) => {
+                    let data = res.data;
+                    _this.user = data;
+                })
+            },
         },
         created: function () {
             this.loadSku();
+            this.getUserInfo();
         },
     });
 </script>
